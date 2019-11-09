@@ -1,0 +1,23 @@
+{
+  "eslint.enable": true,
+  "editor.formatOnSave": false,
+  "eslint.autoFixOnSave": true,
+  "eslint.validate": [
+    {
+      "language": "vue",
+      "autoFix": true
+    },
+    {
+      "language": "javascript",
+      "autoFix": true
+    }
+  ],
+  "vetur.format.defaultFormatter.js": "prettier-eslint",
+  "editor.renderWhitespace": "boundary",
+  "files.autoSave": "onWindowChange",
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": false,
+    "strings": true
+  }
+}

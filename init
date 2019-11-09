@@ -1,0 +1,23 @@
+#!/bin/bash
+
+
+echo "start nuxt project"
+# read -p "? Project name:"
+echo -n ? Project name:
+#入力を受付、その入力を「str」に代入
+read projectName
+#結果を表示
+echo ${projectName}
+mv ../nuxt-template/ ../${projectName}/
+cd ../${projectName}/
+
+create env file
+touch .env
+yarn install
+
+rm -rf .git
+git init
+git add .
+git commit -m "initial commit"
+rm -rf init
+
