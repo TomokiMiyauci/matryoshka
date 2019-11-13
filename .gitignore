@@ -91,3 +91,6 @@ sw.*
 
 # playground
 src/pages/sandbox.vue
+
+#firebase
+.firebase
