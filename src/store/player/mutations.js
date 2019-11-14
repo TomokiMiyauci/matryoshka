@@ -1,4 +1,4 @@
-import { ASSIGN, CHANGE } from './mutation-types'
+import { ASSIGN, CHANGE, ACTION, ENTER } from './mutation-types'
 export default {
   [ASSIGN](state, payload) {
     state.player = payload
@@ -6,5 +6,9 @@ export default {
 
   [CHANGE](state, payload) {
     state.turnPlayer = payload
-  }
+  },
+
+  [ACTION]() {},
+
+  [ENTER]() {}
 }
