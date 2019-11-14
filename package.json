@@ -26,7 +26,9 @@
   },
   "dependencies": {
     "@nuxtjs/pwa": "^3.0.0-0",
-    "nuxt": "^2.0.0"
+    "firebase": "^7.3.0",
+    "nuxt": "^2.0.0",
+    "vuexfire": "^3.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.7.2",
