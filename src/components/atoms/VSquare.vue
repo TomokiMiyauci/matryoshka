@@ -1,5 +1,5 @@
 <template>
-  <td class="square" @click="click">{{ value }}</td>
+  <td @click="click" class="square">{{ value }}</td>
 </template>
 
 <script>
