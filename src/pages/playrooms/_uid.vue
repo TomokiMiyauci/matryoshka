@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>{{ name }}</h1>
+    <h1>{{ turnPlayer }}</h1>
     <the-playground></the-playground>
   </div>
 </template>
@@ -14,7 +14,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters('player', ['name'])
+    ...mapGetters('player', ['turnPlayer'])
   }
 }
 </script>
