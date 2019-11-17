@@ -1,4 +1,4 @@
 export default () => ({
-  player: '',
+  player: 'PLAYER_1',
   turnPlayer: 'PLAYER_1'
 })

@@ -12,7 +12,7 @@ export default {
     commit(ASSIGN, payload)
   },
 
-  [CHANGE]({ commit, getters }, payload) {
+  [CHANGE]({ commit, getters }) {
     const nextPlayer = getters.turnPlayer === PLAYER_1 ? PLAYER_2 : PLAYER_1
     commit(CHANGE, nextPlayer)
   },
