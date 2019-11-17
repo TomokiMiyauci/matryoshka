@@ -11,6 +11,16 @@ const lines = [
   [2, 4, 6]
 ]
 
+function calculateWinner(squares) {
+  for (let i = 0; i < lines.length; i++) {
+    const [a, b, c] = lines[i]
+    console.log(a, b, c)
+    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+      return true
+    }
+  }
+}
+
 export default {
   isSettled({ commit }, squares) {
     lines.forEach((line) => {
@@ -26,13 +36,23 @@ export default {
     })
   },
 
-  addHistoryRecord({ state, commit }, payload) {
+  getWinner({ getters }) {
+    if (!calculateWinner(getters.latestMove)) {
+    }
+  },
+
+  addHistoryRecord({ state, commit, rootGetters }, payload) {
     const array = state.history[state.turn].squares.slice()
     console.log(array)
     if (array[payload]) {
       return
     }
-    array.splice(payload, 1, state.player === '1' ? 'X' : 'O')
+    // array.splice(payload, 1, state.player === '1' ? 'X' : 'O')
+    array.splice(
+      payload,
+      1,
+      rootGetters['player/turnPlayer'] === 'PLAYER_1' ? 'X' : 'O'
+    )
     // state.history.push({ squares: array })
     commit('history', { squares: array })
     commit('turn', state.history.length - 1)

@@ -6,5 +6,5 @@ export default () => ({
     }
   ],
   turn: 0,
-  player: '1'
+  winner: ''
 })
