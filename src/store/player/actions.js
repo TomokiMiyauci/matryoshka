@@ -1,23 +1,13 @@
-import {
-  PLAYER_1,
-  PLAYER_2,
-  ASSIGN,
-  CHANGE,
-  ACTION,
-  ENTER
-} from './mutation-types'
+import { ASSIGN, ACTION, ENTER } from './mutation-types'
 
 export default {
   [ASSIGN]({ commit }, payload) {
     commit(ASSIGN, payload)
   },
 
-  [CHANGE]({ commit, getters }) {
-    const nextPlayer = getters.turnPlayer === PLAYER_1 ? PLAYER_2 : PLAYER_1
-    commit(CHANGE, nextPlayer)
+  [ACTION]({ dispatch }, payload) {
+    dispatch('game/turnAction', payload, { root: true })
   },
-
-  [ACTION]({ commit }, payload) {},
 
   [ENTER]({ dispatch }, payload) {
     dispatch(ASSIGN, payload)
