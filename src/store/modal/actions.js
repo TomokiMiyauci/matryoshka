@@ -2,7 +2,7 @@ import { SHOW, HIDE, HIDE_ALL } from './mutation-types'
 
 export default {
   [SHOW]({ commit, getters }, payload) {
-    if (!getters.isHas(payload)) {
+    if (!getters.isOpened(payload)) {
       commit(SHOW, payload)
     }
   },
