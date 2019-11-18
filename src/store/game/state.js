@@ -6,5 +6,7 @@ export default () => ({
     }
   ],
   turn: 0,
-  winner: ''
+  turnPlayer: 'PLAYER_1',
+  winner: null,
+  players: []
 })
