@@ -1,8 +1,9 @@
 <template>
   <v-app>
-    <v-navigation-drawer app absolute permanent right>
+    <v-navigation-drawer app right>
       <the-history></the-history>
     </v-navigation-drawer>
+    <v-app-bar app></v-app-bar>
     <v-content>
       <nuxt />
     </v-content>
