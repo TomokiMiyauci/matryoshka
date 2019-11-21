@@ -1,10 +1,6 @@
 import { ADD_WINNER, PASS_THE_TURN, CHANGE_TURN_PLAYER } from './mutation-types'
 
 export default {
-  history(state, payload) {
-    state.history.push(payload)
-  },
-
   INITIALIZE(state) {
     state.history = [
       {

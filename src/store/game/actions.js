@@ -1,11 +1,15 @@
+import { firestoreAction } from 'vuexfire'
 import {
   ADD_WINNER,
   PASS_THE_TURN,
   ADVANCE_TURN,
   CHANGE_TURN_PLAYER,
   REGISTER_AS_PLAYER,
-  RESTART
+  RESTART,
+  ASSESS_STATUS,
+  END_OF_GAME
 } from './mutation-types'
+import firebase, { firestore } from '~/plugins/firebase'
 
 const lines = [
   [0, 1, 2],
@@ -29,20 +33,35 @@ function calculateWinner(squares) {
 }
 
 export default {
+  bindPlayroomRef: firestoreAction(
+    async ({ bindFirestoreRef, rootGetters }) => {
+      await bindFirestoreRef(
+        'game',
+        firestore.collection('playrooms').doc(rootGetters['playroom/id'])
+      )
+    }
+  ),
+
+  [ASSESS_STATUS]({ getters, dispatch }) {
+    const latestBoard = getters.latestBoard
+    const isWinner = calculateWinner(latestBoard)
+    if (isWinner) {
+      dispatch(END_OF_GAME)
+    }
+  },
+
   async turnAction({ dispatch, getters }, payload) {
     const latestBoard = getters.willBeNextBoard(payload)
 
     await dispatch('addHistoryRecord', latestBoard)
-    if (calculateWinner(latestBoard)) {
-      dispatch('endOfGame')
-    } else {
+    if (!calculateWinner(latestBoard)) {
       dispatch(ADVANCE_TURN)
       dispatch(CHANGE_TURN_PLAYER)
     }
   },
 
   [ADVANCE_TURN]({ state, commit }) {
-    commit(PASS_THE_TURN, state.history.length - 1)
+    commit(PASS_THE_TURN, state.game.games.rounds[0].history.length - 1)
   },
 
   isSettled({ commit }, squares) {
@@ -59,14 +78,9 @@ export default {
     })
   },
 
-  endOfGame({ dispatch }) {
+  [END_OF_GAME]({ dispatch }) {
     dispatch(ADD_WINNER)
     dispatch('modal/SHOW', 1, { root: true })
-  },
-
-  getWinner({ getters }) {
-    if (!calculateWinner(getters.latestMove)) {
-    }
   },
 
   [RESTART]({ commit, dispatch }) {
@@ -75,34 +89,14 @@ export default {
   },
 
   addHistoryRecord({ state, commit, rootGetters }, payload) {
-    // const array = state.history[state.turn].squares.slice()
-    // console.log(array)
-    // if (array[payload]) {
-    //   return
-    // }
-    // array.splice(payload, 1, state.player === '1' ? 'X' : 'O')
-    // state.history.push({ squares: array })
-    commit('history', { squares: payload })
-    // commit('turn', state.history.length - 1)
-    // state.$nextTick(() => {
-    //   const c = state.getWinner(array)
-    //   console.log(c)
-    //   if (c) {
-    //     alert()
-    //   }
-    // })
-
-    // state.turn = state.history.length - 1
-    // state.player = state.player === '1' ? '2' : '1'
-    // console.log(c)
-    // // state.a[row][col].splice(2, 1, state.b)
-    // const b = state.calculateWinner()
-    // console.log(b)
-    // state.CHANGE()
-
-    // getWinner(squares) {
-    //   return this.calculateWinner(squares)
-    // },
+    firestore
+      .collection('playrooms')
+      .doc(rootGetters['playroom/id'])
+      .update({
+        'games.rounds.0.history': firebase.firestore.FieldValue.arrayUnion({
+          squares: payload
+        })
+      })
   },
 
   [ADD_WINNER]({ commit, getters }) {

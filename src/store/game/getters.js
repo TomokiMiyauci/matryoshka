@@ -1,14 +1,27 @@
 export default {
-  latestMove(state) {
-    return state.history[state.turn].squares
+  round(state) {
+    return state.game.games.rounds
   },
 
+  // latestMove(state) {
+  //   if (state.game) {
+  //     return state.game.games.rounds[0].history[0].squares
+  //   }
+  //   return []
+  // },
+
   fullHistory(state) {
-    return state.history
+    if (state.game) {
+      return state.game.games.rounds[0].history
+    }
+    return []
   },
 
   latestBoard(state) {
-    return state.history.slice(-1)[0].squares.slice()
+    if (state.game) {
+      return state.game.games.rounds[0].history.slice(-1)[0].squares.slice()
+    }
+    return []
   },
 
   willBeNextBoard: (state, getters) => (payload) => {
