@@ -10,7 +10,7 @@ export default {
   },
 
   [ENTER_ROOM]({ dispatch }, payload) {
-    dispatch(ASSIGN, payload)
+    dispatch('playroom/ENTER', payload, { root: true })
   },
 
   async [CREATE_ROOM]({ dispatch }) {

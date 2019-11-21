@@ -1,10 +1,8 @@
-import { ASSIGN, ACTION, ENTER } from './mutation-types'
+import { ASSIGN, ACTION } from './mutation-types'
 export default {
   [ASSIGN](state, payload) {
     state.player = payload
   },
 
-  [ACTION]() {},
-
-  [ENTER]() {}
+  [ACTION]() {}
 }
