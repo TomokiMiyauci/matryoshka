@@ -1,8 +1,6 @@
 <template>
   <v-app>
-    <v-navigation-drawer app right>
-      <the-history></the-history>
-    </v-navigation-drawer>
+    <v-navigation-drawer app right> </v-navigation-drawer>
     <v-app-bar app></v-app-bar>
     <v-content>
       <nuxt />
@@ -11,11 +9,8 @@
 </template>
 
 <script>
-import TheHistory from '~/components/organisms/TheHistory'
 export default {
-  components: {
-    TheHistory
-  }
+  components: {}
 }
 </script>
 
