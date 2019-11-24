@@ -4,5 +4,6 @@ export default () => ({
   turnPlayer: 'PLAYER_1',
   winner: null,
   players: [],
-  game: null
+  game: [],
+  a: 0
 })

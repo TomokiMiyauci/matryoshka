@@ -1,25 +1,31 @@
 export default {
-  round(state) {
-    return state.game.games.rounds
+  game(state) {
+    return state.game
   },
 
-  // latestMove(state) {
+  latestGame(state, getters) {
+    return getters.game[0]
+  },
+
+  round(state, getters) {
+    return getters.game.length
+  },
+
+  nextRound(state, getters) {
+    return getters.round + 1
+  },
+
+  // fullHistory(state, getters) {
   //   if (state.game) {
-  //     return state.game.games.rounds[0].history[0].squares
+  //     return state.game.games.rounds[getters.round].history
   //   }
   //   return []
   // },
 
-  fullHistory(state) {
-    if (state.game) {
-      return state.game.games.rounds[0].history
-    }
-    return []
-  },
-
-  latestBoard(state) {
-    if (state.game) {
-      return state.game.games.rounds[0].history.slice(-1)[0].squares.slice()
+  latestBoard(state, getters) {
+    const latestGame = getters.latestGame
+    if (latestGame) {
+      return latestGame.history.slice(-1)[0].squares.slice()
     }
     return []
   },
@@ -48,5 +54,9 @@ export default {
 
   placeable: (state, getters) => (payload) => {
     return getters.canPlacePeices.includes(payload)
+  },
+
+  playroomId(state, getters, rootState, rootGetters) {
+    return rootGetters['playroom/id']
   }
 }

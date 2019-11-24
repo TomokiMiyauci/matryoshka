@@ -22,6 +22,16 @@ const lines = [
   [2, 4, 6]
 ]
 
+const timestamp = firebase.firestore.FieldValue.serverTimestamp()
+const INIT_VALUE = {
+  history: [
+    {
+      squares: Array(9).fill(null)
+    }
+  ],
+  timestamp
+}
+
 function calculateWinner(squares) {
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i]
@@ -32,15 +42,40 @@ function calculateWinner(squares) {
   }
 }
 
+// isSettled({ commit }, squares) {
+//   lines.forEach((line) => {
+//     const [a, b, c] = line
+//     console.log(a, b, c)
+//     if (
+//       squares[a] &&
+//       squares[a] === squares[b] &&
+//       squares[a] === squares[c]
+//     ) {
+//       return true
+//     }
+//   })
+// },
+
 export default {
-  bindPlayroomRef: firestoreAction(
-    async ({ bindFirestoreRef, rootGetters }) => {
-      await bindFirestoreRef(
-        'game',
-        firestore.collection('playrooms').doc(rootGetters['playroom/id'])
-      )
-    }
-  ),
+  // bindPlayroomRef: firestoreAction(
+  //   async ({ bindFirestoreRef, rootGetters }) => {
+  //     await bindFirestoreRef(
+  //       'game',
+  //       firestore.collection('playrooms').doc(rootGetters['playroom/id'])
+  //     )
+  //   }
+  // ),
+
+  bindGameRef: firestoreAction(async ({ bindFirestoreRef, getters }) => {
+    await bindFirestoreRef(
+      'game',
+      firestore
+        .collection('playrooms')
+        .doc(getters.playroomId)
+        .collection('games')
+        .orderBy('timestamp', 'desc')
+    )
+  }),
 
   [ASSESS_STATUS]({ getters, dispatch }) {
     const latestBoard = getters.latestBoard
@@ -55,27 +90,13 @@ export default {
 
     await dispatch('addHistoryRecord', latestBoard)
     if (!calculateWinner(latestBoard)) {
-      dispatch(ADVANCE_TURN)
+      // dispatch(ADVANCE_TURN)
       dispatch(CHANGE_TURN_PLAYER)
     }
   },
 
   [ADVANCE_TURN]({ state, commit }) {
     commit(PASS_THE_TURN, state.game.games.rounds[0].history.length - 1)
-  },
-
-  isSettled({ commit }, squares) {
-    lines.forEach((line) => {
-      const [a, b, c] = line
-      console.log(a, b, c)
-      if (
-        squares[a] &&
-        squares[a] === squares[b] &&
-        squares[a] === squares[c]
-      ) {
-        return true
-      }
-    })
   },
 
   [END_OF_GAME]({ dispatch }) {
@@ -88,12 +109,14 @@ export default {
     dispatch('modal/HIDE', 1, { root: true })
   },
 
-  addHistoryRecord({ state, commit, rootGetters }, payload) {
+  addHistoryRecord({ getters }, payload) {
     firestore
       .collection('playrooms')
-      .doc(rootGetters['playroom/id'])
+      .doc(getters.playroomId)
+      .collection('games')
+      .doc(getters.round.toString())
       .update({
-        'games.rounds.0.history': firebase.firestore.FieldValue.arrayUnion({
+        history: firebase.firestore.FieldValue.arrayUnion({
           squares: payload
         })
       })
@@ -109,5 +132,17 @@ export default {
 
   [REGISTER_AS_PLAYER]({ commit }, payload) {
     commit('ADD_PLAYER', payload)
+  },
+
+  NEXT_GAME({ getters }) {
+    firestore
+      .collection('playrooms')
+      .doc(getters.playroomId)
+      .collection('games')
+      .doc(getters.nextRound.toString())
+      .set({ ...INIT_VALUE })
+      .catch((error) => {
+        console.error('Error adding document: ', error)
+      })
   }
 }
