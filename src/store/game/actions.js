@@ -42,20 +42,6 @@ function calculateWinner(squares) {
   }
 }
 
-// isSettled({ commit }, squares) {
-//   lines.forEach((line) => {
-//     const [a, b, c] = line
-//     console.log(a, b, c)
-//     if (
-//       squares[a] &&
-//       squares[a] === squares[b] &&
-//       squares[a] === squares[c]
-//     ) {
-//       return true
-//     }
-//   })
-// },
-
 export default {
   // bindPlayroomRef: firestoreAction(
   //   async ({ bindFirestoreRef, rootGetters }) => {
@@ -81,7 +67,9 @@ export default {
     const latestBoard = getters.latestBoard
     const isWinner = calculateWinner(latestBoard)
     if (isWinner) {
-      dispatch(END_OF_GAME)
+      dispatch(END_OF_GAME, 'FINISH')
+    } else if (getters.cannotPlace) {
+      dispatch(END_OF_GAME, 'DRAW')
     }
   },
 
@@ -99,8 +87,15 @@ export default {
     commit(PASS_THE_TURN, state.game.games.rounds[0].history.length - 1)
   },
 
-  [END_OF_GAME]({ dispatch }) {
-    dispatch(ADD_WINNER)
+  [END_OF_GAME]({ dispatch }, payload) {
+    switch (payload) {
+      case 'FINISH':
+        dispatch(ADD_WINNER)
+        break
+      case 'DRAW':
+        dispatch('ADD_DRAW')
+        break
+    }
     dispatch('modal/SHOW', 1, { root: true })
   },
 
@@ -124,6 +119,10 @@ export default {
 
   [ADD_WINNER]({ commit, getters }) {
     commit(ADD_WINNER, getters.turnPlayer)
+  },
+
+  ADD_DRAW({ commit }) {
+    commit(ADD_WINNER, 'DRAW')
   },
 
   [CHANGE_TURN_PLAYER]({ commit, getters }) {

@@ -56,6 +56,10 @@ export default {
     return getters.canPlacePeices.includes(payload)
   },
 
+  cannotPlace(state, getters) {
+    return getters.canPlacePeices.every((value) => value === null)
+  },
+
   playroomId(state, getters, rootState, rootGetters) {
     return rootGetters['playroom/id']
   }
