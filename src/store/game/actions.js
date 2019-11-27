@@ -33,13 +33,10 @@ const INIT_VALUE = {
 }
 
 function calculateWinner(squares) {
-  for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i]
-    // console.log(a, b, c)
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return true
-    }
-  }
+  return lines.some((line) => {
+    const [a, b, c] = line
+    return squares[a] && squares[a] === squares[b] && squares[a] === squares[c]
+  })
 }
 
 export default {
