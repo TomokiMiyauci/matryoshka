@@ -52,5 +52,9 @@ export default {
   animation-duration: 3s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
+  cursor: pointer;
+}
+.placeable:hover {
+  opacity: 0.5;
 }
 </style>
