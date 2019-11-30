@@ -1,5 +1,5 @@
 <template>
-  <td @click="click" :class="{ placeable: isValidClass }" class="square">
+  <td @click="onClick" :class="{ placeable: isValidClass }" class="square">
     {{ value }}
   </td>
 </template>
@@ -19,7 +19,7 @@ export default {
   },
 
   methods: {
-    click() {
+    onClick() {
       if (!this.value) {
         this.$emit('click')
       }
@@ -52,6 +52,7 @@ export default {
   animation-duration: 3s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
+  animation-direction: alternate;
   cursor: pointer;
 }
 .placeable:hover {
