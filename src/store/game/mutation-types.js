@@ -1,7 +1,6 @@
 export const ADD_WINNER = 'ADD_WINNER'
 export const PASS_THE_TURN = 'PASS_THE_TURN'
 export const ADVANCE_TURN = 'ADVANCE_TURN'
-export const CHANGE_TURN_PLAYER = 'CHANGE_TURN_PLAYER'
 export const REGISTER_AS_PLAYER = 'REGISTER_AS_PLAYER'
 export const RESTART = 'RESTART'
 export const ASSESS_STATUS = 'ASSESS_STATUS'

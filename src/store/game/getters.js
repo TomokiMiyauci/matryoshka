@@ -30,6 +30,14 @@ export default {
     return []
   },
 
+  latestPlayer(state, getters) {
+    const latestGame = getters.latestGame
+    if (latestGame) {
+      return latestGame.history.slice(-1)[0].player || 'PLAYER_1'
+    }
+    return []
+  },
+
   willBeNextBoard: (state, getters) => (payload) => {
     const willBeNextBoard = getters.latestBoard
     const nextPiece = getters.turnPlayer === 'PLAYER_1' ? 'X' : 'O'
@@ -37,8 +45,8 @@ export default {
     return willBeNextBoard
   },
 
-  turnPlayer(state) {
-    return state.turnPlayer
+  turnPlayer(state, getters) {
+    return getters.latestPlayer === 'PLAYER_1' ? 'PLAYER_2' : 'PLAYER_1'
   },
 
   nextTurnPlayer(state, getters) {
@@ -62,5 +70,13 @@ export default {
 
   playroomId(state, getters, rootState, rootGetters) {
     return rootGetters['playroom/id']
+  },
+
+  players(state, getters, rootState, rootGetters) {
+    return rootGetters['playroom/players']
+  },
+
+  readyToStart(state, getters) {
+    return getters.players >= 2
   }
 }
