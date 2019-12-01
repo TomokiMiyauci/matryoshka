@@ -95,7 +95,7 @@ export default {
   },
 
   [ADD_WINNER]({ commit, getters }) {
-    commit(ADD_WINNER, getters.turnPlayer)
+    commit(ADD_WINNER, getters.latestPlayer)
   },
 
   ADD_DRAW({ commit }) {

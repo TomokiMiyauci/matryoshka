@@ -78,5 +78,9 @@ export default {
 
   readyToStart(state, getters) {
     return getters.players >= 2
+  },
+
+  winner(state) {
+    return state.winner
   }
 }
