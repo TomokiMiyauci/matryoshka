@@ -28,7 +28,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .square {
   width: 100px;
   height: 100px;
@@ -49,7 +49,7 @@ export default {
 }
 .placeable {
   animation-name: active;
-  animation-duration: 3s;
+  animation-duration: 2s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   animation-direction: alternate;
