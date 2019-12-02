@@ -15,13 +15,6 @@ export default {
     return getters.round + 1
   },
 
-  // fullHistory(state, getters) {
-  //   if (state.game) {
-  //     return state.game.games.rounds[getters.round].history
-  //   }
-  //   return []
-  // },
-
   latestBoard(state, getters) {
     const latestGame = getters.latestGame
     if (latestGame) {
@@ -36,6 +29,13 @@ export default {
       return latestGame.history.slice(-1)[0].player || 'PLAYER_1'
     }
     return []
+  },
+
+  winner(state, getters) {
+    const latestGame = getters.latestGame
+    if (latestGame) {
+      return latestGame.winner
+    }
   },
 
   willBeNextBoard: (state, getters) => (payload) => {
@@ -78,9 +78,5 @@ export default {
 
   readyToStart(state, getters) {
     return getters.players >= 2
-  },
-
-  winner(state) {
-    return state.winner
   }
 }

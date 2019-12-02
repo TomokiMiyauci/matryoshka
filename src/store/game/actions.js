@@ -94,8 +94,15 @@ export default {
       })
   },
 
-  [ADD_WINNER]({ commit, getters }) {
-    commit(ADD_WINNER, getters.latestPlayer)
+  [ADD_WINNER]({ getters }) {
+    firestore
+      .collection('playrooms')
+      .doc(getters.playroomId)
+      .collection('games')
+      .doc(getters.round.toString())
+      .update({
+        winner: getters.latestPlayer
+      })
   },
 
   ADD_DRAW({ commit }) {
@@ -112,5 +119,22 @@ export default {
       .catch((error) => {
         console.error('Error adding document: ', error)
       })
+  },
+
+  SURRENDER({ commit, dispatch, getters, rootGetters }) {
+    firestore
+      .collection('playrooms')
+      .doc(getters.playroomId)
+      .collection('games')
+      .doc(getters.round.toString())
+      .update({
+        winner: rootGetters['player/opponent'],
+        history: firebase.firestore.FieldValue.arrayUnion({
+          squares: getters.latestBoard,
+          player: rootGetters['player/name']
+        })
+      })
+    commit(ADD_WINNER, rootGetters['player/opponent'])
+    dispatch('modal/SHOW', 1, { root: true })
   }
 }
