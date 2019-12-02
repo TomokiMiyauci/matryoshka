@@ -1,4 +1,10 @@
-import { ASSIGN, ACTION, ENTER_ROOM, CREATE_ROOM } from './mutation-types'
+import {
+  ASSIGN,
+  ACTION,
+  ENTER_ROOM,
+  CREATE_ROOM,
+  SURRENDER
+} from './mutation-types'
 
 export default {
   [ASSIGN]({ commit }, payload) {
@@ -16,5 +22,9 @@ export default {
   async [CREATE_ROOM]({ dispatch }) {
     const docRef = await dispatch('playroom/CREATE', null, { root: true })
     return docRef
+  },
+
+  [SURRENDER]({ dispatch }) {
+    dispatch('game/SURRENDER', null, { root: true })
   }
 }
