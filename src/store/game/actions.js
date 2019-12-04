@@ -3,7 +3,8 @@ import {
   ADD_WINNER,
   RESTART,
   ASSESS_STATUS,
-  END_OF_GAME
+  END_OF_GAME,
+  TIME_UP
 } from './mutation-types'
 import firebase, { firestore } from '~/plugins/firebase'
 
@@ -136,5 +137,20 @@ export default {
       })
     commit(ADD_WINNER, rootGetters['player/opponent'])
     dispatch('modal/SHOW', 1, { root: true })
+  },
+
+  async RANDOM_ACTION({ getters, dispatch }) {
+    if (getters.cannotPlace) {
+      return
+    }
+    const canPlacePeices = getters.canPlacePeices
+    const index =
+      canPlacePeices[Math.floor(Math.random() * canPlacePeices.length)]
+    const latestBoard = getters.willBeNextBoard(index)
+    await dispatch('addHistoryRecord', latestBoard)
+  },
+
+  [TIME_UP]({ dispatch }) {
+    dispatch('RANDOM_ACTION')
   }
 }

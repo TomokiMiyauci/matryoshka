@@ -54,10 +54,18 @@ export default {
   },
 
   canPlacePeices(state, getters) {
-    const canPlacePeices = getters.latestBoard.map((element, index, array) => {
-      return !element ? index : null
-    })
-    return canPlacePeices
+    // this function is duty.I try to research for good way.
+    const result = getters.latestBoard.reduce(
+      (accumulator, currentValue, index) => {
+        if (currentValue === null) {
+          accumulator.push(index)
+        }
+        return accumulator
+      },
+      []
+    )
+
+    return result
   },
 
   placeable: (state, getters) => (payload) => {
@@ -65,7 +73,7 @@ export default {
   },
 
   cannotPlace(state, getters) {
-    return getters.canPlacePeices.every((value) => value === null)
+    return !getters.canPlacePeices.length
   },
 
   playroomId(state, getters, rootState, rootGetters) {
