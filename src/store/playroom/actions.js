@@ -20,7 +20,10 @@ function collectionRef() {
 
 export default {
   bindPlayroomsRef: firestoreAction(({ bindFirestoreRef }) => {
-    bindFirestoreRef(collectionName, collectionRef())
+    bindFirestoreRef(
+      collectionName,
+      collectionRef().where('isClose', '==', false)
+    )
   }),
 
   bindPlayroomRef: firestoreAction(({ bindFirestoreRef, getters }) => {
@@ -33,18 +36,8 @@ export default {
 
   async [CREATE]() {
     const docRef = await collectionRef().add({
-      timestamp
-      // games: {
-      //   rounds: [
-      //     {
-      //       history: [
-      //         {
-      //           squares: Array(9).fill(null)
-      //         }
-      //       ]
-      //     }
-      //   ]
-      // }
+      timestamp,
+      isClose: false
     })
 
     docRef
@@ -57,15 +50,23 @@ export default {
     return docRef
   },
 
-  ENTER({ dispatch }, payload) {
-    const docId = payload
-    dispatch(ADD_ID, docId)
-    collectionRef()
-      .doc(docId)
-      .update({ players: firebase.firestore.FieldValue.increment(1) })
+  async ENTER({ dispatch }, payload) {
+    const playroomId = payload
+    await dispatch(ADD_ID, playroomId)
+    dispatch('fluctuatePlayers', 'ENTER')
   },
 
   ADD_ID({ commit }, payload) {
     commit(ADD_ID, payload)
+  },
+
+  fluctuatePlayers({ getters }, payload) {
+    const id = getters.id
+    if (!id) return
+
+    const fluctuation = payload === 'ENTER' ? 1 : -1
+    collectionRef()
+      .doc(id)
+      .update({ players: firebase.firestore.FieldValue.increment(fluctuation) })
   }
 }
