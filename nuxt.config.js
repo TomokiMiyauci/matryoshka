@@ -46,6 +46,15 @@ export default {
    ** Nuxt.js modules
    */
   modules: ['@nuxtjs/pwa'],
+
+  manifest: {
+    name: 'Tic Tac Toe',
+    title: 'Tic Tac Toe',
+    description: 'Game of Tic Tac Toe',
+    lang: 'ja',
+    display: 'standalone',
+    start_url: '/'
+  },
   /*
    ** dotenv options
    */
