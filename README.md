@@ -1,4 +1,4 @@
-# vobblet-vobblers
+# tic-tac-toe [IN-PROGRESS]
 
 > My dandy Nuxt.js project
 
