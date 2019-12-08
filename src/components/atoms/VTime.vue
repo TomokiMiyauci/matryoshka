@@ -1,7 +1,13 @@
 <template>
-  <transition>
-    <div class="time">{{ time }}</div>
-  </transition>
+  <div
+    :class="{
+      'before-ten-sec': beforeTenSec,
+      'before-three-sec': beforeThreeSec
+    }"
+    class="time"
+  >
+    {{ time }}
+  </div>
 </template>
 
 <script>
@@ -11,29 +17,33 @@ export default {
       type: [String, Number],
       required: true
     }
-  }
+  },
 
-  // watch: {
-  //   time() {
-  //     console.log(11)
-  //   }
-  // }
+  computed: {
+    beforeTenSec() {
+      return this.time < 10
+    },
+
+    beforeThreeSec() {
+      return this.beforeTenSec && this.time <= 3
+    }
+  }
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+$warning: #e53935;
+$weak-warning: #fdd835;
+
 .time {
-  position: absolute;
-  left: 50%;
-  top: 20%;
+  text-align: center;
   font-size: 20px;
-  width: 50px;
-  height: 50px;
+  width: 75px;
+  height: 75px;
   border-radius: 50%;
   display: inline-block;
-  text-align: center;
-  line-height: 44px;
-  border: solid 3px silver;
+  line-height: 55px;
+  border: solid 10px #ffffff;
   animation-name: bold;
   animation-duration: 1s;
   animation-iteration-count: infinite;
@@ -47,5 +57,26 @@ export default {
     font-size: 30px;
     font-weight: bold;
   }
+}
+
+@keyframes strong {
+  0% {
+    font-size: 20px;
+  }
+
+  100% {
+    font-size: 50px;
+    font-weight: bold;
+  }
+}
+.before-ten-sec {
+  color: $weak-warning;
+  border: solid 10px $weak-warning;
+}
+.before-three-sec {
+  color: $warning;
+  border: solid 10px $warning;
+  animation: strong 1s;
+  animation-iteration-count: infinite;
 }
 </style>

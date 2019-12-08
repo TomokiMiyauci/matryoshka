@@ -1,8 +1,5 @@
 <template>
-  <div>
-    <v-time :time="time"></v-time>
-    {{ intervalID }}
-  </div>
+  <v-time :time="time"></v-time>
 </template>
 
 <script>
@@ -29,7 +26,7 @@ export default {
 
   methods: {
     countdown() {
-      setInterval(() => {
+      this.intervalID = setInterval(() => {
         if (this.time > 0) {
           this.time--
         } else {
@@ -37,8 +34,11 @@ export default {
         }
       }, 1000)
     },
+
     reset() {
       this.time = 30
+      this.$emit('up')
+      // alert()
       console.log('reset')
     }
   }
