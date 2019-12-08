@@ -1,10 +1,14 @@
 <template>
   <v-app>
-    <v-app-bar app> </v-app-bar>
+    <the-app-bar-default></the-app-bar-default>
     <v-content>
       <nuxt />
     </v-content>
-    <v-bottom-navigation v-model="btmNav" app fixed>
+    <v-bottom-navigation v-model="btmNav" app>
+      <v-btn to="/" value="/home">
+        <span>Home</span>
+        <v-icon>mdi-home</v-icon>
+      </v-btn>
       <v-btn to="/playrooms" value="playrooms">
         <span>Playrooms</span>
         <v-icon>mdi-playstation</v-icon>
@@ -20,7 +24,9 @@
 
 <script>
 export default {
-  components: {},
+  components: {
+    TheAppBarDefault: () => import('~/components/organisms/TheAppBarDefault')
+  },
 
   data() {
     return {
