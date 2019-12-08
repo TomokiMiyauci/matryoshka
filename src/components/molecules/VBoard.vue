@@ -1,6 +1,6 @@
 <template>
-  <v-container class="fill-height">
-    <v-row justify="center">
+  <v-container>
+    <v-row justify="center" align-content="center">
       <table>
         <tbody>
           <tr>

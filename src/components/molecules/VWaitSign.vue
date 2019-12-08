@@ -1,11 +1,10 @@
 <template>
   <v-container>
     <h1 class="text-center">{{ whichTrun }}</h1>
-
     <v-row justify="center">
       <v-col cols="auto">
-        <v-spinner v-show="!isYourTurn"></v-spinner>
-        <v-timer v-show="isYourTurn"></v-timer>
+        <v-spinner v-if="!isYourTurn"></v-spinner>
+        <v-timer @up="$emit('up')" v-else-if="isYourTurn"></v-timer>
       </v-col>
     </v-row>
   </v-container>
