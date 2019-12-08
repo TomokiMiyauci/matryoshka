@@ -1,4 +1,4 @@
-# tic-tac-toe [IN-PROGRESS]
+# nested-dolls [IN-PROGRESS]
 
 > My dandy Nuxt.js project
 
