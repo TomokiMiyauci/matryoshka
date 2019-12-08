@@ -10,7 +10,8 @@ const INIT_VALUE = {
       squares: Array(9).fill(null)
     }
   ],
-  timestamp
+  timestamp,
+  readyPlayers: ['PLAYER_1']
 }
 const firstGameNum = '1'
 
