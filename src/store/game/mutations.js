@@ -16,5 +16,9 @@ export default {
 
   ADD_PLAYER(state, payload) {
     state.players.push(payload)
+  },
+
+  ADD_SELECTED_PIECE(state, payload) {
+    state.selectedPiece = payload
   }
 }
