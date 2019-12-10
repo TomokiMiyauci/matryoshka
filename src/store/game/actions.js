@@ -19,15 +19,31 @@ const lines = [
   [2, 4, 6]
 ]
 
-const timestamp = firebase.firestore.FieldValue.serverTimestamp()
-const INIT_VALUE = {
-  history: [
-    {
-      squares: Array(9).fill(null)
-    }
-  ],
-  timestamp
-}
+// const timestamp = firebase.firestore.FieldValue.serverTimestamp()
+
+// function generateInitValue(rows, cols) {
+//   return {
+//     history: [
+//       {
+//         squares: generateShallowMatrix(rows, cols)
+//       }
+//     ],
+//     rows,
+//     cols,
+//     timestamp,
+//     readyPlayers: ['PLAYER_1']
+//   }
+// }
+
+// function generateShallowMatrix(row, col) {
+//   const matrix = []
+//   for (let r = 0; r < row; r++) {
+//     for (let c = 0; c < col; c++) {
+//       matrix.push({ row: r, col: c, value: null })
+//     }
+//   }
+//   return matrix
+// }
 
 function calculateWinner(squares) {
   return lines.some((line) => {
@@ -60,7 +76,9 @@ export default {
   },
 
   async turnAction({ dispatch, getters }, payload) {
-    const latestBoard = getters.willBeNextBoard(payload)
+    const latestBoard = getters.willBeNextShallowBoard(payload)
+    console.log(' latestBoard', latestBoard)
+
     await dispatch('addHistoryRecord', latestBoard)
   },
 
@@ -116,7 +134,7 @@ export default {
       .doc(getters.playroomId)
       .collection('games')
       .doc(getters.nextRound.toString())
-      .set({ ...INIT_VALUE })
+      .set({ ...getters.generateInitValue })
       .catch((error) => {
         console.error('Error adding document: ', error)
       })
@@ -152,5 +170,9 @@ export default {
 
   [TIME_UP]({ dispatch }) {
     dispatch('RANDOM_ACTION')
+  },
+
+  ADD_SELECTED_PIECE({ commit }, payload) {
+    commit('ADD_SELECTED_PIECE', payload)
   }
 }
