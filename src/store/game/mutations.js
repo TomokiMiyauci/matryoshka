@@ -18,7 +18,16 @@ export default {
     state.players.push(payload)
   },
 
-  ADD_SELECTED_PIECE(state, payload) {
-    state.selectedPiece = payload
+  ADD_SELECTING_PIECE(state, payload) {
+    state.selectingPiece = payload
+  },
+
+  TAKE_SELECTING_PIECE(state) {
+    state.selectingPiece = null
+  },
+
+  TAKE_HOLDING_PIECE(state, payload) {
+    const index = state.holdingPieces.findIndex((n) => n.id === payload.id)
+    state.holdingPieces.splice(index, 1)
   }
 }

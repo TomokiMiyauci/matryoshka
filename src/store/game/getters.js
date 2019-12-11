@@ -148,8 +148,8 @@ export default {
     return getters.players >= 2
   },
 
-  selectedPiece(state) {
-    return state.selectedPiece
+  selectingPiece(state) {
+    return state.selectingPiece
   },
 
   generateInitValue: (state, getters) => {
@@ -165,5 +165,13 @@ export default {
       timestamp,
       readyPlayers: ['PLAYER_1']
     }
+  },
+
+  holdingPieces(state) {
+    return state.holdingPieces
+  },
+
+  isSelecting(state, getters) {
+    return !!getters.selectingPiece
   }
 }

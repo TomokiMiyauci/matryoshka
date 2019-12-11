@@ -77,9 +77,11 @@ export default {
 
   async turnAction({ dispatch, getters }, payload) {
     const latestBoard = getters.willBeNextShallowBoard(payload)
-    console.log(' latestBoard', latestBoard)
+    // console.log(' latestBoard', latestBoard)
 
     await dispatch('addHistoryRecord', latestBoard)
+    await dispatch('TAKE_HOLDING_PIECE')
+    dispatch('TAKE_SELECTING_PIECE')
   },
 
   [END_OF_GAME]({ dispatch }, payload) {
@@ -172,7 +174,15 @@ export default {
     dispatch('RANDOM_ACTION')
   },
 
-  ADD_SELECTED_PIECE({ commit }, payload) {
-    commit('ADD_SELECTED_PIECE', payload)
+  ADD_SELECTING_PIECE({ commit }, payload) {
+    commit('ADD_SELECTING_PIECE', payload)
+  },
+
+  TAKE_SELECTING_PIECE({ commit }) {
+    commit('TAKE_SELECTING_PIECE')
+  },
+
+  TAKE_HOLDING_PIECE({ commit, getters }) {
+    commit('TAKE_HOLDING_PIECE', getters.selectingPiece)
   }
 }
