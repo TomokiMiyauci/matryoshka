@@ -19,32 +19,6 @@ const lines = [
   [2, 4, 6]
 ]
 
-// const timestamp = firebase.firestore.FieldValue.serverTimestamp()
-
-// function generateInitValue(rows, cols) {
-//   return {
-//     history: [
-//       {
-//         squares: generateShallowMatrix(rows, cols)
-//       }
-//     ],
-//     rows,
-//     cols,
-//     timestamp,
-//     readyPlayers: ['PLAYER_1']
-//   }
-// }
-
-// function generateShallowMatrix(row, col) {
-//   const matrix = []
-//   for (let r = 0; r < row; r++) {
-//     for (let c = 0; c < col; c++) {
-//       matrix.push({ row: r, col: c, value: null })
-//     }
-//   }
-//   return matrix
-// }
-
 function calculateWinner(squares) {
   return lines.some((line) => {
     const [a, b, c] = line
@@ -76,11 +50,20 @@ export default {
   },
 
   async turnAction({ dispatch, getters }, payload) {
-    const latestBoard = getters.willBeNextShallowBoard(payload)
+    const latestBoard =
+      payload.type === 'PLACE'
+        ? getters.willBeNextShallowBoard(payload)
+        : getters.willBeNextShallowBoardByMove(
+            payload.from,
+            payload.to,
+            payload.value
+          )
     // console.log(' latestBoard', latestBoard)
 
     await dispatch('addHistoryRecord', latestBoard)
-    await dispatch('TAKE_HOLDING_PIECE')
+    if (getters.selectingPiece.type === 'PLACE') {
+      await dispatch('TAKE_HOLDING_PIECE')
+    }
     dispatch('TAKE_SELECTING_PIECE')
   },
 

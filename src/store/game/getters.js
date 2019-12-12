@@ -12,6 +12,24 @@ function generateShallowMatrix(row, col) {
   return matrix
 }
 
+function matrixify(shallowArray, rows, cols) {
+  const deepArray = []
+  let count = 0
+
+  for (let r = 0; r < rows; r++) {
+    deepArray.push([])
+    for (let c = 0; c < cols; c++) {
+      deepArray[r].push(shallowArray[count])
+      count++
+    }
+  }
+  return deepArray
+}
+
+function flatten(deepArray) {
+  return deepArray.flat()
+}
+
 export default {
   game(state) {
     return state.game
@@ -28,19 +46,8 @@ export default {
   deepLatestBoard(state, getters) {
     const rows = getters.rows
     const cols = getters.cols
-    const deepLatestBoard = []
     const shallowLatestBoard = getters.latestBoard
-
-    let count = 0
-
-    for (let r = 0; r < rows; r++) {
-      deepLatestBoard.push([])
-      for (let c = 0; c < cols; c++) {
-        deepLatestBoard[r].push(shallowLatestBoard[count])
-        count++
-      }
-    }
-    // console.log(deepLatestBoard)
+    const deepLatestBoard = matrixify(shallowLatestBoard, rows, cols)
 
     return deepLatestBoard
   },
@@ -87,13 +94,8 @@ export default {
 
   willBeNextShallowBoard: (state, getters) => (payload) => {
     const willBeNextBoard = getters.willBeNextDeepBoard(payload)
-    const willBeNextShallowBoard = []
+    const willBeNextShallowBoard = flatten(willBeNextBoard)
 
-    willBeNextBoard.forEach((rows) => {
-      rows.forEach((cols) => {
-        willBeNextShallowBoard.push(cols)
-      })
-    })
     // const nextPiece = getters.turnPlayer === 'PLAYER_1' ? 'X' : 'O'
     return willBeNextShallowBoard
   },
@@ -103,6 +105,31 @@ export default {
     const willBeNextDeepBoard = getters.deepLatestBoard
     willBeNextDeepBoard[row].splice(col, 1, payload)
     return willBeNextDeepBoard
+  },
+
+  willBeNextDeepBoardByMove: (state, getters) => (from, to, value) => {
+    const willBeNextDeepBoard = getters.deepLatestBoard.concat()
+    // const from = { row: 0, col: 0 }
+    // const to = { row: 1, col: 1 }
+    willBeNextDeepBoard[from.row].splice(from.col, 1, { ...from, value: null })
+    willBeNextDeepBoard[to.row].splice(to.col, 1, {
+      ...to,
+      ...value
+    })
+    // console.log('ss', willBeNextDeepBoard)
+
+    return willBeNextDeepBoard
+  },
+
+  willBeNextShallowBoardByMove: (state, getters) => (from, to, value) => {
+    const willBeNextDeepBoardByMove = getters.willBeNextDeepBoardByMove(
+      from,
+      to,
+      value
+    )
+    const willBeNextShallowBoardByMove = flatten(willBeNextDeepBoardByMove)
+
+    return willBeNextShallowBoardByMove
   },
 
   turnPlayer(state, getters) {
@@ -173,5 +200,11 @@ export default {
 
   isSelecting(state, getters) {
     return !!getters.selectingPiece
+  },
+
+  latestPiece: (state, getters) => (row, col) => {
+    const deepLatestBoard = getters.deepLatestBoard
+    const latestPiece = deepLatestBoard[row][col]
+    return latestPiece
   }
 }
