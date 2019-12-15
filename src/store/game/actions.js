@@ -8,24 +8,6 @@ import {
 } from './mutation-types'
 import firebase, { firestore } from '~/plugins/firebase'
 
-const lines = [
-  [0, 1, 2],
-  [3, 4, 5],
-  [6, 7, 8],
-  [0, 3, 6],
-  [1, 4, 7],
-  [2, 5, 8],
-  [0, 4, 8],
-  [2, 4, 6]
-]
-
-function calculateWinner(squares) {
-  return lines.some((line) => {
-    const [a, b, c] = line
-    return squares[a] && squares[a] === squares[b] && squares[a] === squares[c]
-  })
-}
-
 export default {
   bindGameRef: firestoreAction(async ({ bindFirestoreRef, getters }) => {
     await bindFirestoreRef(
@@ -39,31 +21,37 @@ export default {
   }),
 
   [ASSESS_STATUS]({ getters, dispatch }) {
-    const latestBoard = getters.latestBoard
-    const isWinner = calculateWinner(latestBoard)
+    const isWin = getters.isWin(getters.playerName)
+    console.log(isWin)
 
-    if (isWinner) {
+    if (isWin) {
       dispatch(END_OF_GAME, 'FINISH')
     } else if (getters.cannotPlace) {
       dispatch(END_OF_GAME, 'DRAW')
     }
   },
 
-  async turnAction({ dispatch, getters }, payload) {
-    const latestBoard =
-      payload.type === 'PLACE'
-        ? getters.willBeNextShallowBoard(payload)
-        : getters.willBeNextShallowBoardByMove(
-            payload.from,
-            payload.to,
-            payload.value
-          )
-    // console.log(' latestBoard', latestBoard)
+  async PLACE_PIECE({ dispatch, getters }, payload) {
+    const latestBoard = getters.willBeNextShallowBoard(payload)
 
     await dispatch('addHistoryRecord', latestBoard)
+    dispatch(ASSESS_STATUS)
     if (getters.selectingPiece.type === 'PLACE') {
       await dispatch('TAKE_HOLDING_PIECE')
     }
+    dispatch('TAKE_SELECTING_PIECE')
+  },
+
+  async MOVE_PIECE({ dispatch, getters }, payload) {
+    const latestBoard = getters.willBeNextShallowBoardByMove(
+      payload.from,
+      payload.to,
+      payload.value
+    )
+
+    await dispatch('addHistoryRecord', latestBoard)
+    dispatch(ASSESS_STATUS)
+
     dispatch('TAKE_SELECTING_PIECE')
   },
 
@@ -105,7 +93,7 @@ export default {
       .collection('games')
       .doc(getters.round.toString())
       .update({
-        winner: getters.latestPlayer
+        winner: getters.playerName
       })
   },
 

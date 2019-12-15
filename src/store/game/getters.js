@@ -1,6 +1,48 @@
 import firebase from '~/plugins/firebase'
 
 const timestamp = firebase.firestore.FieldValue.serverTimestamp()
+const winCombinations = [
+  [
+    [0, 0],
+    [0, 1],
+    [0, 2]
+  ],
+  [
+    [1, 0],
+    [1, 1],
+    [1, 2]
+  ],
+  [
+    [2, 0],
+    [2, 1],
+    [2, 2]
+  ],
+  [
+    [0, 0],
+    [1, 0],
+    [2, 0]
+  ],
+  [
+    [0, 1],
+    [1, 1],
+    [2, 1]
+  ],
+  [
+    [0, 2],
+    [1, 2],
+    [2, 2]
+  ],
+  [
+    [0, 0],
+    [1, 1],
+    [2, 2]
+  ],
+  [
+    [0, 2],
+    [1, 1],
+    [2, 0]
+  ]
+]
 
 function generateShallowMatrix(row, col) {
   const matrix = []
@@ -44,8 +86,7 @@ export default {
   },
 
   deepLatestBoard(state, getters) {
-    const rows = getters.rows
-    const cols = getters.cols
+    const { rows, cols } = getters
     const shallowLatestBoard = getters.latestBoard
     const deepLatestBoard = matrixify(shallowLatestBoard, rows, cols)
 
@@ -171,6 +212,10 @@ export default {
     return rootGetters['playroom/players']
   },
 
+  playerName(state, getters, rootState, rootGetters) {
+    return rootGetters['player/name']
+  },
+
   readyToStart(state, getters) {
     return getters.players >= 2
   },
@@ -206,5 +251,29 @@ export default {
     const deepLatestBoard = getters.deepLatestBoard
     const latestPiece = deepLatestBoard[row][col]
     return latestPiece
+  },
+
+  bases: (state, getters) => (playerName) => {
+    const deepLatestBoard = flatten(getters.deepLatestBoard)
+    if (deepLatestBoard.length === 0) return
+    return deepLatestBoard.filter((deep) => {
+      return deep.player === playerName
+    })
+  },
+
+  isWin: (state, getters) => (playerName) => {
+    const bases = getters.bases(playerName)
+    if (bases.length === 0) return
+    return winCombinations.some((winCombination) => {
+      return winCombination.every((matrix) => {
+        return bases.some((square) => {
+          return (
+            matrix[0] === square.row &&
+            matrix[1] === square.col &&
+            !!square.value
+          )
+        })
+      })
+    })
   }
 }
