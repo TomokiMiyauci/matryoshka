@@ -99,10 +99,10 @@ export default {
     ...mapActions('playroom', ['SUBSCRIBE']),
     ...mapActions('game', ['bindGameRef']),
 
-    goto(payload) {
-      this.ENTER_ROOM(payload.id)
-      this.ASSIGN(PLAYER_2)
-      this.$router.push(`/playrooms/${payload.id}`)
+    async goto(payload) {
+      await this.ENTER_ROOM(payload.id)
+      await this.ASSIGN(PLAYER_2)
+      await this.$router.push(`/playrooms/${payload.id}`)
     }
   }
 }

@@ -20,9 +20,9 @@ export default {
 
     async click() {
       const docRef = await this.CREATE_ROOM()
-      this.ENTER_ROOM(docRef.id)
-      this.ASSIGN(PLAYER_1)
-      this.$router.push(`/playrooms/${docRef.id}`)
+      await this.ENTER_ROOM(docRef.id)
+      await this.ASSIGN(PLAYER_1)
+      await this.$router.push(`/playrooms/${docRef.id}`)
     }
   }
 }
