@@ -4,15 +4,20 @@ import firebase, { firestore } from '~/plugins/firebase'
 
 const collectionName = 'playrooms'
 const timestamp = firebase.firestore.FieldValue.serverTimestamp()
-const INIT_VALUE = {
-  history: [
-    {
-      squares: Array(9).fill(null)
-    }
-  ],
-  timestamp,
-  readyPlayers: ['PLAYER_1']
-}
+// const ROW = 4
+// const COL = 4
+
+// const INIT_VALUE = {
+//   history: [
+//     {
+//       squares: generateShallowMatrix(ROW, COL),
+//       rows: 3,
+//       col: 3
+//     }
+//   ],
+//   timestamp,
+//   readyPlayers: ['PLAYER_1']
+// }
 const firstGameNum = '1'
 
 function collectionRef() {
@@ -35,16 +40,18 @@ export default {
     dispatch('bindPlayroomsRef')
   },
 
-  async [CREATE]() {
+  async [CREATE]({ rootGetters }) {
     const docRef = await collectionRef().add({
       timestamp,
       isClose: false
     })
 
-    docRef
+    await docRef
       .collection('games')
       .doc(firstGameNum)
-      .set({ ...INIT_VALUE })
+      .set({
+        ...rootGetters['game/generateInitValue']
+      })
       .catch((error) => {
         console.error('Error adding document: ', error)
       })
@@ -54,7 +61,7 @@ export default {
   async ENTER({ dispatch }, payload) {
     const playroomId = payload
     await dispatch(ADD_ID, playroomId)
-    dispatch('fluctuatePlayers', 'ENTER')
+    await dispatch('fluctuatePlayers', 'ENTER')
   },
 
   ADD_ID({ commit }, payload) {
