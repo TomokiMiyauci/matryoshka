@@ -22,7 +22,7 @@ export default {
 
   [ASSESS_STATUS]({ getters, dispatch }) {
     const isWin = getters.isWin(getters.playerName)
-    console.log(isWin)
+    // console.log(isWin)
 
     if (isWin) {
       dispatch(END_OF_GAME, 'FINISH')
@@ -101,7 +101,7 @@ export default {
     commit(ADD_WINNER, 'DRAW')
   },
 
-  NEXT_GAME({ getters }) {
+  NEXT_GAME({ getters, dispatch }) {
     firestore
       .collection('playrooms')
       .doc(getters.playroomId)
@@ -111,6 +111,11 @@ export default {
       .catch((error) => {
         console.error('Error adding document: ', error)
       })
+    dispatch('INIT_HOLDING_PIECE')
+  },
+
+  INIT_HOLDING_PIECE({ commit }) {
+    commit('INIT_HOLDING_Piece')
   },
 
   SURRENDER({ commit, dispatch, getters, rootGetters }) {
