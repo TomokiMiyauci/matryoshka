@@ -111,11 +111,11 @@ export default {
       .catch((error) => {
         console.error('Error adding document: ', error)
       })
-    dispatch('INIT_HOLDING_PIECE')
+    dispatch('INIT_HOLDING_PIECE', getters.playerName)
   },
 
-  INIT_HOLDING_PIECE({ commit }) {
-    commit('INIT_HOLDING_Piece')
+  INIT_HOLDING_PIECE({ commit }, payload) {
+    commit('INIT_HOLDING_Piece', payload)
   },
 
   SURRENDER({ commit, dispatch, getters, rootGetters }) {

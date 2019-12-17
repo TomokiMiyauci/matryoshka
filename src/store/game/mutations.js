@@ -31,14 +31,15 @@ export default {
     state.holdingPieces.splice(index, 1)
   },
 
-  INIT_HOLDING_Piece(state) {
+  INIT_HOLDING_Piece(state, payload) {
+    const player = { player: payload }
     state.holdingPieces = [
-      { id: 1, value: 1, player: 'PLAYER_1' },
-      { id: 2, value: 1, player: 'PLAYER_1' },
-      { id: 3, value: 2, player: 'PLAYER_1' },
-      { id: 4, value: 2, player: 'PLAYER_1' },
-      { id: 5, value: 3, player: 'PLAYER_1' },
-      { id: 6, value: 3, player: 'PLAYER_1' }
+      { id: 1, value: 1, ...player },
+      { id: 2, value: 1, ...player },
+      { id: 3, value: 2, ...player },
+      { id: 4, value: 2, ...player },
+      { id: 5, value: 3, ...player },
+      { id: 6, value: 3, ...player }
     ]
   }
 }
