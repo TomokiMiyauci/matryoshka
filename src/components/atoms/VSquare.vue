@@ -1,7 +1,12 @@
 <template>
   <td
     @click="onClick"
-    :class="{ placeable: isValidClass, bounce: value }"
+    :class="{
+      placeable: isValidClass,
+      bounce: value,
+      teamBlue: isValidBlue,
+      teamRed: isValidRed
+    }"
     class="square"
   >
     {{ value }}
@@ -12,11 +17,21 @@
 export default {
   props: {
     value: {
-      type: String,
+      type: [String, Number],
       default: null
     },
 
     isValidClass: {
+      type: Boolean,
+      default: false
+    },
+
+    isValidBlue: {
+      type: Boolean,
+      default: false
+    },
+
+    isValidRed: {
       type: Boolean,
       default: false
     }
@@ -24,15 +39,20 @@ export default {
 
   methods: {
     onClick() {
-      if (!this.value) {
-        this.$emit('click')
-      }
+      this.$emit('click')
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
+.teamRed {
+  color: red;
+}
+
+.teamBlue {
+  color: blue;
+}
 .square {
   width: 100px;
   height: 100px;
