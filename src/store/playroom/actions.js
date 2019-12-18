@@ -4,20 +4,6 @@ import firebase, { firestore } from '~/plugins/firebase'
 
 const collectionName = 'playrooms'
 const timestamp = firebase.firestore.FieldValue.serverTimestamp()
-// const ROW = 4
-// const COL = 4
-
-// const INIT_VALUE = {
-//   history: [
-//     {
-//       squares: generateShallowMatrix(ROW, COL),
-//       rows: 3,
-//       col: 3
-//     }
-//   ],
-//   timestamp,
-//   readyPlayers: ['PLAYER_1']
-// }
 const firstGameNum = '1'
 
 function collectionRef() {
