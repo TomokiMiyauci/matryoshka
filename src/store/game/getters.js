@@ -48,24 +48,31 @@ function generateShallowMatrix(row, col) {
   const matrix = []
   for (let r = 0; r < row; r++) {
     for (let c = 0; c < col; c++) {
-      matrix.push({ row: r, col: c, value: null })
+      matrix.push({ row: r, col: c, value: [] })
     }
   }
   return matrix
 }
 
 function matrixify(shallowArray, rows, cols) {
-  const deepArray = []
-  let count = 0
+  // const deepArray = []
+  // let count = 0
 
-  for (let r = 0; r < rows; r++) {
-    deepArray.push([])
-    for (let c = 0; c < cols; c++) {
-      deepArray[r].push(shallowArray[count])
-      count++
-    }
-  }
-  return deepArray
+  // for (let r = 0; r < rows; r++) {
+  //   deepArray.push([])
+  //   for (let c = 0; c < cols; c++) {
+  //     deepArray[r].push(shallowArray[count])
+  //     count++
+  //   }
+  // }
+  // return deepArray
+  const arr = new Array(rows).fill().map(() => new Array(0))
+
+  shallowArray.forEach((matrix) => {
+    arr[matrix.row].push(matrix)
+  })
+
+  return arr
 }
 
 function flatten(deepArray) {
