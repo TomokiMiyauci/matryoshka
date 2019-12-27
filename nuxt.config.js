@@ -32,12 +32,13 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/firebase'],
+  plugins: ['~/plugins/firebase', '~/plugins/composition-api'],
   /*
    ** Nuxt.js dev-modules
    */
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
+    '@nuxt/typescript-build',
     '@nuxtjs/eslint-module',
     '@nuxtjs/vuetify',
     '@nuxtjs/dotenv'
@@ -90,5 +91,11 @@ export default {
      ** You can extend webpack config here
      */
     extend(config, ctx) {}
+  },
+
+  typescript: {
+    typeCheck: {
+      eslint: true
+    }
   }
 }

@@ -9,7 +9,7 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
-    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
+    "lint": "eslint --ext .ts,.js,.vue .",
     "test": "jest",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@nuxtjs/pwa": "^3.0.0-0",
+    "@vue/composition-api": "^0.3.4",
     "firebase": "^7.3.0",
     "firebaseui": "^4.3.0",
     "nuxt": "^2.0.0",
@@ -34,8 +35,9 @@
   },
   "devDependencies": {
     "@babel/core": "^7.7.2",
+    "@nuxt/typescript-build": "^0.5.4",
     "@nuxtjs/dotenv": "^1.4.1",
-    "@nuxtjs/eslint-config": "^1.0.1",
+    "@nuxtjs/eslint-config-typescript": "^1.0.0",
     "@nuxtjs/eslint-module": "^1.0.0",
     "@nuxtjs/vuetify": "^1.0.0",
     "@storybook/addon-actions": "^5.2.5",
