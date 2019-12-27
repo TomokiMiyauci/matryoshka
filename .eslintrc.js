@@ -5,7 +5,8 @@ module.exports = {
     node: true
   },
   parserOptions: {
-    parser: '@typescript-eslint/parser'
+    parser: '@typescript-eslint/parser',
+    sourceType: "module"
   },
   extends: [
     '@nuxtjs/eslint-config-typescript',
@@ -20,6 +21,7 @@ module.exports = {
   // add your custom rules here
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    '@typescript-eslint/no-unused-vars' : 'off'
+    '@typescript-eslint/no-unused-vars' : 'off',
+    'vue/attributes-order' :'off'
   }
 }
