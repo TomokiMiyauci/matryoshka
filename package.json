@@ -17,7 +17,7 @@
     "hygen:vuex": "hygen vuex new"
   },
   "lint-staged": {
-    "*.{js,vue}": "eslint"
+    "*.{js,vue,ts}": "eslint"
   },
   "husky": {
     "hooks": {

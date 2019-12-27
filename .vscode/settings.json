@@ -1,7 +1,6 @@
 {
   "eslint.enable": true,
   "editor.formatOnSave": false,
-  "eslint.autoFixOnSave": true,
   "eslint.validate": [
     {
       "language": "vue",
@@ -9,6 +8,10 @@
     },
     {
       "language": "javascript",
+      "autoFix": true
+    },
+    {
+      "language": "typescript",
       "autoFix": true
     }
   ],
@@ -19,5 +22,8 @@
     "other": true,
     "comments": false,
     "strings": true
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
   }
 }
