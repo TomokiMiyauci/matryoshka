@@ -1,5 +1,5 @@
 <template>
-  <v-card @click="$emit('click')" width="140px" height="140px">
+  <v-card width="140px" height="140px" @click="$emit('click')">
     <v-avatar-with-name name="aaa"></v-avatar-with-name>
     <v-playroom-tag :text="playroom.id | hashing"> </v-playroom-tag>
   </v-card>

@@ -1,12 +1,12 @@
 <template>
   <td
-    @click="onClick"
     :class="{
       placeable: isValidClass,
       bounce: value,
       teamBlue: isValidBlue,
       teamRed: isValidRed
     }"
+    @click="onClick"
     class="square"
   >
     {{ value }}

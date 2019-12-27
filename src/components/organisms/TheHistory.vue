@@ -4,8 +4,8 @@
     <p>Turn</p>
     <v-board
       v-for="(squares, index) in fullHistory"
-      :squares="squares.squares"
       :key="index"
+      :squares="squares.squares"
     ></v-board>
   </div>
 </template>

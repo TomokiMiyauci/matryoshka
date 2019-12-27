@@ -1,6 +1,8 @@
 <template>
   <v-container>
-    <h1 class="text-center">Tic Tac Toe</h1>
+    <h1 class="text-center">
+      Tic Tac Toe
+    </h1>
 
     <v-btn
       absolute
@@ -8,12 +10,13 @@
       icon
       large
       href="https://naruhodo.repop.jp/javascript-animation-events/"
-      ><v-icon>mdi-github-circle</v-icon></v-btn
     >
+      <v-icon>mdi-github-circle</v-icon>
+    </v-btn>
 
-    <v-btn absolute top right icon large to="/login"
-      ><v-icon>mdi-login-variant</v-icon></v-btn
-    >
+    <v-btn absolute top right icon large to="/login">
+      <v-icon>mdi-login-variant</v-icon>
+    </v-btn>
 
     <v-btn class="btn-vscpu" absolute rounded>
       VS CPU
@@ -24,7 +27,9 @@
     <v-btn class="btn-vscpu" absolute style="top:80%;" rounded>
       How to play
     </v-btn>
-    <v-icon class="bb" size="300px">mdi-star-circle</v-icon>
+    <v-icon class="bb" size="300px">
+      mdi-star-circle
+    </v-icon>
   </v-container>
 </template>
 

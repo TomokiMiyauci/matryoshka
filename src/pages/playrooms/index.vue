@@ -21,8 +21,8 @@
             cols="auto"
           >
             <v-card-playroom
-              @click="goto(playroom)"
               :playroom="playroom"
+              @click="goto(playroom)"
             ></v-card-playroom>
           </v-col>
         </v-row>

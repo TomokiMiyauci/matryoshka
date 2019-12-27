@@ -58,13 +58,14 @@ export default {
 
       if (this.isSelecting) {
         switch (this.selectingPiece.type) {
-          case 'PLACE':
+          case 'PLACE': {
             console.log('select', this.selectingPiece)
 
             const newValue = { ...this.selectingPiece, ...payload }
             this.PLACE_PIECE(newValue)
             break
-          case 'MOVE':
+          }
+          case 'MOVE': {
             const { row, col, type, ...rest } = this.selectingPiece
             const news = {
               value: { ...rest },
@@ -77,6 +78,7 @@ export default {
             this.MOVE_PIECE(news)
 
             break
+          }
         }
       } else {
         const { row, col } = payload

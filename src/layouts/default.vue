@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <the-app-bar-default></the-app-bar-default>
+    <the-app-bar-default />
     <v-content>
       <nuxt />
     </v-content>

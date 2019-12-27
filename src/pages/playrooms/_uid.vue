@@ -13,6 +13,8 @@
       </v-row>
     </v-container>
 
+    <p>{{ deepLatestBoard }}</p>
+
     <v-dialog :value="victoryOrDefeat" persistent max-width="290">
       <v-card>
         <v-card-title class="headline">{{ title }}</v-card-title>
@@ -22,7 +24,7 @@
             <v-icon left>mdi-exit-to-app</v-icon>exit</v-btn
           >
           <v-spacer></v-spacer>
-          <v-btn @click="onClick" color="green darken-1"
+          <v-btn color="green darken-1" @click="onClick"
             ><v-icon left>mdi-sword-cross</v-icon>try again</v-btn
           >
         </v-card-actions>
@@ -52,7 +54,12 @@ export default {
   },
 
   computed: {
-    ...mapGetters('game', ['turnPlayer', 'holdingPieces', 'round']),
+    ...mapGetters('game', [
+      'turnPlayer',
+      'holdingPieces',
+      'round',
+      'deepLatestBoard'
+    ]),
     ...mapGetters('modal', ['isOpened']),
     ...mapGetters('player', ['isYourTurn', 'victoryOrDefeat', 'name']),
 

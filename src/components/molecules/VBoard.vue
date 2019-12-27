@@ -7,11 +7,11 @@
             <v-square
               v-for="(cols, col) in rows"
               :key="row + col"
-              :value="cols.value"
-              :isValidClass="placeable(0)"
+              :value="cols"
+              :is-valid-class="placeable(0)"
+              :is-valid-red="isValidRed(cols)"
+              :is-valid-blue="isValidBlue(cols)"
               @click="click({ row, col })"
-              :isValidRed="isValidRed(cols)"
-              :isValidBlue="isValidBlue(cols)"
             ></v-square>
           </tr>
         </tbody>

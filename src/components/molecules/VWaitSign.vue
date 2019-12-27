@@ -4,7 +4,7 @@
     <v-row justify="center">
       <v-col cols="auto">
         <v-spinner v-if="!isYourTurn"></v-spinner>
-        <v-timer @up="$emit('up')" v-else-if="isYourTurn"></v-timer>
+        <v-timer v-else-if="isYourTurn" @up="$emit('up')"></v-timer>
       </v-col>
     </v-row>
   </v-container>

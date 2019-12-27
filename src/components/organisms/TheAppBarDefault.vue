@@ -1,6 +1,6 @@
 <template>
   <v-app-bar app>
-    <v-btn @click="click" absolute bottom fab>
+    <v-btn absolute bottom fab @click="click">
       <v-icon>mdi-gamepad-round-up</v-icon>
     </v-btn>
   </v-app-bar>
