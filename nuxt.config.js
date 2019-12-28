@@ -32,7 +32,11 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/firebase', '~/plugins/composition-api'],
+  plugins: [
+    '~/plugins/firebase',
+    '~/plugins/composition-api',
+    '~/plugins/vuefire'
+  ],
   /*
    ** Nuxt.js dev-modules
    */
