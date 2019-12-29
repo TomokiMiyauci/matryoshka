@@ -9,7 +9,7 @@
             :class="{
               'td-placeable': isPlaceable(cols),
               'td-selecting': isSelecting(cols),
-              aaa: aa(cols)
+              'own-player1': ownPlayer1(cols)
             }"
             @click="onClick(cols)"
             class="td"
@@ -40,12 +40,17 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import firebase, { firestore } from '~/plugins/firebase.js'
+import firebase from '~/plugins/firebase.js'
 
 export default {
   props: {
     deepArray: {
       type: Object,
+      required: true
+    },
+
+    docRef: {
+      type: Function,
       required: true
     }
   },
@@ -55,19 +60,13 @@ export default {
     col: 3,
     selecting: undefined,
     holding: undefined,
-    holdingPieces: [
-      { id: 0, number: 0, player: 'PLAYER_1' },
-      { id: 1, number: 0, player: 'PLAYER_1' },
-      { id: 2, number: 1, player: 'PLAYER_1' },
-      { id: 3, number: 1, player: 'PLAYER_1' },
-      { id: 4, number: 2, player: 'PLAYER_1' },
-      { id: 5, number: 2, player: 'PLAYER_1' }
-    ],
+    holdingPieces: [],
     turn: 1
   }),
 
   computed: {
     ...mapGetters('playroom', ['id']),
+    ...mapGetters('player', ['name']),
 
     latestBoard() {
       const todos = this.todos
@@ -123,15 +122,34 @@ export default {
     }
   },
 
-  watch: {
-    todos(val) {
-      if (val.winner) {
-        alert()
-      }
-    }
+  created() {
+    this.initHoldingPieces(this.name)
   },
 
   methods: {
+    initHoldingPieces(playerName) {
+      if (!playerName) return
+      const holdingPieces = [
+        { id: 0, number: 0, player: playerName },
+        { id: 1, number: 0, player: playerName },
+        { id: 2, number: 1, player: playerName },
+        { id: 3, number: 1, player: playerName },
+        { id: 4, number: 2, player: playerName },
+        { id: 5, number: 2, player: playerName }
+      ]
+      this.holdingPieces = holdingPieces
+    },
+    filter(deepArray, player) {
+      if (!deepArray) return []
+      return deepArray.map((matrix) => {
+        return matrix.filter((value) => {
+          if (!('value' in value) | !value.value.length) return
+
+          return value.value.slice(-1)[0].player === player
+        })
+      })
+    },
+
     boxSelecting(value) {
       return this.selecting === value
     },
@@ -178,7 +196,7 @@ export default {
       }
     },
 
-    aa(matrix) {
+    ownPlayer1(matrix) {
       const { value } = matrix
       if (!value.length || value.slice(-1)[0].player !== 'PLAYER_1') return
       return true
@@ -291,14 +309,6 @@ export default {
       }
     },
 
-    docRef(collectionName = 'playrooms') {
-      return firestore
-        .collection(collectionName)
-        .doc(this.id)
-        .collection('games')
-        .doc('1')
-    },
-
     move(from, to, board) {
       const b = this.getMovedBoard(from, to, board)
       if (!b.length) {
@@ -381,7 +391,7 @@ export default {
     background-color: rgba(151, 150, 49, 0.3);
   }
 }
-.aaa {
+.own-player1 {
   color: red;
 }
 </style>
