@@ -1,29 +1,6 @@
 <template>
   <div>
-    <table style="margin:0 auto;">
-      <tbody>
-        <tr v-for="(rows, index) in deepLatestBoard" :key="index">
-          <td
-            v-for="cols in rows"
-            :key="cols.row + cols.col"
-            :class="{
-              'td-placeable': isPlaceable(cols),
-              'td-selecting': isSelecting(cols),
-              'own-player1': ownPlayer1(cols)
-            }"
-            @click="onClick(cols)"
-            class="td"
-          >
-            {{
-              cols.value.slice(-1)[0]
-                ? cols.value.slice(-1)[0].number
-                : undefined
-            }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
+    <v-board v-bind="boardProps"></v-board>
     <div class="container">
       <div
         v-for="i in holdingPieces"
@@ -41,8 +18,12 @@
 <script>
 import { mapGetters } from 'vuex'
 import firebase from '~/plugins/firebase.js'
+import VBoard from '~/components/molecules/VBoard.vue'
 
 export default {
+  components: {
+    VBoard
+  },
   props: {
     deepArray: {
       type: Object,
@@ -68,6 +49,16 @@ export default {
     ...mapGetters('playroom', ['id']),
     ...mapGetters('player', ['name']),
 
+    boardProps() {
+      const { isSelecting, onClick, isPlaceable, ownPlayer1 } = this
+      return {
+        board: this.deepLatestBoard,
+        isSelecting,
+        onClick,
+        isPlaceable,
+        ownPlayer1
+      }
+    },
     latestBoard() {
       const todos = this.todos
       return todos && todos.history
@@ -360,38 +351,5 @@ export default {
 .box-selecting {
   background: rgba(234, 0, 255, 0.199);
   border: 1px solid rgba(252, 210, 24, 0.897);
-}
-
-.td {
-  width: 100px;
-  height: 100px;
-  background: rgba(88, 38, 167, 0.356);
-  border-radius: 10px;
-  border: 1px solid #fff;
-  text-align: center;
-  font-size: 60px;
-}
-.td-placeable {
-  animation: placeable 0.8s infinite alternate;
-  border: 2px double #fff;
-}
-.td-placeable:hover {
-  cursor: pointer;
-  background: rgba(164, 5, 238, 0.411);
-}
-.td-selecting {
-  border-color: yellow;
-  background-color: rgba(255, 255, 255, 0.8);
-}
-@keyframes placeable {
-  0% {
-  }
-  100% {
-    box-shadow: 1px 1px 10px 5px rgba(238, 192, 67, 0.692);
-    background-color: rgba(151, 150, 49, 0.3);
-  }
-}
-.own-player1 {
-  color: red;
 }
 </style>
