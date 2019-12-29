@@ -1,21 +1,11 @@
 <template>
   <div>
-    <!-- <v-card width="600px" class="card">
-      <v-card-title primary-title>
-        Debug info
-        <v-card-text> </v-card-text>
-        <v-card-actions>
-          <v-btn @click="reset" color="warning">
-            reset
-          </v-btn>
-        </v-card-actions>
-      </v-card-title>
-    </v-card> -->
     <the-playground
-      :deep-array="todos"
+      :deep-array="latestGameOrEmpty"
       :doc-ref="docRef"
       ref="playground"
     ></the-playground>
+
     <v-dialog
       v-model="dialog"
       scrollable
@@ -24,14 +14,7 @@
       max-width="500px"
       transition="dialog-transition"
     >
-      <v-card
-        ><v-card-title>win</v-card-title>
-        <v-card-actions>
-          <v-btn>exit</v-btn>
-          <v-divider></v-divider>
-          <v-btn @click="ready" color="success">ready</v-btn>
-        </v-card-actions>
-      </v-card>
+      <the-card-match-result v-bind="cardProps"></the-card-match-result>
     </v-dialog>
   </div>
 </template>
@@ -40,12 +23,13 @@
 import { mapGetters } from 'vuex'
 import firebase, { firestore } from '~/plugins/firebase.js'
 
-import ThePlayground from '~/components/organisms/ThePlayground.vue'
 export default {
   layout: 'playroom',
 
   components: {
-    ThePlayground
+    ThePlayground: () => import('~/components/organisms/ThePlayground.vue'),
+    TheCardMatchResult: () =>
+      import('~/components/organisms/TheCardMatchResult.vue')
   },
 
   async fetch({ store }) {
@@ -62,6 +46,14 @@ export default {
     ...mapGetters('playroom', ['id']),
     ...mapGetters('game', ['game', 'generateInitValue']),
     ...mapGetters('player', ['name']),
+
+    cardProps() {
+      return {
+        title: 'Win',
+        text: 'You are winner',
+        playAgain: this.ready
+      }
+    },
 
     lastGame() {
       return this.game.slice(-1)[0]
@@ -92,7 +84,7 @@ export default {
       return this.lastGame ? this.lastGame.readyPlayers : undefined
     },
 
-    todos() {
+    latestGameOrEmpty() {
       return this.latestGame ? this.latestGame : {}
     },
 
@@ -102,7 +94,7 @@ export default {
   },
 
   watch: {
-    todos(val) {
+    latestGame(val) {
       switch (val.winner) {
         case 'DRAW': {
           this.dialog = true
@@ -145,21 +137,6 @@ export default {
   },
 
   methods: {
-    // async nextGame() {
-    //   await firestore
-    //     .collection('playrooms')
-    //     .doc(this.id)
-    //     .collection('games')
-    //     .doc((this.round + 1).toString())
-    //     .set(this.generateInitValue)
-    //     .catch((error) => {
-    //       console.error('Error adding document: ', error)
-    //     })
-
-    //   // this.dialog = false
-    //   // this.init()
-    // },
-
     async ready() {
       await firestore
         .collection('playrooms')
