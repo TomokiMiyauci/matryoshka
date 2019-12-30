@@ -5,12 +5,8 @@
         <td
           v-for="cols in rows"
           :key="cols.row + cols.col"
-          :class="{
-            'td-placeable': isPlaceable(cols),
-            'td-selecting': isSelecting(cols),
-            'own-player1': ownPlayer1(cols)
-          }"
-          @click="onClick(cols)"
+          :class="classStyle(cols)"
+          @click="$emit('click', cols)"
           class="td"
         >
           {{
@@ -20,30 +16,52 @@
       </tr>
     </tbody>
   </table>
-
-  <!-- <v-container>
-    <v-row justify="center" align-content="center">
-      <table>
-        <tbody>
-          <tr v-for="(rows, row) in squares" :key="row">
-            <v-square
-              v-for="(cols, col) in rows"
-              :key="row + col"
-              :value="cols"
-              :is-valid-class="placeable(0)"
-              :is-valid-red="isValidRed(cols)"
-              :is-valid-blue="isValidBlue(cols)"
-              @click="click({ row, col })"
-            ></v-square>
-          </tr>
-        </tbody>
-      </table>
-    </v-row>
-  </v-container> -->
 </template>
 
 <script lang="ts">
 import { createComponent } from '@vue/composition-api'
+type Props = {
+  holding: Holding
+  nextNumber: number
+}
+
+type Holding = {
+  row: number
+  col: number
+}
+
+type Board = Entry[]
+
+interface Piece {
+  id: number
+  number: number
+}
+
+interface Entry {
+  row: number
+  col: number
+  value: Piece[]
+}
+
+function placeableBoard(value: number, board: Board): Board | undefined {
+  /**
+   * プレイス可能な現在のボードを返す
+   */
+  if (!board) {
+    return undefined
+  }
+
+  return board.filter((matrix: Entry) => {
+    const latestValue = matrix.value ? matrix.value.slice(-1)[0] : undefined
+
+    if (
+      !latestValue ||
+      ('number' in latestValue && latestValue.number < value)
+    ) {
+      return matrix
+    }
+  })
+}
 
 export default createComponent({
   props: {
@@ -52,147 +70,73 @@ export default createComponent({
       require: true
     },
 
-    isPlaceable: {
-      type: Function,
+    holding: {
+      type: Object,
       require: true
     },
 
-    isSelecting: {
-      type: Function,
+    nextNumber: {
+      type: Number,
       require: true
     },
 
-    onClick: {
-      type: Function,
+    shallowBoard: {
+      type: Array,
       require: true
-    },
+    }
+  },
 
-    ownPlayer1: {
-      type: Function,
-      require: true
+  setup(props: Props) {
+    const isPlaceable = (matrix): boolean => {
+      /**
+       * プレイス可能かどうかを判定する
+       */
+      const nextNumber = props.nextNumber
+
+      if (nextNumber === undefined) {
+        return false
+      }
+
+      const placeable = placeableBoard(nextNumber, props.shallowBoard)
+      if (!placeable) return false
+      return placeable.some((a) => a.row === matrix.row && a.col === matrix.col)
+    }
+
+    const isSelecting = (matrix): boolean => {
+      /**
+       * 選択中かどうかを判定する
+       */
+      if (!props.holding) {
+        return false
+      }
+      if (
+        props.holding.row === matrix.row &&
+        props.holding.col === matrix.col
+      ) {
+        return true
+      }
+    }
+
+    const ownPlayer1 = (matrix): boolean => {
+      const { value } = matrix
+      if (!value.length || value.slice(-1)[0].player !== 'PLAYER_1')
+        return false
+      return true
+    }
+
+    const classStyle = (entry: Entry) => {
+      return {
+        'td-placeable': isPlaceable(entry),
+        'td-selecting': isSelecting(entry),
+        'own-player1': ownPlayer1(entry)
+      }
+    }
+
+    return {
+      classStyle
     }
   }
 })
-
-// 案
-// import { createComponent } from '@vue/composition-api'
-// type Props = {
-//   board: Board
-//   fn: Function
-//   c: Function
-//   cc: Function
-// }
-
-// type Board = Entry[]
-
-// interface Piece {
-//   id: number
-//   number: number
-// }
-
-// interface Entry {
-//   row: number
-//   col: number
-//   value: Piece[]
-// }
-
-// function placeableBoard(value: number, board: Board): Board | undefined {
-//   /**
-//    * プレイス可能な現在のボードを返す
-//    * @type {Array}
-//    */
-//   if (!board.length) {
-//     return undefined
-//   }
-//   return board.filter((matrix: Entry) => {
-//     const latestValue = matrix.value ? matrix.value.slice(-1)[0] : undefined
-//     if (
-//       !latestValue ||
-//       ('number' in latestValue && latestValue.number < value)
-//     ) {
-//       return matrix
-//     }
-//   })
-// }
-
-// export default createComponent({
-//   props: {
-//     board: {
-//       type: Array,
-//       require: true
-//     },
-
-//     fn: {
-//       type: Function,
-//       require: true
-//     },
-//     c: {
-//       type: Function,
-//       require: true
-//     },
-//     cc: {
-//       type: Function,
-//       require: true
-//     }
-//   },
-
-//   setup(props: Props) {
-//     const isPlaceable = (entry: Entry): boolean => {
-//       /**
-//        * プレイス可能かどうかを判定する
-//        * @type {Boolean}
-//        */
-//       const num = 1
-//       if (num === undefined) {
-//         return false
-//       }
-//       const placeableBoards = placeableBoard(1, props.board)
-//       if (placeableBoards === undefined) return false
-//       const is = placeableBoards.some(
-//         (a) => a.row === entry.row && a.col === entry.col
-//       )
-//       return is
-//     }
-
-//     return {
-//       isPlaceable
-//     }
-//   }
-// })
-
-// import VSquare from '~/components/atoms/VSquare'
-// export default {
-//   components: {
-//     VSquare
-//   },
-
-//   props: {
-//     squares: {
-//       type: Array,
-//       required: true
-//     },
-
-//     placeable: {
-//       type: Function,
-//       default: () => {}
-//     }
-//   },
-
-//   methods: {
-//     click(payload) {
-//       console.log(payload)
-//       this.$emit('click', payload)
-//     },
-
-//     isValidRed(val) {
-//       return val.player === 'PLAYER_1'
-//     },
-
-//     isValidBlue(val) {
-//       return val.player === 'PLAYER_2'
-//     }
-//   }
-// }
 </script>
 
 <style scoped>
