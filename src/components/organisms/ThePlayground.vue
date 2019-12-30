@@ -1,17 +1,12 @@
 <template>
   <div>
-    <v-board v-bind="boardProps"></v-board>
-    <div class="container">
-      <div
-        v-for="i in holdingPieces"
-        :key="i.id"
-        :class="{ 'box-selecting': boxSelecting(i) }"
-        @click="click(i)"
-        class="box"
-      >
-        {{ i.number }}
-      </div>
-    </div>
+    <v-board @click="onClick" v-bind="boardProps"></v-board>
+
+    <v-possession
+      :holding-pieces="holdingPieces"
+      @click="click"
+      :selecting="selecting"
+    ></v-possession>
   </div>
 </template>
 
@@ -19,10 +14,12 @@
 import { mapGetters } from 'vuex'
 import firebase from '~/plugins/firebase.js'
 import VBoard from '~/components/molecules/VBoard.vue'
+import VPossession from '~/components/molecules/VPossession.vue'
 
 export default {
   components: {
-    VBoard
+    VBoard,
+    VPossession
   },
   props: {
     deepArray: {
@@ -50,13 +47,12 @@ export default {
     ...mapGetters('player', ['name']),
 
     boardProps() {
-      const { isSelecting, onClick, isPlaceable, ownPlayer1 } = this
+      const { deepLatestBoard, nextNumber, holding, latestBoard } = this
       return {
-        board: this.deepLatestBoard,
-        isSelecting,
-        onClick,
-        isPlaceable,
-        ownPlayer1
+        board: deepLatestBoard,
+        nextNumber,
+        holding,
+        shallowBoard: latestBoard
       }
     },
     latestBoard() {
@@ -141,10 +137,6 @@ export default {
       })
     },
 
-    boxSelecting(value) {
-      return this.selecting === value
-    },
-
     click(value) {
       value === this.selecting
         ? (this.selecting = undefined)
@@ -153,60 +145,6 @@ export default {
 
     cloneDeep(value) {
       return JSON.parse(JSON.stringify(value))
-    },
-
-    placeableBoard(number) {
-      /**
-       * プレイス可能な現在のボードを返す
-       * @type {Array}
-       */
-      if (!this.latestBoard.length) {
-        return []
-      }
-      return this.latestBoard.filter((matrix) => {
-        const latestValue = matrix.value ? matrix.value.slice(-1)[0] : undefined
-        if (
-          !latestValue ||
-          ('number' in latestValue && latestValue.number < number)
-        ) {
-          return matrix
-        }
-      })
-    },
-
-    isSelecting(matrix) {
-      /**
-       * 選択中かどうかを判定する
-       * @type {Boolean}
-       */
-      if (!this.holding) {
-        return
-      }
-      if (this.holding.row === matrix.row && this.holding.col === matrix.col) {
-        return true
-      }
-    },
-
-    ownPlayer1(matrix) {
-      const { value } = matrix
-      if (!value.length || value.slice(-1)[0].player !== 'PLAYER_1') return
-      return true
-    },
-
-    isPlaceable(matrix) {
-      /**
-       * プレイス可能かどうかを判定する
-       * @type {Boolean}
-       */
-      const nextNumber = this.nextNumber
-
-      if (nextNumber === undefined) {
-        return
-      }
-      const is = this.placeableBoard(nextNumber).some(
-        (a) => a.row === matrix.row && a.col === matrix.col
-      )
-      return is
     },
 
     getMetrix({ row, col }, board) {
@@ -330,26 +268,4 @@ export default {
 }
 </script>
 
-<style>
-.container {
-  display: flex;
-  justify-content: center;
-}
-.box {
-  margin: 5px;
-  width: 100px;
-  height: 100px;
-  background: rgba(234, 0, 255, 0.425);
-  border-radius: 10px;
-  border: 1px solid #fff;
-  cursor: pointer;
-}
-.box:hover {
-  background: rgba(234, 0, 255, 0.199);
-}
-
-.box-selecting {
-  background: rgba(234, 0, 255, 0.199);
-  border: 1px solid rgba(252, 210, 24, 0.897);
-}
-</style>
+<style></style>
