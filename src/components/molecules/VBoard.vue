@@ -23,6 +23,7 @@ import { createComponent } from '@vue/composition-api'
 type Props = {
   holding: Holding
   nextNumber: number
+  shallowBoard: []
 }
 
 type Holding = {
@@ -35,6 +36,7 @@ type Board = Entry[]
 interface Piece {
   id: number
   number: number
+  player: string
 }
 
 interface Entry {
@@ -87,7 +89,7 @@ export default createComponent({
   },
 
   setup(props: Props) {
-    const isPlaceable = (matrix): boolean => {
+    const isPlaceable = (matrix: Entry): boolean => {
       /**
        * プレイス可能かどうかを判定する
        */
@@ -102,7 +104,7 @@ export default createComponent({
       return placeable.some((a) => a.row === matrix.row && a.col === matrix.col)
     }
 
-    const isSelecting = (matrix): boolean => {
+    const isSelecting = (matrix: Entry): boolean => {
       /**
        * 選択中かどうかを判定する
        */
@@ -115,11 +117,19 @@ export default createComponent({
       ) {
         return true
       }
+      return false
     }
 
-    const ownPlayer1 = (matrix): boolean => {
+    const ownPlayer1 = (matrix: Entry): boolean => {
       const { value } = matrix
       if (!value.length || value.slice(-1)[0].player !== 'PLAYER_1')
+        return false
+      return true
+    }
+
+    const ownPlayer2 = (matrix: Entry): boolean => {
+      const { value } = matrix
+      if (!value.length || value.slice(-1)[0].player !== 'PLAYER_2')
         return false
       return true
     }
@@ -128,7 +138,8 @@ export default createComponent({
       return {
         'td-placeable': isPlaceable(entry),
         'td-selecting': isSelecting(entry),
-        'own-player1': ownPlayer1(entry)
+        'own-player1': ownPlayer1(entry),
+        'own-player2': ownPlayer2(entry)
       }
     }
 
@@ -170,6 +181,9 @@ export default createComponent({
   }
 }
 .own-player1 {
-  color: red;
+  color: rgba(223, 37, 37, 0.8);
+}
+.own-player2 {
+  color: rgba(37, 71, 223, 0.8);
 }
 </style>

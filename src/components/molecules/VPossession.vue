@@ -39,18 +39,23 @@ export default createComponent({
   },
 
   setup(props: Props) {
-    const boxSelecting = (value) => {
+    const boxSelecting = (value: object) => {
       return props.selecting === value
     }
 
-    const isPlayer1 = () => {
+    const isPlayer1 = (): boolean => {
       return props.player === 'PLAYER_1'
     }
 
-    const bindClass = (value) => {
+    const isPlayer2 = (): boolean => {
+      return props.player === 'PLAYER_2'
+    }
+
+    const bindClass = (value: object) => {
       return {
         'box-selecting': boxSelecting(value),
-        player1: isPlayer1()
+        player1: isPlayer1(),
+        player2: isPlayer2()
       }
     }
 
@@ -71,7 +76,7 @@ export default createComponent({
   margin: 5px;
   width: 100px;
   height: 100px;
-  background: rgba(234, 0, 255, 0.425);
+  background: rgba(0, 0, 0, 0.3);
   border-radius: 10px;
   border: 1px solid #fff;
   cursor: pointer;
@@ -85,6 +90,9 @@ export default createComponent({
   border: 1px solid rgba(252, 210, 24, 0.897);
 }
 .player1 {
-  color: red;
+  color: rgba(223, 37, 37, 0.8);
+}
+.player2 {
+  color: rgba(37, 71, 223, 0.8);
 }
 </style>
