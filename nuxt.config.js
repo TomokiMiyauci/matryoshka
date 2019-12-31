@@ -1,4 +1,4 @@
-import * as path from 'path'
+// import * as path from 'path'
 import colors from 'vuetify/es5/util/colors'
 export default {
   mode: 'universal',
@@ -51,6 +51,7 @@ export default {
    ** Nuxt.js modules
    */
   modules: ['@nuxtjs/pwa'],
+  // modules: [],
 
   manifest: {
     name: 'Tic Tac Toe',
@@ -60,6 +61,7 @@ export default {
     display: 'standalone',
     start_url: '/'
   },
+
   /*
    ** dotenv options
    */
@@ -101,12 +103,12 @@ export default {
     typeCheck: {
       eslint: true
     }
-  },
-
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, '../src'),
-      '~': path.resolve(__dirname, '../src')
-    }
   }
+
+  // resolve: {
+  //   alias: {
+  //     '@': path.resolve(__dirname, '../src'),
+  //     '~': path.resolve(__dirname, '../src')
+  //   }
+  // }
 }

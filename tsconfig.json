@@ -16,16 +16,16 @@
     "baseUrl": ".",
     "paths": {
       "~/*": [
-        "src/*"
+        "./*"
       ],
       "@/*": [
-        "src/*"
+        "./*"
       ]
     },
     "types": [
       "@types/node",
       "@nuxt/types",
-      "./types"
+      "@types/jest"
     ]
   },
   "exclude": [
