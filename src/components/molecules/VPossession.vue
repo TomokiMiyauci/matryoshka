@@ -17,6 +17,7 @@ import { createComponent } from '@vue/composition-api'
 type Props = {
   holdingPieces: object[]
   selecting: object
+  player: string
 }
 
 export default createComponent({
@@ -29,6 +30,11 @@ export default createComponent({
     selecting: {
       type: Object,
       require: true
+    },
+
+    player: {
+      type: String,
+      require: true
     }
   },
 
@@ -37,8 +43,15 @@ export default createComponent({
       return props.selecting === value
     }
 
+    const isPlayer1 = () => {
+      return props.player === 'PLAYER_1'
+    }
+
     const bindClass = (value) => {
-      return { boxSelecting: boxSelecting(value) }
+      return {
+        'box-selecting': boxSelecting(value),
+        player1: isPlayer1()
+      }
     }
 
     return {
@@ -52,6 +65,7 @@ export default createComponent({
 .container {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
 }
 .box {
   margin: 5px;
@@ -61,13 +75,16 @@ export default createComponent({
   border-radius: 10px;
   border: 1px solid #fff;
   cursor: pointer;
-}
-.box:hover {
-  background: rgba(234, 0, 255, 0.199);
+  text-align: center;
+  line-height: 100px;
+  font-size: 60px;
 }
 
 .box-selecting {
-  background: rgba(234, 0, 255, 0.199);
+  background-color: rgba(255, 255, 255, 0.8);
   border: 1px solid rgba(252, 210, 24, 0.897);
+}
+.player1 {
+  color: red;
 }
 </style>

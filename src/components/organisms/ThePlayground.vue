@@ -2,11 +2,7 @@
   <div>
     <v-board @click="onClick" v-bind="boardProps"></v-board>
 
-    <v-possession
-      :holding-pieces="holdingPieces"
-      @click="click"
-      :selecting="selecting"
-    ></v-possession>
+    <v-possession v-bind="possessionProps" @click="click"></v-possession>
   </div>
 </template>
 
@@ -55,6 +51,16 @@ export default {
         shallowBoard: latestBoard
       }
     },
+
+    possessionProps() {
+      const { holdingPieces, selecting, name } = this
+      return {
+        holdingPieces,
+        selecting,
+        player: name
+      }
+    },
+
     latestBoard() {
       const todos = this.todos
       return todos && todos.history
@@ -138,6 +144,9 @@ export default {
     },
 
     click(value) {
+      if (this.holding) {
+        this.holding = undefined
+      }
       value === this.selecting
         ? (this.selecting = undefined)
         : (this.selecting = value)
@@ -206,6 +215,12 @@ export default {
         // not placeable
         if (value.length) {
           if (value.slice(-1)[0].number >= this.selecting.number) {
+            // const selectedValue = this.cloneDeep(this.selecting)
+            // this.selecting = undefined
+            // console.log(1111, selectedValue)
+
+            // this.holding = selectedValue
+
             return
           }
         }
