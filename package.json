@@ -5,10 +5,10 @@
   "author": "TomokiMiyauci",
   "private": true,
   "scripts": {
-    "dev": "nuxt -o",
-    "build": "nuxt build",
-    "start": "nuxt start",
-    "generate": "nuxt generate",
+    "dev": "nuxt-ts -o",
+    "build": "nuxt-ts build",
+    "generate": "nuxt-ts generate",
+    "start": "nuxt-ts start",
     "lint": "eslint --ext .ts,.js,.vue .",
     "test": "jest",
     "storybook": "start-storybook -p 6006",
@@ -25,6 +25,7 @@
     }
   },
   "dependencies": {
+    "@nuxt/typescript-runtime": "^0.3.5",
     "@nuxtjs/pwa": "^3.0.0-0",
     "@vue/composition-api": "^0.3.4",
     "firebase": "^7.3.0",
