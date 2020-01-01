@@ -3,9 +3,9 @@
     <the-playground
       :deep-array="latestGameOrEmpty"
       :doc-ref="docRef"
+      :is-your-turn="isYourTurn"
       ref="playground"
     ></the-playground>
-
     <v-dialog
       v-model="dialog"
       scrollable
@@ -14,7 +14,10 @@
       max-width="500px"
       transition="dialog-transition"
     >
-      <the-card-match-result v-bind="cardProps"></the-card-match-result>
+      <the-card-match-result
+        @ready="onReady"
+        v-bind="cardProps"
+      ></the-card-match-result>
     </v-dialog>
   </div>
 </template>
@@ -48,11 +51,7 @@ export default {
     ...mapGetters('player', ['name']),
 
     cardProps() {
-      return {
-        title: 'Win',
-        text: 'You are winner',
-        playAgain: this.ready
-      }
+      return this.message
     },
 
     lastGame() {
@@ -90,6 +89,30 @@ export default {
 
     round() {
       return this.game.length ? this.game.length : undefined
+    },
+
+    isYourTurn() {
+      if (!this.latestGame || !this.name) return false
+
+      return this.latestGame.nextPlayer === this.name
+    },
+
+    message() {
+      if (!this.latestGame || !this.latestGame.winner) return undefined
+      switch (this.latestGame.winner) {
+        case 'DRAW': {
+          return { title: 'Draw', text: 'It was a good match.' }
+        }
+        case this.name: {
+          return { title: 'Win!', text: 'Great! You are the winner!' }
+        }
+        case this.name === 'PLAYER_1' ? 'PLAYER_2' : 'PLAYER_1': {
+          return { title: 'Lose..', text: 'Ah... You are the loser.' }
+        }
+        default: {
+          return undefined
+        }
+      }
     }
   },
 
@@ -133,11 +156,11 @@ export default {
   },
 
   created() {
-    this.ready()
+    this.onReady()
   },
 
   methods: {
-    async ready() {
+    async onReady() {
       await firestore
         .collection('playrooms')
         .doc(this.id)
