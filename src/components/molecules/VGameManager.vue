@@ -1,14 +1,22 @@
 <template>
   <div class="container">
     <div class="turn" :class="classStyle">{{ text }}</div>
+    <v-turn-sign
+      :player="player"
+      :next-player="nextPlayer"
+      ref="autohide"
+    ></v-turn-sign>
   </div>
 </template>
 
 <script lang="ts">
-import { createComponent, computed } from '@vue/composition-api'
+import { createComponent, computed, ref, watch } from '@vue/composition-api'
+import VTurnSign from '~/components/molecules/VTurnSign.vue'
+
 type Props = {
   isYourTurn: Boolean
   player: string
+  nextPlayer: string
 }
 
 export default createComponent({
@@ -21,12 +29,21 @@ export default createComponent({
     player: {
       type: String,
       require: true
+    },
+
+    nextPlayer: {
+      type: String,
+      require: true
     }
+  },
+
+  components: {
+    VTurnSign
   },
 
   setup(props: Props) {
     const text = computed<string>(() => {
-      return props.isYourTurn ? 'Your Turn ' : 'Opponent Turn'
+      return props.isYourTurn ? 'Your Turn ' : 'Enemy Turn'
     })
 
     const classStyle = computed<object>(() => {
@@ -36,9 +53,23 @@ export default createComponent({
       }
     })
 
+    watch(
+      () => props.isYourTurn,
+      () => {
+        if (!autohide) return
+        autohide.value.show()
+      },
+      {
+        lazy: true
+      }
+    )
+
+    const autohide = ref<any>()
+
     return {
       text,
-      classStyle
+      classStyle,
+      autohide
     }
   }
 })
