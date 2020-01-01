@@ -7,15 +7,19 @@
       @click="$emit('click', holdingPiece)"
       class="box"
     >
-      {{ holdingPiece.number }}
+      <v-doll :color="color" :width="calcWidth(holdingPiece)"></v-doll>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { createComponent } from '@vue/composition-api'
+import { createComponent, computed } from '@vue/composition-api'
+import VDoll from '~/components/atoms/VDoll.vue'
+// eslint-disable-next-line no-unused-vars
+import { Piece } from '~/types/piece'
+
 type Props = {
-  holdingPieces: object[]
+  holdingPieces: Piece[]
   selecting: object
   player: string
 }
@@ -38,29 +42,49 @@ export default createComponent({
     }
   },
 
+  components: {
+    VDoll
+  },
+
   setup(props: Props) {
-    const boxSelecting = (value: object) => {
+    const boxSelecting = (value: Piece) => {
       return props.selecting === value
     }
 
-    const isPlayer1 = (): boolean => {
+    const isPlayer1 = computed<boolean>(() => {
       return props.player === 'PLAYER_1'
-    }
+    })
 
-    const isPlayer2 = (): boolean => {
+    const isPlayer2 = computed<boolean>(() => {
       return props.player === 'PLAYER_2'
+    })
+
+    const color = computed<string | undefined>(() => {
+      if (isPlayer1.value) {
+        return 'red'
+      } else if (isPlayer2.value) {
+        return 'blue'
+      }
+      return undefined
+    })
+
+    const calcWidth = (value: Piece): string => {
+      const BASE_SIZE = 33
+      return `${BASE_SIZE + value.number * BASE_SIZE}px`
     }
 
-    const bindClass = (value: object) => {
+    const bindClass = (value: Piece) => {
       return {
         'box-selecting': boxSelecting(value),
-        player1: isPlayer1(),
-        player2: isPlayer2()
+        player1: isPlayer1,
+        player2: isPlayer2
       }
     }
 
     return {
-      bindClass
+      bindClass,
+      color,
+      calcWidth
     }
   }
 })
@@ -70,6 +94,7 @@ export default createComponent({
 .container {
   display: flex;
   justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
 }
 .box {
@@ -80,9 +105,9 @@ export default createComponent({
   border-radius: 10px;
   border: 1px solid #fff;
   cursor: pointer;
-  text-align: center;
-  line-height: 100px;
-  font-size: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .box-selecting {

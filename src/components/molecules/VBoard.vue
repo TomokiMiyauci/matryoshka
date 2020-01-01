@@ -9,9 +9,7 @@
           @click="$emit('click', cols)"
           class="td"
         >
-          {{
-            cols.value.slice(-1)[0] ? cols.value.slice(-1)[0].number : undefined
-          }}
+          <v-doll :color="color(cols)" :width="calcWidth(cols)"></v-doll>
         </td>
       </tr>
     </tbody>
@@ -20,6 +18,10 @@
 
 <script lang="ts">
 import { createComponent } from '@vue/composition-api'
+import VDoll from '~/components/atoms/VDoll.vue'
+// eslint-disable-next-line no-unused-vars
+import { Piece } from '~/types/piece'
+
 type Props = {
   holding: Holding
   nextNumber: number
@@ -32,12 +34,6 @@ type Holding = {
 }
 
 type Board = Entry[]
-
-interface Piece {
-  id: number
-  number: number
-  player: string
-}
 
 interface Entry {
   row: number
@@ -88,7 +84,29 @@ export default createComponent({
     }
   },
 
+  components: {
+    VDoll
+  },
+
   setup(props: Props) {
+    const color = (element: Entry): string | undefined => {
+      if (ownPlayer1(element)) {
+        return 'red'
+      } else if (ownPlayer2(element)) {
+        return 'blue'
+      }
+      return undefined
+    }
+
+    const calcWidth = (element: Entry): string => {
+      const value = element.value.length
+        ? element.value.slice(-1)[0]
+        : undefined
+      if (value === undefined) return ''
+      const BASE_SIZE = 33
+      return `${BASE_SIZE + value.number * BASE_SIZE}px`
+    }
+
     const isPlaceable = (matrix: Entry): boolean => {
       /**
        * プレイス可能かどうかを判定する
@@ -144,7 +162,9 @@ export default createComponent({
     }
 
     return {
-      classStyle
+      classStyle,
+      color,
+      calcWidth
     }
   }
 })
@@ -158,7 +178,7 @@ export default createComponent({
   border-radius: 10px;
   border: 1px solid #fff;
   text-align: center;
-  font-size: 60px;
+  vertical-align: middle;
 }
 .td-placeable {
   animation: placeable 0.8s infinite alternate;
