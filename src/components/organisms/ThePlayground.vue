@@ -1,7 +1,11 @@
 <template>
   <div>
+    <v-game-manager
+      :is-your-turn="isYourTurn"
+      :player="name"
+      :next-player="nextPlayer"
+    ></v-game-manager>
     <v-board @click="onClick" v-bind="boardProps"></v-board>
-
     <v-possession v-bind="possessionProps" @click="click"></v-possession>
   </div>
 </template>
@@ -11,9 +15,11 @@ import { mapGetters } from 'vuex'
 import firebase from '~/plugins/firebase.js'
 import VBoard from '~/components/molecules/VBoard.vue'
 import VPossession from '~/components/molecules/VPossession.vue'
+import VGameManager from '~/components/molecules/VGameManager.vue'
 
 export default {
   components: {
+    VGameManager,
     VBoard,
     VPossession
   },
@@ -25,6 +31,11 @@ export default {
 
     docRef: {
       type: Function,
+      required: true
+    },
+
+    isYourTurn: {
+      type: Boolean,
       required: true
     }
   },
@@ -59,6 +70,11 @@ export default {
         selecting,
         player: name
       }
+    },
+
+    nextPlayer() {
+      if (!this.deepArray) return undefined
+      return this.deepArray.nextPlayer
     },
 
     latestBoard() {
@@ -144,6 +160,7 @@ export default {
     },
 
     click(value) {
+      if (!this.isYourTurn) return
       if (this.holding) {
         this.holding = undefined
       }
@@ -205,6 +222,7 @@ export default {
     },
 
     onClick(payload) {
+      if (!this.isYourTurn) return
       const { row, col, value } = payload
 
       if (!this.selecting && !this.holding && !value.length) {
@@ -249,6 +267,8 @@ export default {
         }
         this.holding = undefined
       } else {
+        if (value.slice(-1)[0].player !== this.name) return
+
         this.holding = { ...payload }
       }
     },
@@ -262,8 +282,10 @@ export default {
       this.docRef().update({
         history: firebase.firestore.FieldValue.arrayUnion({
           squares: b,
-          turn: this.turn
-        })
+          turn: this.turn,
+          player: this.name
+        }),
+        nextPlayer: this.name === 'PLAYER_1' ? 'PLAYER_2' : 'PLAYER_1'
       })
       this.turn++
     },
@@ -274,8 +296,10 @@ export default {
       this.docRef().update({
         history: firebase.firestore.FieldValue.arrayUnion({
           squares: placedBoard,
-          turn: this.turn
-        })
+          turn: this.turn,
+          player: this.name
+        }),
+        nextPlayer: this.name === 'PLAYER_1' ? 'PLAYER_2' : 'PLAYER_1'
       })
       this.turn++
     }
