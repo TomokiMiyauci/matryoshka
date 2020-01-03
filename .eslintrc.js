@@ -21,6 +21,7 @@ module.exports = {
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'off' : 'off',
     '@typescript-eslint/no-unused-vars' : 'off',
+    'no-unused-vars':'off',
     'vue/attributes-order' :'off'
   }
 }

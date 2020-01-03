@@ -1,4 +1,4 @@
-// import * as path from 'path'
+import * as path from 'path'
 import colors from 'vuetify/es5/util/colors'
 export default {
   mode: 'universal',
@@ -103,12 +103,12 @@ export default {
     typeCheck: {
       eslint: true
     }
-  }
+  },
 
-  // resolve: {
-  //   alias: {
-  //     '@': path.resolve(__dirname, '../src'),
-  //     '~': path.resolve(__dirname, '../src')
-  //   }
-  // }
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+      '~': path.resolve(__dirname, './src')
+    }
+  }
 }

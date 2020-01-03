@@ -13,21 +13,27 @@
     "sourceMap": true,
     "strict": true,
     "noEmit": true,
-    "baseUrl": ".",
+    "baseUrl": "./",                       /* Base directory to resolve non-absolute module names. */
     "paths": {
       "~/*": [
-        "./*"
+        "./src/*"
       ],
       "@/*": [
-        "./*"
+        "./src/*"
       ]
     },
     "types": [
       "@types/node",
       "@nuxt/types",
-      "@types/jest"
-    ]
+      "@types/jest",
+      "@types/lodash.random"
+    ],
+    "forceConsistentCasingInFileNames": true  /* Disallow inconsistently-cased references to the same file. */
+
   },
+  // "files": [
+  //   "shims-vue.d.ts",
+  // ],
   "exclude": [
     "node_modules",
     "functions"
