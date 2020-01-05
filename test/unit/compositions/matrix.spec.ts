@@ -1,4 +1,7 @@
-import { generateShallow, reshape } from '~/compositions/matrix'
+import { generateShallow, reshape, push } from '~/compositions/matrix'
+
+const PLAYER_1 = 'PLAYER_1' as 'PLAYER_1'
+const PLAYER_2 = 'PLAYER_2' as 'PLAYER_2'
 
 describe('generateShallow', () => {
   it('should generate shallow array and return', () => {
@@ -45,5 +48,16 @@ describe('reshape', () => {
     ]
 
     expect(actual).toEqual(exp)
+  })
+})
+
+describe('push', () => {
+  it('should ', () => {
+    const shallowArray = generateShallow(1, 1)
+    const matrix = reshape(shallowArray, 1)
+    const piece = { id: 0, value: 1, player: PLAYER_1 }
+    matrix[0][0].value.push(piece)
+
+    expect(matrix[0][0].value[0]).toEqual(piece)
   })
 })
