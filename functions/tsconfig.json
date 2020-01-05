@@ -13,12 +13,12 @@
         "../src/*"
       ],
       "@/*": [
-        "../src//*"
+        "../src/*"
       ]
     }
   },
   "compileOnSave": true,
   "include": [
-    "src"
+    "src/**/*"
   ]
 }

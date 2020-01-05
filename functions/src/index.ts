@@ -1,51 +1,8 @@
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
+import { isWin, getTerritory } from '~/compositions/game'
 import { generateShallow, reshape } from '~/compositions/matrix'
-
 admin.initializeApp()
-
-const winCombinations = [
-  [
-    [0, 0],
-    [0, 1],
-    [0, 2]
-  ],
-  [
-    [1, 0],
-    [1, 1],
-    [1, 2]
-  ],
-  [
-    [2, 0],
-    [2, 1],
-    [2, 2]
-  ],
-  [
-    [0, 0],
-    [1, 0],
-    [2, 0]
-  ],
-  [
-    [0, 1],
-    [1, 1],
-    [2, 1]
-  ],
-  [
-    [0, 2],
-    [1, 2],
-    [2, 2]
-  ],
-  [
-    [0, 0],
-    [1, 1],
-    [2, 2]
-  ],
-  [
-    [0, 2],
-    [1, 1],
-    [2, 0]
-  ]
-]
 
 export const testFunc = functions
   .region('asia-northeast1')
@@ -70,11 +27,8 @@ export const testFunc = functions
       return
 
     const deepLatestBoard = reshape(data.history.slice(-1)[0].squares, 3)
-    if (deepLatestBoard === undefined) return
-    // const win: boolean = isWin(deepLatestBoard)
-    // console.log('isWin', win)
-    const territoryOfPlayer1 = filterByPlayer(deepLatestBoard, 'PLAYER_1')
-    const territoryOfPlayer2 = filterByPlayer(deepLatestBoard, 'PLAYER_2')
+    const territoryOfPlayer1 = getTerritory(deepLatestBoard, 'PLAYER_1')
+    const territoryOfPlayer2 = getTerritory(deepLatestBoard, 'PLAYER_2')
     const isWinPlayer1 = isWin(territoryOfPlayer1)
     const isWinPlayer2 = isWin(territoryOfPlayer2)
 
@@ -99,8 +53,6 @@ export const testFunc = functions
     return null
   })
 
-type players = 'PLAYER_1' | 'PLAYER_2'
-
 async function addToSubdocument(
   collectionName: string,
   docName: string,
@@ -120,79 +72,6 @@ async function addToSubdocument(
     })
   console.log('eeeeett')
 }
-// type judgement = 'DRAW' & player
-
-function filterByPlayer(deepArray: matrix[][], player: players): matrix[][] {
-  if (!deepArray) return []
-  return deepArray.map((rowCol) => {
-    return rowCol.filter((value) => {
-      if (!('value' in value) || !value.value.length) return false
-
-      return value.value.slice(-1)[0].player === player
-    })
-  })
-}
-
-function isWin(deepArray: matrix[][]): boolean {
-  if (!deepArray) return false
-  return winCombinations.some((winCombination) => {
-    const a = winCombination.every((rowCol) => {
-      const [row, col] = rowCol
-      return Boolean(deepArray[row][col])
-    })
-
-    if (a) console.log('this is error', winCombination, 'ohh my god', deepArray)
-
-    return a
-    // const fulfill: boolean = winCombination.every((rowCol) => {
-    //   return deepArray[rowCol[0]][rowCol[1]].value.length
-    // })
-    // if (!fulfill) return false
-
-    // const [row, col] = winCombination[0]
-    // const [row1, col1] = winCombination[1]
-    // const [row2, col2] = winCombination[2]
-    // const matrix0 = deepArray[row][col].value.slice(-1)[0].player
-    // const matrix1 = deepArray[row1][col1].value.slice(-1)[0].player
-    // const matrix2 = deepArray[row2][col2].value.slice(-1)[0].player
-    // return matrix0 && matrix0 === matrix1 && matrix0 === matrix2
-  })
-}
-
-type piece = {
-  id: number
-  number: number
-  player: string
-}
-
-interface matrix {
-  row: number
-  col: number
-  value: piece[]
-}
-
-// type shallow = matrix[]
-
-// function deepen(
-//   row: number,
-//   col: number,
-//   shallowArray: shallow
-// ): matrix[][] | undefined {
-//   /**
-//    * latestBoardをDeep Arrayに変換する。
-//    * latestBoardが[]の場合はundefinedを返す
-//    * @type {Array | undefined}
-//    */
-//   const latestBoard = shallowArray
-//   if (!latestBoard.length) return undefined
-
-//   const arr = new Array(row).fill(undefined).map(() => new Array(0))
-//   latestBoard.forEach((obj) => {
-//     arr[obj.row].push(obj)
-//   })
-
-//   return arr
-// }
 
 function generateInit(rows: number, cols: number) {
   return {
