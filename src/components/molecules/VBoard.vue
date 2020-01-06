@@ -49,16 +49,16 @@ function placeableBoard(value: number, board: Board): Board | undefined {
     return undefined
   }
 
-  return board.filter((matrix: Entry) => {
-    const latestValue = matrix.value ? matrix.value.slice(-1)[0] : undefined
+  const a = board.filter((matrix: Entry) => {
+    const latestValue = matrix.value.length
+      ? matrix.value.slice(-1)[0]
+      : undefined
 
-    if (
-      !latestValue ||
-      ('number' in latestValue && latestValue.number < value)
-    ) {
-      return matrix
+    if (!latestValue || latestValue.value < value) {
+      return true
     }
   })
+  return a
 }
 
 export default createComponent({
@@ -104,7 +104,7 @@ export default createComponent({
         : undefined
       if (value === undefined) return ''
       const BASE_SIZE = 33
-      return `${BASE_SIZE + value.number * BASE_SIZE}px`
+      return `${BASE_SIZE + value.value * BASE_SIZE}px`
     }
 
     const isPlaceable = (matrix: Entry): boolean => {
@@ -119,6 +119,7 @@ export default createComponent({
 
       const placeable = placeableBoard(nextNumber, props.shallowBoard)
       if (!placeable) return false
+
       return placeable.some((a) => a.row === matrix.row && a.col === matrix.col)
     }
 
