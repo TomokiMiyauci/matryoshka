@@ -6,6 +6,7 @@ module.exports = {
     '^~/(.*)$': '<rootDir>/src/$1',
     '^vue$': 'vue/dist/vue.common.js'
   },
+  modulePathIgnorePatterns: ['<rootDir>/.firebase'],
   moduleFileExtensions: ['js', 'vue', 'ts', 'json'],
   transform: {
     '^.+\\.js$': 'babel-jest',
