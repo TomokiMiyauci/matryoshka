@@ -7,13 +7,14 @@ localVue.use(VueCompositionApi)
 
 describe('VDoll.vue', () => {
   it('should be img element ', () => {
-    const wrapper = shallowMount(VDoll)
+    const wrapper = shallowMount(VDoll, { localVue })
 
     expect(wrapper.contains('img')).toBeTruthy()
   })
 
   it('should have props interface named width', () => {
     const wrapper = shallowMount(VDoll, {
+      localVue,
       propsData: {
         width: '30px'
       }
@@ -23,6 +24,7 @@ describe('VDoll.vue', () => {
 
   it('should have attribute of width through props', () => {
     const wrapper = shallowMount(VDoll, {
+      localVue,
       propsData: {
         width: '30'
       }
@@ -33,6 +35,7 @@ describe('VDoll.vue', () => {
 
   it('should have props interface of color', () => {
     const wrapper = shallowMount(VDoll, {
+      localVue,
       propsData: {
         color: 'red'
       }
@@ -49,7 +52,6 @@ describe('VDoll.vue', () => {
       color: 'red'
     })
 
-    console.log(1111, wrapper.attributes().src)
     expect(wrapper.isVueInstance()).toBeTruthy()
 
     // const src = '~/asserts/img/doll-red.png'
@@ -65,8 +67,6 @@ describe('VDoll.vue', () => {
     wrapper.setProps({
       color: 'blue'
     })
-
-    console.log(2222, wrapper.attributes())
 
     expect(wrapper.attributes()).toBeTruthy()
   })
