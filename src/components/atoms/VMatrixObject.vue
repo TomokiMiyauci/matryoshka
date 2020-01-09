@@ -97,6 +97,7 @@ export default createComponent({
   border-radius: 50%;
   font-weight: bold;
   font-size: 20px;
+  color: white;
 }
 
 .cell:hover {
