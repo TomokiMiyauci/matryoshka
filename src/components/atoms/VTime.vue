@@ -31,8 +31,8 @@ export default createComponent({
 
     const classStyle = computed(() => {
       return {
-        'before-ten-sec': before10Sec,
-        'before-three-sec': before3Sec
+        'before-ten-sec': before10Sec.value,
+        'before-three-sec': before3Sec.value
       }
     })
 
