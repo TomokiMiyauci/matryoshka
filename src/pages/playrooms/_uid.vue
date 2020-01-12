@@ -33,24 +33,7 @@ import {
 } from '@vue/composition-api'
 import firebase, { firestore } from '~/plugins/firebase.js'
 import { Player, Game } from '~/types/piece'
-
-const useDialog = () => {
-  const dialogRef = ref(false)
-
-  const show = () => {
-    dialogRef.value = true
-  }
-
-  const hide = () => {
-    dialogRef.value = false
-  }
-
-  return {
-    dialogRef,
-    show,
-    hide
-  }
-}
+import { useDialog } from '~/compositions/dialog'
 
 export default createComponent({
   layout: 'playroom',
