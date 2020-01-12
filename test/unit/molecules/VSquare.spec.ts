@@ -5,29 +5,31 @@ import VSquare from '~/components/molecules/VSquare.vue'
 const localVue = createLocalVue()
 localVue.use(VueCompositionApi)
 
+const element = { row: 0, col: 0, value: [] }
+
 describe('VSquare.vue', () => {
-  it('should have props of piece', () => {
-    const piece = { row: 0, col: 0, value: [] }
+  it('should have props of element', () => {
+    const element = { row: 0, col: 0, value: [] }
     const wrapper = shallowMount(VSquare, {
       localVue,
       propsData: {
-        piece
+        element
       }
     })
 
-    expect(wrapper.props().piece).toEqual(piece)
+    expect(wrapper.props().element).toEqual(element)
   })
 
-  it('should recive object type through props of piece', () => {
-    const piece = { row: 0, col: 0, value: [] }
+  it('should recive object type through props of element', () => {
+    const element = { row: 0, col: 0, value: [] }
     const wrapper = shallowMount(VSquare, {
       localVue,
       propsData: {
-        piece
+        element
       }
     })
 
-    expect(typeof wrapper.props().piece).toBe('object')
+    expect(typeof wrapper.props().element).toBe('object')
   })
 
   it('should have slot at inner child', () => {
@@ -35,6 +37,9 @@ describe('VSquare.vue', () => {
       localVue,
       slots: {
         default: '<span>test</span>'
+      },
+      propsData: {
+        element
       }
     })
     const slotContent = wrapper.find('span')
@@ -45,7 +50,10 @@ describe('VSquare.vue', () => {
 
   it('should trigger emit when clicked', () => {
     const wrapper = shallowMount(VSquare, {
-      localVue
+      localVue,
+      propsData: {
+        element
+      }
     })
     wrapper.trigger('click')
 
@@ -53,21 +61,24 @@ describe('VSquare.vue', () => {
   })
 
   it('should return value when emitted', () => {
-    const piece = { row: 0, col: 0, value: [] }
+    const element = { row: 0, col: 0, value: [] }
     const wrapper = shallowMount(VSquare, {
       localVue,
       propsData: {
-        piece
+        element
       }
     })
     wrapper.trigger('click')
 
-    expect(wrapper.emitted('click')[0][0]).toEqual({ ...piece })
+    expect(wrapper.emitted('click')[0][0]).toEqual({ ...element })
   })
 
   it('should renders the correct markup', () => {
     const wrapper = shallowMount(VSquare, {
-      localVue
+      localVue,
+      propsData: {
+        element
+      }
     })
 
     expect(wrapper).toMatchSnapshot()
