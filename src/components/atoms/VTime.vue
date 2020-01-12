@@ -1,82 +1,89 @@
 <template>
-  <div
-    :class="{
-      'before-ten-sec': beforeTenSec,
-      'before-three-sec': beforeThreeSec
-    }"
-    class="time"
-  >
-    {{ time }}
+  <div :class="classStyle" class="time">
+    {{ value }}
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { createComponent, computed } from '@vue/composition-api'
+type Props = { value: string | number }
+
+const useTime = (props: Props) => {
+  const before10Sec = computed(() => props.value < 10)
+  const before3Sec = computed(() => props.value <= 3)
+
+  return {
+    before10Sec,
+    before3Sec
+  }
+}
+
+export default createComponent({
   props: {
-    time: {
+    value: {
       type: [String, Number],
       required: true
     }
   },
 
-  computed: {
-    beforeTenSec() {
-      return this.time < 10
-    },
+  setup(props: Props) {
+    const { before10Sec, before3Sec } = useTime(props)
 
-    beforeThreeSec() {
-      return this.beforeTenSec && this.time <= 3
+    const classStyle = computed(() => {
+      return {
+        'before-ten-sec': before10Sec,
+        'before-three-sec': before3Sec
+      }
+    })
+
+    return {
+      classStyle
     }
   }
-}
+})
 </script>
 
 <style scoped lang="scss">
 $warning: #e53935;
 $weak-warning: #fdd835;
+$default: turquoise;
 
 .time {
-  text-align: center;
-  font-size: 20px;
-  width: 75px;
-  height: 75px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 9vh;
+  height: 9vh;
+  min-width: 50px;
+  min-height: 50px;
   border-radius: 50%;
-  display: inline-block;
-  line-height: 55px;
-  border: solid 10px #ffffff;
-  animation-name: bold;
+  border: solid 1vh $default;
+  animation-name: beat;
   animation-duration: 1s;
   animation-iteration-count: infinite;
-}
-@keyframes bold {
-  0% {
-    font-size: 20px;
-  }
-
-  100% {
-    font-size: 30px;
-    font-weight: bold;
-  }
+  color: $default;
+  font-size: 4vh;
+  font-weight: bold;
 }
 
-@keyframes strong {
-  0% {
-    font-size: 20px;
-  }
-
-  100% {
-    font-size: 50px;
-    font-weight: bold;
+@keyframes beat {
+  50% {
+    color: blue;
+    border-color: blue;
+    opacity: 0.5;
+    transform: scale(0.8);
   }
 }
+
 .before-ten-sec {
   color: $weak-warning;
-  border: solid 10px $weak-warning;
+  border-color: $weak-warning;
+  opacity: 0.9;
 }
+
 .before-three-sec {
   color: $warning;
-  border: solid 10px $warning;
-  animation: strong 1s;
-  animation-iteration-count: infinite;
+  border-color: $warning;
+  opacity: 0.9;
 }
 </style>
