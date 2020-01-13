@@ -6,7 +6,7 @@ Play against your favorite people!
 ## How to Use
 
 1. click <https://nested-dolls.firebaseapp.com/playrooms>
-2. press **VS Online**
+2. press the cross key or *Looking for opponents* If you have an opponent
 
 ## Build Setup
 
