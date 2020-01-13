@@ -1,6 +1,12 @@
-# nested-dolls [IN-PROGRESS]
+# matryoshka [IN-PROGRESS]
 
-> My dandy Nuxt.js project
+> This project is in progress and only VS Online is available to you.  
+Play against your favorite people!
+
+## How to Use
+
+1. click <https://nested-dolls.firebaseapp.com/playrooms>
+2. press **VS Online**
 
 ## Build Setup
 
