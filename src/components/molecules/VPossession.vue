@@ -70,7 +70,7 @@ export default createComponent({
 
     const calcWidth = (value: Piece): string => {
       const BASE_SIZE = 33
-      return `${BASE_SIZE + value.number * BASE_SIZE}px`
+      return `${BASE_SIZE + value.value * BASE_SIZE}px`
     }
 
     const bindClass = (value: Piece) => {
@@ -98,9 +98,9 @@ export default createComponent({
   flex-wrap: wrap;
 }
 .box {
-  margin: 5px;
-  width: 100px;
-  height: 100px;
+  margin: 1px;
+  width: 90px;
+  height: 90px;
   background: rgba(0, 0, 0, 0.3);
   border-radius: 10px;
   border: 1px solid #fff;

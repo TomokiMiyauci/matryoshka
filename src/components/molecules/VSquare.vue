@@ -92,7 +92,7 @@ export default createComponent({
 }
 .glow:hover {
   cursor: pointer;
-  background-color: rgba(164, 5, 238, 0.411) !important;
+  background-color: rgba(164, 5, 238, 0.411);
 }
 
 .is-selecting {
@@ -105,7 +105,7 @@ export default createComponent({
   0% {
     background-repeat: no-repeat;
     background-image: linear-gradient(
-      top left,
+      to bottom right,
       rgba(255, 255, 255, 0) 0%,
       rgba(255, 255, 255, 0) 20%,
       rgba(255, 255, 255, 0.5) 48%,
