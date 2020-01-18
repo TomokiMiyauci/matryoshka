@@ -1,5 +1,5 @@
 <template>
-  <img :width="width" :src="src" />
+  <img class="default" :width="width" :src="src" />
 </template>
 
 <script lang="ts">
@@ -32,9 +32,6 @@ export default createComponent({
         case 'blue': {
           return require('~/assets/img/doll-blue.png')
         }
-        default: {
-          return undefined
-        }
       }
     })
 
@@ -45,4 +42,9 @@ export default createComponent({
 })
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.default {
+  user-select: none;
+  pointer-events: none;
+}
+</style>
