@@ -10,8 +10,8 @@ import { Element } from '~/types/game-record'
 import { Player } from '~/types/player'
 type Props = {
   element: Element
-  placeable: boolean
-  isSelecting: boolean
+  nextStrength: number
+  holding: Element
 }
 
 const useStyle = (props: Props) => {
@@ -21,12 +21,30 @@ const useStyle = (props: Props) => {
     return pieces.slice(-1)[0].owner === player
   }
 
+  const isPlaceable = computed(() => {
+    if (props.nextStrength === undefined) return
+    return (
+      !props.element.pieces.length ||
+      props.element.pieces.slice(-1)[0].strength < props.nextStrength
+    )
+  })
+
+  const isSelecting = computed(() => {
+    if (!props.holding) {
+      return false
+    }
+    return (
+      props.holding.row === props.element.row &&
+      props.holding.col === props.element.col
+    )
+  })
+
   const classStyle = computed(() => {
     return {
       'own-player1': isOwn(props.element, 'PLAYER1'),
       'own-player2': isOwn(props.element, 'PLAYER2'),
-      glow: props.placeable,
-      'is-selecting': props.isSelecting
+      glow: isPlaceable.value,
+      'is-selecting': isSelecting.value
     }
   })
 
@@ -42,13 +60,13 @@ export default createComponent({
       require: true
     },
 
-    placeable: {
-      type: Boolean,
+    nextStrength: {
+      type: Number,
       require: true
     },
 
-    isSelecting: {
-      type: Boolean,
+    holding: {
+      type: Object,
       require: true
     }
   },
