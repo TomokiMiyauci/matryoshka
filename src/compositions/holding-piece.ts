@@ -16,105 +16,59 @@ type RowCol = {
 type MoveMotion = ['MOVE', RowCol]
 type PlaceMotion = ['PLACE', undefined]
 
-// export const usePlacePiece = () => {
-//   const placePieceRef = ref<SelectingPiece>()
-
-//   const mutate = (piece: Piece) => {
-//     if (
-//       placePieceRef.value === undefined ||
-//       placePieceRef.value.piece.id === piece.id
-//     ) {
-//       placePieceRef.value = { pieceMotion: ['PLACE', undefined], piece }
-//     } else {
-//       clear()
-//     }
-//   }
-
-//   const clear = () => {
-//     placePieceRef.value = undefined
-//   }
-
-//   return { placePieceRef, mutate, clear }
-// }
-
-// export const useMovePiece = () => {
-//   const movePieceRef = ref<SelectingPiece>()
-
-//   const mutate = (element: Element) => {
-//     const { row, col, pieces } = element
-//     const piece = pieces.slice(-1)[0]
-
-//     if (
-//       movePieceRef.value === undefined ||
-//       (movePieceRef.value.pieceMotion[0] === 'MOVE' &&
-//         movePieceRef.value.pieceMotion[1].row === row &&
-//         movePieceRef.value.pieceMotion[1].col === col)
-//     ) {
-//       movePieceRef.value = {
-//         pieceMotion: ['MOVE', { row, col }],
-//         piece
-//       }
-//     } else {
-//       clear()
-//     }
-//   }
-
-//   const clear = () => {
-//     movePieceRef.value = undefined
-//   }
-
-//   return {
-//     movePieceRef,
-//     mutate,
-//     clear
-//   }
-// }
-
 export const useSelectingPiece = () => {
   const selectingPieceRef = ref<SelectingPiece>()
 
   const mutateMove = (element: Element) => {
     const { row, col, pieces } = element
     const piece = pieces.slice(-1)[0]
+    console.log(piece)
+
+    if (selectingPieceRef.value === undefined && !pieces.length) return
 
     if (selectingPieceRef.value === undefined) {
       selectingPieceRef.value = {
         pieceMotion: ['MOVE', { row, col }],
         piece
       }
-    } else if (
-      selectingPieceRef.value.pieceMotion[0] === 'PLACE' &&
-      selectingPieceRef.value.piece.strength > piece.strength
-    ) {
-      const copy = cloneDeep(selectingPieceRef.value.piece)
-      clear()
-      return ['PLACED' as 'PLACED', copy]
-    } else if (
-      selectingPieceRef.value.pieceMotion[0] === 'MOVE' &&
-      selectingPieceRef.value.piece.strength > piece.strength
-    ) {
-      const copy = cloneDeep(selectingPieceRef.value.piece)
-      clear()
-      return ['MOVED' as 'MOVED', copy]
+    } else {
+      switch (selectingPieceRef.value.pieceMotion[0]) {
+        case 'PLACE': {
+          if (
+            !pieces.length ||
+            selectingPieceRef.value.piece.strength > piece.strength
+          ) {
+            const copy = cloneDeep(selectingPieceRef.value.piece)
+            clear()
+            return ['PLACED', copy] as ['PLACED', Piece]
+          }
+          break
+        }
+        case 'MOVE': {
+          if (
+            !pieces.length ||
+            selectingPieceRef.value.piece.strength > piece.strength
+          ) {
+            const rowCol = cloneDeep(selectingPieceRef.value.pieceMotion[1])
+            const copyPiece = cloneDeep(selectingPieceRef.value.piece)
+            clear()
+            return ['MOVED', copyPiece, rowCol] as ['MOVED', Piece, RowCol]
+          } else if (selectingPieceRef.value.piece.id === piece.id) {
+            clear()
+          }
+          break
+        }
+      }
     }
-    // if (
-    //   selectingPieceRef.value === undefined ||
-    //   (selectingPieceRef.value.pieceMotion[0] === 'MOVE' &&
-    //     selectingPieceRef.value.pieceMotion[1].row === row &&
-    //     selectingPieceRef.value.pieceMotion[1].col === col)
-    // ) {
-    //   selectingPieceRef.value = {
-    //     pieceMotion: ['MOVE', { row, col }],
-    //     piece
-    //   }
-    // } else {
-    //   clear()
-    // }
   }
 
   const mutatePlace = (piece: Piece) => {
     const { id } = piece
     if (selectingPieceRef.value === undefined) {
+      selectingPieceRef.value = {
+        piece,
+        pieceMotion: ['PLACE', undefined]
+      }
     } else if (
       selectingPieceRef.value.pieceMotion[0] === 'PLACE' &&
       selectingPieceRef.value.piece.id === id
@@ -132,10 +86,15 @@ export const useSelectingPiece = () => {
     selectingPieceRef.value = undefined
   }
 
+  const nextStrength = computed(() => {
+    return selectingPieceRef.value?.piece.strength
+  })
+
   return {
     selectingPieceRef,
     mutateMove,
-    mutatePlace
+    mutatePlace,
+    nextValue: nextStrength
   }
 }
 
@@ -153,14 +112,16 @@ export const useHoldingPieces = (player: Player) => {
     return player === 'PLAYER1' ? 'player1Hands' : 'player2Hands'
   })
 
+  const opponentHands = computed(() => {
+    return player === 'PLAYER1' ? 'player2Hands' : 'player1Hands'
+  })
+
   const holdingPieces = computed(() => {
     if (!gameRecordsRef.value.length) return []
     return gameRecordsRef.value[0][playerHands.value]
   })
 
   const getPoppedPieces = (piece: Piece) => {
-    if (gameRecordsRef.value.length) return
-
     return holdingPieces.value.filter((holdingPiece) => {
       return !(
         piece.id === holdingPiece.id && piece.owner === holdingPiece.owner
@@ -168,11 +129,23 @@ export const useHoldingPieces = (player: Player) => {
     })
   }
 
+  const getOpponentHands = () => {
+    return gameRecordsRef.value[0][opponentHands.value]
+  }
+
+  const getPlayerHands = (player: Player) => {
+    return gameRecordsRef.value[0][
+      player === 'PLAYER1' ? 'player1Hands' : 'player2Hands'
+    ]
+  }
+
   return {
     gameRecordsRef,
     setGameRecordsOfHoldingPieces,
     holdingPieces,
     generatePieces,
-    getPoppedPieces
+    getPoppedPieces,
+    getOpponentHands,
+    getPlayerHands
   }
 }
