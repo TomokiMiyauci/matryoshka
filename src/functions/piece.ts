@@ -1,12 +1,12 @@
 import { Player } from '~/types/player'
 import { Piece } from '~/types/game-record'
 
-export function generatePieces(
+export const generatePieces = (
   row: number,
   col: number,
   inRow: number,
   player: Player
-): Piece[] {
+): Piece[] => {
   const { quantity, lines } = pieceSet(row, col, inRow)
   const news = new Array(quantity).fill(undefined).map(() => ({}))
   let counter = 0
@@ -27,15 +27,21 @@ export function generatePieces(
   })
 }
 
-export function pieceSet(row: number, col: number, inRow: number) {
+export const pieceSet = (row: number, col: number, inRow: number) => {
   return {
     quantity: row + col,
     lines: inRow--
   }
 }
 
-// export function getPieceIndex(piece: Piece, holdingPieces: Piece[]): number {
-//   return holdingPieces.findIndex((holdingPiece) => {
-//     return holdingPiece.id === piece.id && holdingPiece.owner === piece.owner
-//   })
+export const isExistsPiece = (pieces: Piece[]): boolean => {
+  return !!pieces.length
+}
+
+export const getTopPiece = (pieces: Piece[]): Piece => {
+  return pieces.slice(-1)[0]
+}
+
+// export const isTopPiece = (piece: Piece, player: Player): boolean => {
+//   return piece.owner === player
 // }
