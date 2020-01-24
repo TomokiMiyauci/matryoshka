@@ -16,21 +16,22 @@ describe('VDoll.vue', () => {
     const wrapper = shallowMount(VDoll, {
       localVue,
       propsData: {
-        width: '30px'
+        size: '30px'
       }
     })
-    expect(wrapper.props().width).toBe('30px')
+    expect(wrapper.props().size).toBe('30px')
   })
 
-  it('should have attribute of width through props', () => {
+  it('should have attribute of width and height through props', () => {
     const wrapper = shallowMount(VDoll, {
       localVue,
       propsData: {
-        width: '30'
+        size: '30'
       }
     })
 
     expect(wrapper.attributes().width).toBe('30')
+    expect(wrapper.attributes().height).toBe('30')
   })
 
   it('should have props interface of color', () => {
@@ -53,10 +54,6 @@ describe('VDoll.vue', () => {
     })
 
     expect(wrapper.isVueInstance()).toBeTruthy()
-
-    // const src = '~/asserts/img/doll-red.png'
-
-    // expect(wrapper.attributes().src).toBeTruthy()
   })
 
   it('should display image if give props of color is red or blue', () => {

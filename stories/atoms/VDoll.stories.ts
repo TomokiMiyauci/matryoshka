@@ -9,12 +9,13 @@ export const def = () => ({
   template: '<v-doll color="red"></v-doll>'
 })
 
-export const width = () => ({
+export const size = () => ({
   components: { VDoll },
   template: `<div>
-  <v-doll width="30px" color="red"></v-doll>
-  <v-doll width="60px" color="red"></v-doll>
-  <v-doll width="90px" color="red"></v-doll>
+  <v-doll size="30px" color="red"></v-doll>
+  <v-doll size="60px" color="red"></v-doll>
+  <v-doll size="90px" color="red"></v-doll>
+  <div  style="background:grey;width:200px;height:200px;display:flex;justify-content:center;align-items:center;"><v-doll size="50%" color="red"></v-doll></div>
   </div>`
 })
 

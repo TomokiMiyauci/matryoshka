@@ -1,18 +1,18 @@
 <template>
-  <img class="default" :width="width" :src="src" />
+  <img class="default" alt="doll" :width="size" :height="size" :src="src" />
 </template>
 
 <script lang="ts">
 import { createComponent, computed } from '@vue/composition-api'
 type Color = 'red' | 'blue'
 type Props = {
-  width: number | string
+  size: number | string
   color: Color
 }
 
 export default createComponent({
   props: {
-    width: {
+    size: {
       type: [Number, String],
       require: true
     },
