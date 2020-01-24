@@ -42,6 +42,6 @@ export const getTopPiece = (pieces: Piece[]): Piece => {
   return pieces.slice(-1)[0]
 }
 
-// export const isTopPiece = (piece: Piece, player: Player): boolean => {
-//   return piece.owner === player
-// }
+export const isPlayerPiece = (piece: Piece, player: Player): boolean => {
+  return piece.owner === player
+}
