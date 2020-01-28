@@ -81,9 +81,9 @@ export default createComponent({
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 10vh;
-  height: 10vh;
-  margin: 0.5%;
+  width: 14vh;
+  height: 14vh;
+  margin: 0.3%;
   border: 0.1vh solid rgba(128, 128, 128, 0.5);
   border-radius: 8%;
 }
