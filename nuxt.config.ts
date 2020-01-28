@@ -1,6 +1,9 @@
 import * as path from 'path'
-import colors from 'vuetify/es5/util/colors'
-export default {
+import { Configuration } from '@nuxt/types'
+
+const colors = require('vuetify/es5/util/colors').default
+
+const config: Configuration = {
   mode: 'universal',
 
   srcDir: 'src',
@@ -46,6 +49,7 @@ export default {
     '@nuxtjs/eslint-module',
     '@nuxtjs/vuetify',
     '@nuxtjs/dotenv'
+    // '@nuxtjs/stylelint-module'
   ],
   /*
    ** Nuxt.js modules
@@ -112,3 +116,5 @@ export default {
     }
   }
 }
+
+export default config
