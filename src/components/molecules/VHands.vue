@@ -1,10 +1,12 @@
 <template>
-  <div>
+  <div :class="{ 'mb-2': !isYourHands, 'mt-2': isYourHands }">
     <div v-show="!isYourHands" class="text-center">{{ hands }}</div>
-    <div :style="{ backgroundColor: backgroundColor }" class="hands">
+    <div class="hands">
       <v-box
+        @click="$emit('click', piece)"
         :is-shining="isSelecting(piece)"
         v-for="piece in holdingPieces"
+        :color="isYourHands ? undefined : { r: 100, g: 100, b: 128, a: 1 }"
         :key="piece.id"
       >
         <v-doll v-bind="dollProps(piece)"></v-doll>
@@ -25,7 +27,6 @@ type Props = {
   holdingPieces: Piece[]
   selectingPiece: Piece
   isYourHands: boolean
-  backgroundColor: string
 }
 
 const useDoll = () => {
@@ -59,11 +60,6 @@ export default createComponent({
     isYourHands: {
       type: Boolean,
       default: true
-    },
-
-    backgroundColor: {
-      type: String,
-      default: 'rgba(128, 128, 128, 0.5)'
     }
   },
 
@@ -76,7 +72,7 @@ export default createComponent({
 
     const isSelecting = (piece: Piece) => {
       return (
-        !!props.selectingPiece &&
+        props.selectingPiece &&
         'id' in props.selectingPiece &&
         piece.id === props.selectingPiece.id
       )
