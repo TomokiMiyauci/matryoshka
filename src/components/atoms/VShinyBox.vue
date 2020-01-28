@@ -1,11 +1,11 @@
 <template>
   <div
-    class="default"
+    class="shiny-box"
     :style="style"
     :class="classStyle"
     @click="$emit('click')"
   >
-    <slot />
+    <slot></slot>
   </div>
 </template>
 
@@ -24,21 +24,21 @@ type Color = {
   a: number
 }
 
-const useStyle = (isShining: boolean, color: Color, shineColor: Color) => {
+const useStyle = (props: Props) => {
   const classStyle = computed(() => {
     return {
-      isShining
+      isShining: props.isShining
     }
   })
 
   const style = computed(() => {
     const transparencyWeight = 0.7
-    const { r, g, b, a } = color
+    const { r, g, b, a } = props.color
     const baseRGBA = `rgba(${r},${g},${b},${a})`
-    const shineRGBA = shineColor
-      ? `rgba(${shineColor.r},${shineColor.g},${shineColor.b},${shineColor.a})`
+    const shineRGBA = props.shineColor
+      ? `rgba(${props.shineColor.r},${props.shineColor.g},${props.shineColor.b},${props.shineColor.a})`
       : `rgba(${r},${g},${b},${a * transparencyWeight})`
-    const backgroundColor = isShining ? shineRGBA : baseRGBA
+    const backgroundColor = props.isShining ? shineRGBA : baseRGBA
     return { 'background-color': backgroundColor }
   })
 
@@ -57,7 +57,7 @@ export default createComponent({
 
     color: {
       type: Object,
-      default: () => ({ r: 1, b: 120, g: 4, a: 0.8 })
+      default: () => ({ r: 30, g: 220, b: 190, a: 1.0 })
     },
 
     shineColor: {
@@ -66,11 +66,7 @@ export default createComponent({
   },
 
   setup(props: Props) {
-    const { classStyle, style } = useStyle(
-      props.isShining,
-      props.color,
-      props.shineColor
-    )
+    const { classStyle, style } = useStyle(props)
 
     return {
       classStyle,
@@ -81,17 +77,19 @@ export default createComponent({
 </script>
 
 <style lang="scss" scoped>
-.default {
+.shiny-box {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 100%;
-  border: 1% solid grey;
+  width: 10vh;
+  height: 10vh;
+  margin: 0.5%;
+  border: 0.1vh solid rgba(128, 128, 128, 0.5);
   border-radius: 8%;
 }
 
 .isShining {
+  border: 0.1vh solid white;
   cursor: pointer;
   animation: Shine 3s infinite cubic-bezier(0.12, 0.89, 0.98, 0.47);
 }
