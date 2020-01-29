@@ -2,7 +2,7 @@ import { ref, computed } from '@vue/composition-api'
 import cloneDeep from 'lodash/cloneDeep'
 import { Player } from '~/types/player'
 import { Piece, Element, GameRecord } from '~/types/game-record'
-import { generatePieces } from '~/functions/pieces'
+import { generatePieces } from '~/functions/piece'
 export type SelectingPiece = {
   pieceMotion: MoveMotion | PlaceMotion
   piece: Piece
@@ -22,7 +22,6 @@ export const useSelectingPiece = () => {
   const mutateMove = (element: Element) => {
     const { row, col, pieces } = element
     const piece = pieces.slice(-1)[0]
-    console.log(piece)
 
     if (selectingPieceRef.value === undefined && !pieces.length) return
 
@@ -108,17 +107,23 @@ export const useHoldingPieces = (player: Player) => {
   // const init = (row: number, col: number, inRow: number, player: Player) => {
   //   holdingPiecesRef.value = generatePieces(row, col, inRow, player)
   // }
-  const playerHands = computed(() => {
+  const playerHandsName = computed(() => {
     return player === 'PLAYER1' ? 'player1Hands' : 'player2Hands'
   })
 
-  const opponentHands = computed(() => {
+  const enemyHandsName = computed(() => {
     return player === 'PLAYER1' ? 'player2Hands' : 'player1Hands'
   })
 
   const holdingPieces = computed(() => {
     if (!gameRecordsRef.value.length) return []
-    return gameRecordsRef.value[0][playerHands.value]
+    return gameRecordsRef.value[0][playerHandsName.value]
+  })
+
+  const enemyHands = computed(() => {
+    if (!gameRecordsRef.value.length) return []
+
+    return gameRecordsRef.value[0][enemyHandsName.value]
   })
 
   const getPoppedPieces = (piece: Piece) => {
@@ -130,7 +135,7 @@ export const useHoldingPieces = (player: Player) => {
   }
 
   const getOpponentHands = () => {
-    return gameRecordsRef.value[0][opponentHands.value]
+    return gameRecordsRef.value[0][enemyHandsName.value]
   }
 
   const getPlayerHands = (player: Player) => {
@@ -142,6 +147,7 @@ export const useHoldingPieces = (player: Player) => {
   return {
     gameRecordsRef,
     setGameRecordsOfHoldingPieces,
+    enemyHands,
     holdingPieces,
     generatePieces,
     getPoppedPieces,
