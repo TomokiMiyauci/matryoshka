@@ -1,5 +1,8 @@
 <template>
-  <div :class="{ 'mb-2': !isYourHands, 'mt-2': isYourHands }">
+  <div
+    v-show="holdingPieces.length"
+    :class="{ 'mb-2': !isYourHands, 'mt-2': isYourHands }"
+  >
     <div v-show="!isYourHands" class="text-center">{{ hands }}</div>
     <div class="hands">
       <v-box
