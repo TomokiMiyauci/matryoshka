@@ -75,6 +75,7 @@
     "stylelint-prettier": "^1.1.2",
     "ts-jest": "^24.2.0",
     "ts-loader": "^6.2.1",
-    "vue-jest": "^4.0.0-0"
+    "vue-jest": "^4.0.0-0",
+    "vuex-module-decorators": "^0.11.0"
   }
 }
