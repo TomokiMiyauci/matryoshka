@@ -13,6 +13,10 @@ export const useFirestorePlayroom = (playroomId?: string) => {
     return playroomCollectionReference.value.doc(playroomIdRef.value)
   })
 
+  const setPlayroomId = (playroomId: string) => {
+    playroomIdRef.value = playroomId
+  }
+
   const createPlayroom = async (data: Playroom) => {
     const documentData = await playroomCollectionReference.value.add({
       ...data,
@@ -29,6 +33,7 @@ export const useFirestorePlayroom = (playroomId?: string) => {
 
   return {
     playroomIdRef,
+    setPlayroomId,
     playroomCollectionReference,
     playroomDocumentReference,
     createPlayroom,
