@@ -1,12 +1,7 @@
 import { computed, ref } from '@vue/composition-api'
 import cloneDeep from 'lodash/cloneDeep'
-import { Element, Piece, GameRecord } from '~/types/game-record'
-import { reshape } from '~/functions/matrix'
-
-type RowCol = {
-  row: number
-  col: number
-}
+import { Element, Piece, GameRecord, RowCol } from '~/types/game-record'
+import { reshape, generateShallow } from '~/functions/matrix'
 
 export const useBoard = (row: number) => {
   const gameRecordsRef = ref<GameRecord[] | []>([])
@@ -40,6 +35,7 @@ export const useBoard = (row: number) => {
   }
 
   return {
+    generateShallowBoard: generateShallow,
     setGameRecordsOfBoard,
     boardRef,
     matrixRef,
