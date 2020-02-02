@@ -34,14 +34,17 @@ export const pieceSet = (row: number, col: number, inRow: number) => {
   }
 }
 
-export const isExistsPiece = (pieces: Piece[]): boolean => {
+export const isExistsPiece = (pieces: Readonly<Piece[]>): boolean => {
   return !!pieces.length
 }
 
-export const getTopPiece = (pieces: Piece[]): Piece => {
+export const getTopPiece = (pieces: Readonly<Piece[]>): Piece => {
   return pieces.slice(-1)[0]
 }
 
-export const isPlayerPiece = (piece: Piece, player: Player): boolean => {
+export const isPlayerPiece = (
+  piece: Readonly<Piece>,
+  player: Player
+): boolean => {
   return piece.owner === player
 }
