@@ -12,7 +12,10 @@ export const generateShallow = (rows: number, cols: number): Element[] => {
   return shallowMatrix
 }
 
-export const reshape = (array: Element[], part: number): Element[][] => {
+export const reshape = (
+  array: Readonly<Element[]>,
+  part: number
+): Element[][] => {
   const tmp = []
   for (let i = 0; i < array.length; i += part) {
     tmp.push(array.slice(i, i + part))
@@ -24,9 +27,9 @@ export const getTerritory = ({
   matrix,
   player
 }: {
-  matrix: Element[][]
+  matrix: Readonly<Element[][]>
   player: Player
-}): object[][] => {
+}): (Element | {})[][] => {
   return matrix.map((rows) => {
     return rows.map((element) => {
       if (!isExistsPiece(element.pieces)) return {}
