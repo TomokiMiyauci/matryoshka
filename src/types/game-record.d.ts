@@ -1,19 +1,22 @@
 import { Player } from '~/types/player'
 
-type GameRecord = {
+export type GameRecord = {
   board: Element[]
   player1Hands: Piece[]
   player2Hands: Piece[]
 }
 
 export type Element = {
-  row: number
-  col: number
   pieces: Piece[]
-}
+} & RowCol
 
-type Piece = {
+export type Piece = {
   id: number
   strength: number
   owner: Player
+}
+
+export type RowCol = {
+  row: number
+  col: number
 }
