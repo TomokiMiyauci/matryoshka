@@ -82,7 +82,7 @@ export default {
         You can also edit those components and see changes right away.
         <br />
         (Try editing the <code :style="code">Button</code> component
-        located at <code :style="code">src/stories/Button.js</code>.)
+        located at <code :style="code">src/stories/Button.ts</code>.)
       </p>
       <p>
         This is just one thing you can do with Storybook.
@@ -105,7 +105,7 @@ export default {
         <br />
         Have a look at the
         <br />
-        <code :style="code">.storybook/webpack.config.js</code>
+        <code :style="code">.storybook/webpack.config.ts</code>
         <br />
         to add webpack
         loaders and plugins you are using in this project.
@@ -114,9 +114,8 @@ export default {
   `,
 
   methods: {
-    onClick(event) {
+    onClick(event: any) {
       event.preventDefault()
-      this.showApp()
     }
   }
 }
