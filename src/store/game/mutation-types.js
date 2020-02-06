@@ -1,8 +1,0 @@
-export const ADD_WINNER = 'ADD_WINNER'
-export const PASS_THE_TURN = 'PASS_THE_TURN'
-export const ADVANCE_TURN = 'ADVANCE_TURN'
-export const REGISTER_AS_PLAYER = 'REGISTER_AS_PLAYER'
-export const RESTART = 'RESTART'
-export const ASSESS_STATUS = 'ASSESS_STATUS'
-export const END_OF_GAME = 'END_OF_GAME'
-export const TIME_UP = 'TIME_UP'
