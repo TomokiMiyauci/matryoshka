@@ -1,5 +1,5 @@
 <template>
-  <v-autohide style="position: relative;" :delay="500" ref="autohide">
+  <v-autohide ref="autohide" style="position: relative;" :delay="500">
     <v-icon
       color="grey darken-1"
       :class="classStyle"

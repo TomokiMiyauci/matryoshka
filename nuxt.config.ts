@@ -48,8 +48,8 @@ const config: Configuration = {
     '@nuxt/typescript-build',
     '@nuxtjs/eslint-module',
     '@nuxtjs/vuetify',
-    '@nuxtjs/dotenv'
-    // '@nuxtjs/stylelint-module'
+    '@nuxtjs/dotenv',
+    '@nuxtjs/stylelint-module'
   ],
   /*
    ** Nuxt.js modules
@@ -100,7 +100,7 @@ const config: Configuration = {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {}
+    // extend(config, ctx) {}
   },
 
   typescript: {

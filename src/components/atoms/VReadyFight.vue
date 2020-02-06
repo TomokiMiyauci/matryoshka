@@ -1,5 +1,5 @@
 <template>
-  <div class="ready" :class="{ fight: isReady }" ref="div">
+  <div ref="div" class="ready" :class="{ fight: isReady }">
     {{ message }}
   </div>
 </template>

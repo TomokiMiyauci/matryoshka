@@ -38,11 +38,11 @@
             :key="playroom.id"
             cols="auto"
           >
-            <v-card @click="goto(playroom)" width="140px" height="140px">
+            <v-card width="140px" height="140px" @click="goto(playroom)">
               <v-avatar-with-name name="aaa"></v-avatar-with-name>
               <v-avatar-with-name
                 name="aaa"
-                style="position:absolute;right:0;bottom:0;"
+                style="position: absolute; right: 0; bottom: 0;"
                 reverse
               ></v-avatar-with-name>
 
@@ -57,12 +57,12 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import {
-  PLAYER_2,
-  ASSIGN,
-  ENTER_ROOM,
-  CREATE_ROOM
-} from '~/store/player/mutation-types'
+// import {
+//   PLAYER_2,
+//   ASSIGN,
+//   ENTER_ROOM,
+//   CREATE_ROOM
+// } from '~/store/player/mutation-types'
 import VAvatarWithName from '~/components/molecules/VAvatarWithName'
 
 export default {
@@ -95,17 +95,16 @@ export default {
   },
 
   methods: {
-    ...mapActions('player', [ASSIGN, ENTER_ROOM, CREATE_ROOM]),
+    // ...mapActions('player', [ASSIGN, ENTER_ROOM, CREATE_ROOM]),
     ...mapActions('playroom', ['SUBSCRIBE']),
     ...mapActions('game', ['bindGameRef']),
 
     async goto(payload) {
       await this.ENTER_ROOM(payload.id)
-      await this.ASSIGN(PLAYER_2)
+      // await this.ASSIGN(PLAYER_2)
+      await this.$store.dispatch('game/bindGameRef')
       await this.$router.push(`/playrooms/${payload.id}`)
     }
   }
 }
 </script>
-
-<style></style>

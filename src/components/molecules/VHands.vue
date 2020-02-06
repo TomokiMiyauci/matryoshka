@@ -6,11 +6,11 @@
     <div v-show="!isYourHands" class="text-center">{{ hands }}</div>
     <div class="hands">
       <v-box
-        @click="$emit('click', piece)"
-        :is-shining="isSelecting(piece)"
         v-for="piece in holdingPieces"
-        :color="isYourHands ? undefined : { r: 100, g: 100, b: 128, a: 1 }"
         :key="piece.id"
+        :is-shining="isSelecting(piece)"
+        :color="isYourHands ? undefined : { r: 100, g: 100, b: 128, a: 1 }"
+        @click="$emit('click', piece)"
       >
         <v-doll v-bind="dollProps(piece)"></v-doll>
       </v-box>
@@ -22,8 +22,7 @@
 <script lang="ts">
 import { createComponent, computed } from '@vue/composition-api'
 import VBox from '~/components/atoms/VShinyBox.vue'
-import { Piece, Element } from '~/types/game-record'
-import { Player } from '~/types/player'
+import { Piece } from '~/types/game-record'
 import VDoll from '~/components/atoms/VDoll.vue'
 
 type Props = {

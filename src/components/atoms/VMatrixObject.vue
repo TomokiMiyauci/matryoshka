@@ -6,7 +6,7 @@
       class="cell"
       :style="`background-color:${cell.color}`"
     >
-      <div style="position: absolute;display:inline-block;">
+      <div style="position: absolute; display: inline-block;">
         {{ cell.text }}
       </div>
     </div>
@@ -85,82 +85,93 @@ export default createComponent({
   width: 312px;
   margin-top: 10px;
 }
+
 .cell {
   display: flex;
-  justify-content: space-around;
   align-items: center;
+  justify-content: space-around;
   width: 25px;
   height: 25px;
-  border: 1px solid #aaa;
   margin-right: -1px;
   margin-bottom: -1px;
-  border-radius: 50%;
+  color: white;
   font-weight: bold;
   font-size: 20px;
-  color: white;
+  border: 1px solid #aaa;
+  border-radius: 50%;
 }
 
 .cell:hover {
+  position: relative;
   color: black;
   transition: all 1s;
   animation: buruburu 0.1s infinite;
-  position: relative;
 }
+
 @keyframes buruburu {
-  0% {
-  }
   50% {
     transform: translate(-1px, -1px);
   }
+
   100% {
     transform: translate(1px, 1px);
   }
 }
+
 .cell-move {
   transition: all 1s;
 }
+
 .cell::before {
-  content: '';
   display: inline-block;
   width: 20px;
   height: 20px;
-  border-radius: 50%;
   background-color: #fff;
+  border-radius: 50%;
   opacity: 0;
-  animation: reflect 3s ease-in-out 0.1s infinite;
   -webkit-animation: reflect 3s ease-in-out infinite;
+  animation: reflect 3s ease-in-out 0.1s infinite;
+  content: '';
 }
+
 @keyframes reflect {
   0% {
     transform: scale(0);
     opacity: 0;
   }
+
   80% {
     transform: scale(0);
     opacity: 0.5;
   }
+
   81% {
     transform: scale(1);
     opacity: 1;
   }
+
   100% {
     transform: scale(2);
     opacity: 0;
   }
 }
+
 @-webkit-keyframes reflect {
   0% {
     transform: scale(0);
     opacity: 0;
   }
+
   80% {
     transform: scale(0);
     opacity: 0.5;
   }
+
   81% {
     transform: scale(1);
     opacity: 1;
   }
+
   100% {
     transform: scale(1);
     opacity: 0;
