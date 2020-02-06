@@ -91,8 +91,8 @@ export default createComponent({
 }
 
 .turn-sign {
-  border: 1px solid rgba(87, 85, 85, 0.822);
   padding: 20px;
+  border: 1px solid rgba(87, 85, 85, 0.822);
   border-radius: 20%;
 }
 
@@ -110,9 +110,9 @@ export default createComponent({
 
 .turn-text {
   display: inline-block;
+  font-weight: bold;
   font-size: 45px;
   white-space: nowrap;
-  font-weight: bold;
   -webkit-text-stroke: 1px rgba(87, 85, 85, 0.822);
 }
 </style>

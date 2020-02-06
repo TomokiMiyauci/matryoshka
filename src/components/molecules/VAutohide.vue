@@ -55,9 +55,11 @@ export default createComponent({
 .v-leave {
   opacity: 1;
 }
+
 .v-leave-active {
   transition: opacity 1s;
 }
+
 .v-leave-to {
   opacity: 0;
 }
