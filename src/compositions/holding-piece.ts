@@ -1,16 +1,11 @@
-import { ref, computed } from '@vue/composition-api'
+import { ref, Ref, computed } from '@vue/composition-api'
 import cloneDeep from 'lodash/cloneDeep'
 import { Player } from '~/types/player'
-import { Piece, Element, GameRecord } from '~/types/game-record'
+import { Piece, Element, GameRecord, RowCol } from '~/types/game-record'
 import { generatePieces } from '~/functions/piece'
 export type SelectingPiece = {
   pieceMotion: MoveMotion | PlaceMotion
   piece: Piece
-}
-
-type RowCol = {
-  row: number
-  col: number
 }
 
 type MoveMotion = ['MOVE', RowCol]
@@ -97,33 +92,30 @@ export const useSelectingPiece = () => {
   }
 }
 
-export const useHoldingPieces = (player: Player) => {
-  const gameRecordsRef = ref<GameRecord[]>([])
-
-  const setGameRecordsOfHoldingPieces = (gameRecord: GameRecord[]) => {
-    gameRecordsRef.value = gameRecord
-  }
-
-  // const init = (row: number, col: number, inRow: number, player: Player) => {
-  //   holdingPiecesRef.value = generatePieces(row, col, inRow, player)
-  // }
+export const useHoldingPieces = (
+  gameRecord: Ref<GameRecord | undefined>,
+  player: Player
+) => {
   const playerHandsName = computed(() => {
     return player === 'PLAYER1' ? 'player1Hands' : 'player2Hands'
   })
 
   const enemyHandsName = computed(() => {
-    return player === 'PLAYER1' ? 'player2Hands' : 'player1Hands'
+    return playerHandsName.value === 'player1Hands'
+      ? 'player2Hands'
+      : 'player1Hands'
   })
 
   const holdingPieces = computed(() => {
-    if (!gameRecordsRef.value.length) return []
-    return gameRecordsRef.value[0][playerHandsName.value]
+    if (!gameRecord.value) return []
+
+    return gameRecord.value[playerHandsName.value]
   })
 
   const enemyHands = computed(() => {
-    if (!gameRecordsRef.value.length) return []
+    if (!gameRecord.value) return []
 
-    return gameRecordsRef.value[0][enemyHandsName.value]
+    return gameRecord.value[enemyHandsName.value]
   })
 
   const getPoppedPieces = (piece: Piece) => {
@@ -135,18 +127,16 @@ export const useHoldingPieces = (player: Player) => {
   }
 
   const getOpponentHands = () => {
-    return gameRecordsRef.value[0][enemyHandsName.value]
+    return gameRecord.value![enemyHandsName.value]
   }
 
   const getPlayerHands = (player: Player) => {
-    return gameRecordsRef.value[0][
+    return gameRecord.value![
       player === 'PLAYER1' ? 'player1Hands' : 'player2Hands'
     ]
   }
 
   return {
-    gameRecordsRef,
-    setGameRecordsOfHoldingPieces,
     enemyHands,
     holdingPieces,
     generatePieces,
