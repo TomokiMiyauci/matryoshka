@@ -1,5 +1,5 @@
 {
-  "name": "nested-dolls",
+  "name": "matryoshka",
   "version": "1.0.0",
   "description": "My wonderful Nuxt.js project",
   "author": "TomokiMiyauci",
@@ -26,8 +26,8 @@
   },
   "dependencies": {
     "@nuxt/typescript-runtime": "^0.3.5",
-    "@nuxtjs/pwa": "^3.0.0-0",
     "@nuxtjs/dotenv": "^1.4.1",
+    "@nuxtjs/pwa": "^3.0.0-0",
     "@vue/composition-api": "^0.3.4",
     "firebase": "^7.3.0",
     "firebaseui": "^4.3.0",
