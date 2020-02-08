@@ -14,6 +14,10 @@ export const useFirestorePlayroom = (playroomId?: string) => {
     return playroomCollectionReference.value.doc(playroomIdRef.value)
   })
 
+  const documentReferenceRef = computed(() => {
+    return firestore.doc(state.path)
+  })
+
   const setPlayroomId = (playroomId: string) => {
     playroomIdRef.value = playroomId
   }
@@ -38,6 +42,7 @@ export const useFirestorePlayroom = (playroomId?: string) => {
   }
 
   return {
+    documentReferenceRef,
     playroomIdRef,
     setPlayroomId,
     setPlayroomPath,

@@ -1,5 +1,5 @@
 import { computed, ref, reactive } from '@vue/composition-api'
-import firebase from '~/plugins/firebase'
+import firebase, { firestore } from '~/plugins/firebase'
 import { Game } from '~/types/game'
 import { useFirestorePlayroom } from '~/repositories/playroom'
 
@@ -13,6 +13,10 @@ export const useFirestoreGame = (playroomId?: string, gameId?: string) => {
   const state = reactive({
     id: '',
     path: ''
+  })
+
+  const documentReferenceRef = computed(() => {
+    return firestore.doc(state.path)
   })
 
   const gameCollectionReference = computed(() => {
@@ -55,6 +59,7 @@ export const useFirestoreGame = (playroomId?: string, gameId?: string) => {
   }
 
   return {
+    documentReferenceRef,
     gameIdRef,
     gameCollectionReference,
     gameDocumentReference,
