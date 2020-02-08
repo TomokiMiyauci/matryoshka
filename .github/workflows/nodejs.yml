@@ -7,12 +7,12 @@ on:
 
 jobs:
   test:
-
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [12.x]
+    env:
+       CI: true
 
     steps:
     - uses: actions/checkout@v2
@@ -25,7 +25,8 @@ jobs:
     - name: Setup node project
       run: yarn install
 
-    - name: Test
+    - name: Linting by ESlint
+      run: yarn lint
+
+    - name: Unit Testing
       run: yarn test
-      env:
-        CI: true
