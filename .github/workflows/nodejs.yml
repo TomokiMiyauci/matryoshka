@@ -28,5 +28,8 @@ jobs:
     - name: Linting by ESlint
       run: yarn lint
 
+    - name: Linting by Stylelint
+      run: yarn lint:css
+
     - name: Unit Testing
       run: yarn test
