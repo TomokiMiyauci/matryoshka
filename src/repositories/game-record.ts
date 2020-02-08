@@ -26,8 +26,13 @@ export const useFirestoreGameRecord = (
     gameRecordIdRef.value = gameRecordId
   }
 
-  const createGameRecord = async (data: Readonly<GameRecord>) => {
-    const documentData = await gameRecordCollectionReference.value.add({
+  const createGameRecord = async (
+    documentReference: firebase.firestore.DocumentReference<
+      firebase.firestore.DocumentData
+    >,
+    data: Readonly<GameRecord>
+  ) => {
+    const documentData = await documentReference.collection('gameRecord').add({
       ...data,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     })
@@ -36,12 +41,22 @@ export const useFirestoreGameRecord = (
     return documentData
   }
 
-  const updateGameRecord = (data: Readonly<GameRecord>) => {
-    return gameRecordDocumentReference.value.update(data)
+  const updateGameRecord = (
+    documentReference: firebase.firestore.DocumentReference<
+      firebase.firestore.DocumentData
+    >,
+    data: Readonly<GameRecord>
+  ) => {
+    return documentReference.update(data)
   }
 
-  const addGameRecord = async (data: Readonly<GameRecord>) => {
-    const documentData = await gameRecordCollectionReference.value.add({
+  const addGameRecord = async (
+    collectionReference: firebase.firestore.CollectionReference<
+      firebase.firestore.DocumentData
+    >,
+    data: Readonly<GameRecord>
+  ) => {
+    const documentData = await collectionReference.add({
       ...data,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     })

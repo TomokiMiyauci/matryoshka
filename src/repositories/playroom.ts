@@ -1,9 +1,10 @@
-import { computed, ref } from '@vue/composition-api'
+import { computed, ref, reactive } from '@vue/composition-api'
 import firebase, { firestore } from '~/plugins/firebase'
 import { Playroom } from '~/types/playroom'
 
 export const useFirestorePlayroom = (playroomId?: string) => {
   const playroomIdRef = ref(playroomId || '')
+  const state = reactive({ path: '' })
 
   const playroomCollectionReference = computed(() => {
     return firestore.collection('test')
@@ -17,6 +18,10 @@ export const useFirestorePlayroom = (playroomId?: string) => {
     playroomIdRef.value = playroomId
   }
 
+  const setPlayroomPath = (playroomPath: string) => {
+    state.path = playroomPath
+  }
+
   const createPlayroom = async (data: Playroom) => {
     const documentData = await playroomCollectionReference.value.add({
       ...data,
@@ -24,6 +29,7 @@ export const useFirestorePlayroom = (playroomId?: string) => {
     })
 
     playroomIdRef.value = documentData.id
+    state.path = documentData.path
     return documentData
   }
 
@@ -34,6 +40,7 @@ export const useFirestorePlayroom = (playroomId?: string) => {
   return {
     playroomIdRef,
     setPlayroomId,
+    setPlayroomPath,
     playroomCollectionReference,
     playroomDocumentReference,
     createPlayroom,
