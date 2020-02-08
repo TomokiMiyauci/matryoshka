@@ -1,40 +1,32 @@
-import { ref, computed } from '@vue/composition-api'
+import { Ref, computed } from '@vue/composition-api'
 import { Player } from '~/types/player'
 import { Game } from '~/types/game'
 
-export const useGame = (player: Player) => {
-  const gameRef = ref<Game[]>([])
-
-  const setGame = (game: Game[]): void => {
-    gameRef.value = game
-  }
-
-  const isYourTurn = computed(() => {
-    if (!gameRef.value.length) return false
-    return gameRef.value[0].nextPlayer === 'PLAYER1'
+export const useGame = (game: Ref<Game | undefined>, player: Player) => {
+  const isYourTurnRef = computed(() => {
+    if (!game.value) return false
+    return game.value.nextPlayer === player
   })
 
-  const nextPlayer = computed(() => {
-    if (!gameRef.value.length) {
+  const nextPlayerRef = computed(() => {
+    if (!game.value) {
       return player === 'PLAYER1' ? 'PLAYER2' : 'PLAYER1'
     }
 
-    return gameRef.value[0].nextPlayer
+    return game.value.nextPlayer
   })
 
-  const winner = computed(() => {
-    if (!gameRef.value.length || !('winner' in gameRef.value[0])) {
-      return ''
+  const winnerRef = computed(() => {
+    if (!game.value || !('winner' in game.value)) {
+      return
     }
 
-    return gameRef.value[0].winner
+    return game.value.winner
   })
 
   return {
-    gameRef,
-    setGame,
-    isYourTurn,
-    nextPlayer,
-    winner
+    isYourTurnRef,
+    nextPlayerRef,
+    winnerRef
   }
 }
