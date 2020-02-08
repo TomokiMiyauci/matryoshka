@@ -1,8 +1,12 @@
-import { Element } from '~/types/game-record'
+import cloneDeep from 'lodash/cloneDeep'
+import { Element, Piece, RowCol } from '~/types/game-record'
 import { Player } from '~/types/player'
 import { isExistsPiece, getTopPiece, isPlayerPiece } from '~/functions/piece'
 
-export const generateShallow = (rows: number, cols: number): Element[] => {
+export const generateShallow = (
+  rows: RowCol['row'],
+  cols: RowCol['col']
+): Element[] => {
   const shallowMatrix = []
   for (let row = 0; row < rows; row++) {
     for (let col = 0; col < cols; col++) {
@@ -36,4 +40,27 @@ export const getTerritory = ({
       return isPlayerPiece(getTopPiece(element.pieces), player) ? element : {}
     })
   })
+}
+
+export const generatePlacedMatrix = (
+  piece: Readonly<Piece>,
+  { to, deepArray }: { to: Readonly<RowCol>; deepArray: Readonly<Element[][]> }
+): Readonly<Element[][]> => {
+  const copyMatrix = cloneDeep(deepArray)
+  const { row, col } = to
+
+  copyMatrix[row][col].pieces.push(piece)
+  return copyMatrix
+}
+
+export const generateMovedMatrix = (
+  piece: Readonly<Piece>,
+  from: Readonly<RowCol>,
+  { to, deepArray }: Readonly<{ to: RowCol; deepArray: Element[][] }>
+): Readonly<Element[][]> => {
+  const copyMatrix = cloneDeep(deepArray)
+
+  copyMatrix[from.row][from.col].pieces.pop()
+  copyMatrix[to.row][to.col].pieces.push(piece)
+  return copyMatrix
 }
