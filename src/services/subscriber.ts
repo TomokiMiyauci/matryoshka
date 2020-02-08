@@ -7,13 +7,13 @@ type Reference =
   | firebase.firestore.CollectionReference<firebase.firestore.DocumentData>
 
 export const subscribe = (
-  reactiveState: Document,
+  reactiveState: Document<firebase.firestore.DocumentData>,
   collectionRef: Reference
 ) => {
-  const state = reactive<Document>({
+  const state = reactive<Document<firebase.firestore.DocumentData>>({
     id: '',
-    data: undefined,
-    path: ''
+    path: '',
+    data: undefined
   })
 
   const unsubscribe = firestore
@@ -28,13 +28,13 @@ export const subscribe = (
     snapshot.docChanges().forEach((change) => {
       const { id, ref } = change.doc
 
-      reactiveState.data = change.doc.data()
       reactiveState.id = id
       reactiveState.path = ref.path
+      reactiveState.data = change.doc.data()
 
-      state.data = change.doc.data()
       state.id = id
       state.path = ref.path
+      state.data = change.doc.data()
     })
   })
 

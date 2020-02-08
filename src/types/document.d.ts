@@ -1,5 +1,5 @@
-export type Document = {
+export type Document<T> = {
   id: string
   path: string
-  data: object | undefined
+  data: T | undefined
 }
