@@ -1,18 +1,14 @@
-import { computed, ref } from '@vue/composition-api'
+import { computed, Ref } from '@vue/composition-api'
 import cloneDeep from 'lodash/cloneDeep'
 import { Piece, GameRecord, RowCol } from '~/types/game-record'
-import { reshape, generateShallow, getTerritory } from '~/functions/matrix'
+import { reshape } from '~/functions/matrix'
 
-export const useBoard = (row: number) => {
-  const gameRecordsRef = ref<GameRecord[] | []>([])
-
-  const setGameRecordsOfBoard = (gameRecord: GameRecord[]) => {
-    gameRecordsRef.value = gameRecord
-  }
-
+export const useBoard = (
+  gameRecord: Ref<GameRecord | undefined>,
+  row: RowCol['row']
+) => {
   const boardRef = computed(() => {
-    if (!gameRecordsRef.value.length) return []
-    return gameRecordsRef.value[0].board
+    return gameRecord.value ? gameRecord.value.board : []
   })
 
   const matrixRef = computed(() => {
@@ -34,13 +30,5 @@ export const useBoard = (row: number) => {
     return cpBoard.flat()
   }
 
-  return {
-    generateShallowBoard: generateShallow,
-    setGameRecordsOfBoard,
-    getTerritory,
-    boardRef,
-    matrixRef,
-    generateMovedBoard,
-    generatePlacedBoard
-  }
+  return { boardRef, matrixRef, generateMovedBoard, generatePlacedBoard }
 }
