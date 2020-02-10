@@ -4,8 +4,8 @@
       <the-playground
         ref="playroom"
         :enable-timer="true"
-        :next-player="nextPlayer"
-        :is-your-turn="isYourTurn"
+        :next-player="nextPlayerRef"
+        :is-your-turn="isYourTurnRef"
         :game-path="game.path"
         @action="onTurnEnd"
       ></the-playground>
@@ -20,13 +20,13 @@
       >
         <the-match-result
           :player="player"
-          :winner="winner"
+          :winner="winnerRef"
           @ready="onReady"
         ></the-match-result>
       </v-dialog>
     </template>
     <template v-else>
-      <v-ready-go :is-ready="!isLoading" @ready="aaa"></v-ready-go>
+      <v-ready-go :is-ready="!isLoading" @ready="onLoad"></v-ready-go>
     </template>
   </div>
 </template>
@@ -49,6 +49,9 @@ import { subscribe } from '~/services/subscriber'
 import { firestore } from '~/plugins/firebase'
 import { generateShallow } from '~/functions/matrix'
 import { generatePieces } from '~/functions/piece'
+import { Document } from '~/types/document'
+import { Playroom } from '~/types/playroom'
+import { Game } from '~/types/game'
 export default createComponent({
   layout: 'playroom',
   components: {
@@ -57,13 +60,13 @@ export default createComponent({
     TheMatchResult: () => import('~/components/organisms/TheMatchResult.vue')
   },
   setup() {
-    const playroom = reactive({
+    const playroom = reactive<Document<Playroom>>({
       id: '',
       data: undefined,
       path: ''
     })
 
-    const game = reactive({
+    const game = reactive<Document<Game>>({
       id: '',
       data: undefined,
       path: ''
@@ -88,7 +91,7 @@ export default createComponent({
 
     const { playroomCollectionReference } = useFirestorePlayroom()
 
-    const { isYourTurn, nextPlayer, winner } = useGame(
+    const { isYourTurnRef, nextPlayerRef, winnerRef } = useGame(
       toRefs(game).data,
       'PLAYER1'
     )
@@ -102,7 +105,7 @@ export default createComponent({
     //   }
     // )
 
-    watch(winner, (now) => {
+    watch(winnerRef, (now) => {
       switch (now) {
         case 'PLAYER1': {
           progress.isGameEnd = true
@@ -140,7 +143,8 @@ export default createComponent({
         }
         case 'PEND': {
           await firestore.doc(game.path).update({
-            nextPlayer: nextPlayer.value === 'PLAYER1' ? 'PLAYER2' : 'PLAYER1'
+            nextPlayer:
+              nextPlayerRef.value === 'PLAYER1' ? 'PLAYER2' : 'PLAYER1'
           })
           break
         }
@@ -152,18 +156,16 @@ export default createComponent({
 
       console.log(JSON.stringify(game))
 
-      const { createGameRecord: cgr } = useFirestoreGameRecord()
+      const { createGameRecord } = useFirestoreGameRecord()
 
       const shallowArray = generateShallow(3, 3)
       const player1Hands = generatePieces(3, 3, 3, 'PLAYER1')
       const player2Hands = generatePieces(3, 3, 3, 'PLAYER2')
-      await cgr(firestore.doc(game.path), {
+      await createGameRecord(firestore.doc(game.path), {
         board: shallowArray,
         player1Hands,
         player2Hands
       })
-
-      // playroom.value.update(firestore.playroomId, firestore.gameId)
 
       progress.isLoading = true
       progress.isReady = false
@@ -173,7 +175,7 @@ export default createComponent({
       }, 2000)
     }
 
-    const aaa = () => {
+    const onLoad = () => {
       progress.isReady = true
     }
     const bind = () => {
@@ -188,14 +190,14 @@ export default createComponent({
 
     return {
       ...toRefs(progress),
-      aaa,
+      onLoad,
       onReady,
       playroom,
       onTurnEnd,
       game,
-      nextPlayer,
-      winner,
-      isYourTurn,
+      nextPlayerRef,
+      winnerRef,
+      isYourTurnRef,
       player: 'PLAYER1'
     }
   }
