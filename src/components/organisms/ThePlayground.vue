@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p>{{ gameRecord }}</p>
     <v-game-manager
       :enable-timer="enableTimer"
       v-bind="gameManagerProps"
@@ -19,8 +20,9 @@
 import {
   createComponent,
   computed,
-  onBeforeMount,
-  watch
+  watch,
+  reactive,
+  toRefs
 } from '@vue/composition-api'
 
 import VBoard from '~/components/molecules/VBoard.vue'
@@ -34,15 +36,18 @@ import {
 import { Player } from '~/types/player'
 import { Element, Piece, GameRecord } from '~/types/game-record'
 import { useFirestoreGameRecord } from '~/repositories/game-record'
-import { firestore as f } from '~/store'
 import { getTerritory } from '~/functions/matrix'
 import { isWin } from '~/functions/game'
 import { useRandomStrategy } from '~/compositions/storategy'
+import { subscribe } from '~/services/subscriber'
+import { firestore } from '~/plugins/firebase'
+
 type Props = {
   isYourTurn: boolean
   nextPlayer: Player
   enableEnemyHands: boolean
   enableTimer: boolean
+  gamePath: string
 }
 
 export default createComponent({
@@ -63,6 +68,10 @@ export default createComponent({
       required: true
     },
 
+    gamePath: {
+      type: String
+    },
+
     enableEnemyHands: {
       type: Boolean,
       default: false
@@ -74,10 +83,36 @@ export default createComponent({
     }
   },
 
-  setup(props: Props, { root, emit }) {
-    const playroomId = f.getPlayroomId
-    const gameId = f.getGameId
-    const gameRecordId = f.getGameRecordId
+  setup(props: Props, { emit }) {
+    const gameRecord = reactive({
+      id: '',
+      data: undefined,
+      path: ''
+    })
+
+    // watch(
+    //   computed(() => props.playroomPath),
+    //   (now) => {
+    //     if (!now) return
+
+    //     subscribe(game, firestore.doc(props.playroomPath).collection('game'))
+    //   }
+    // )
+
+    watch(
+      computed(() => props.gamePath),
+      (now) => {
+        if (!now) return
+
+        subscribe(
+          gameRecord,
+          firestore.doc(props.gamePath).collection('gameRecord')
+        )
+
+        // progress.isLoading = false
+      }
+    )
+
     const player: Player = 'PLAYER1'
 
     const {
@@ -90,57 +125,21 @@ export default createComponent({
     const { getNextMove } = useRandomStrategy()
 
     const {
-      gameRecordsRef,
       holdingPieces: holdingPiecesRef,
       enemyHands,
-      setGameRecordsOfHoldingPieces,
       getPoppedPieces,
       getOpponentHands,
       getPlayerHands
-    } = useHoldingPieces(player)
+    } = useHoldingPieces(toRefs(gameRecord).data, player)
 
     const {
       boardRef,
-      setGameRecordsOfBoard,
       matrixRef,
       generateMovedBoard,
       generatePlacedBoard
-    } = useBoard(3)
+    } = useBoard(toRefs(gameRecord).data, 3)
 
-    const {
-      gameRecordCollectionReference,
-      addGameRecord,
-      setPlayroomId,
-      setGameId
-    } = useFirestoreGameRecord(playroomId, gameId, gameRecordId)
-
-    onBeforeMount(async () => {
-      const gameRecords = (await root.$bind(
-        'gameRecord',
-        gameRecordCollectionReference.value
-          .limit(1)
-          .orderBy('createdAt', 'desc')
-      )) as GameRecord[]
-
-      setGameRecordsOfHoldingPieces(gameRecords)
-      setGameRecordsOfBoard(gameRecords)
-    })
-
-    const update = async (a: string, v: string) => {
-      const { gameRecordCollectionReference } = useFirestoreGameRecord(a, v)
-
-      const gameRecords = (await root.$bind(
-        'gameRecord',
-        gameRecordCollectionReference.value
-          .limit(1)
-          .orderBy('createdAt', 'desc')
-      )) as GameRecord[]
-
-      setGameRecordsOfHoldingPieces(gameRecords)
-      setGameRecordsOfBoard(gameRecords)
-      setPlayroomId(a)
-      setGameId(v)
-    }
+    const { addGameRecord } = useFirestoreGameRecord()
 
     watch(
       computed(() => {
@@ -149,7 +148,7 @@ export default createComponent({
       (now, prev) => {
         if (now === 'PLAYER2' && prev === 'PLAYER1') {
           setTimeout(() => {
-            a()
+            nextGame()
             const player2 = getTerritory({
               matrix: matrixRef.value,
               player: 'PLAYER2'
@@ -167,8 +166,6 @@ export default createComponent({
         console.log(now, prev)
       }
     )
-
-    // init(props.game.rows, props.game.cols, 3, player)
 
     const boardProps = computed(() => {
       return {
@@ -204,16 +201,23 @@ export default createComponent({
       }
     })
 
-    const a = async () => {
-      const b = getNextMove(enemyHands.value, boardRef.value, matrixRef.value)
-      if (b === undefined) return
+    const nextGame = async () => {
+      const nextMove = getNextMove(
+        enemyHands.value,
+        boardRef.value,
+        matrixRef.value
+      )
+      if (nextMove === undefined) return
       const gameRecord: GameRecord = {
-        board: b.board.flat(),
+        board: nextMove.board.flat(),
         player1Hands: getPlayerHands('PLAYER1'),
-        player2Hands: b.hands
+        player2Hands: nextMove.hands
       }
 
-      await addGameRecord(gameRecord)
+      await addGameRecord(
+        firestore.doc(props.gamePath).collection('gameRecord'),
+        gameRecord
+      )
     }
 
     const click = (piece: Piece) => {
@@ -227,25 +231,28 @@ export default createComponent({
       if (!props.isYourTurn) return
       const { row, col } = element
 
-      const b = mutateMove(element)
-      if (!b) return
+      const actions = mutateMove(element)
+      if (!actions) return
 
-      switch (b[0]) {
+      switch (actions[0]) {
         case 'PLACED': {
-          const place = generatePlacedBoard({ row, col }, b[1])
+          const place = generatePlacedBoard({ row, col }, actions[1])
 
           const gameRecord: GameRecord = {
             board: place,
-            player1Hands: getPoppedPieces(b[1]),
+            player1Hands: getPoppedPieces(actions[1]),
             player2Hands: getOpponentHands()
           }
           // emit('action', player)
 
-          await addGameRecord(gameRecord)
+          await addGameRecord(
+            firestore.doc(props.gamePath).collection('gameRecord'),
+            gameRecord
+          )
           break
         }
         case 'MOVED': {
-          const place = generateMovedBoard(b[2], { row, col }, b[1])
+          const place = generateMovedBoard(actions[2], { row, col }, actions[1])
 
           const gameRecord: GameRecord = {
             board: place,
@@ -253,7 +260,10 @@ export default createComponent({
             player2Hands: getPlayerHands('PLAYER2')
           }
 
-          await addGameRecord(gameRecord)
+          await addGameRecord(
+            firestore.doc(props.gamePath).collection('gameRecord'),
+            gameRecord
+          )
           break
         }
       }
@@ -287,9 +297,7 @@ export default createComponent({
     // }
 
     return {
-      gameRecordsRef,
-      update,
-      a,
+      gameRecord,
       defeat,
       click,
       onClick,
