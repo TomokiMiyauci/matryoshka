@@ -1,6 +1,5 @@
 <template>
   <div>
-    <p>{{ gameRecord }}</p>
     <v-game-manager
       :enable-timer="enableTimer"
       v-bind="gameManagerProps"
