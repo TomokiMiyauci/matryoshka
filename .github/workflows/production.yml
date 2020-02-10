@@ -27,7 +27,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - name: Setup Node.js project for production
-      run: yarn install --production
+      run: yarn install
 
     - name: Generate static files
       run: yarn generate --fail-on-page-error
