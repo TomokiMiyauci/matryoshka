@@ -5,11 +5,11 @@ import VSquare from '~/components/molecules/VSquare.vue'
 const localVue = createLocalVue()
 localVue.use(VueCompositionApi)
 
-const element = { row: 0, col: 0, value: [] }
+const element = { row: 0, col: 0, pieces: [] }
 
 describe('VSquare.vue', () => {
   it('should have props of element', () => {
-    const element = { row: 0, col: 0, value: [] }
+    const element = { row: 0, col: 0, pieces: [] }
     const wrapper = shallowMount(VSquare, {
       localVue,
       propsData: {
@@ -20,8 +20,8 @@ describe('VSquare.vue', () => {
     expect(wrapper.props().element).toEqual(element)
   })
 
-  it('should recive object type through props of element', () => {
-    const element = { row: 0, col: 0, value: [] }
+  it('should receive object type through props of element', () => {
+    const element = { row: 0, col: 0, pieces: [] }
     const wrapper = shallowMount(VSquare, {
       localVue,
       propsData: {
@@ -61,7 +61,7 @@ describe('VSquare.vue', () => {
   })
 
   it('should return value when emitted', () => {
-    const element = { row: 0, col: 0, value: [] }
+    const element = { row: 0, col: 0, pieces: [] }
     const wrapper = shallowMount(VSquare, {
       localVue,
       propsData: {
@@ -84,3 +84,36 @@ describe('VSquare.vue', () => {
     expect(wrapper).toMatchSnapshot()
   })
 })
+
+// import { shallowMount } from '@vue/test-utils'
+
+// describe('VSquare', () => {
+//   it('should trigger onClick method when it clicked', () => {
+//     const wrapper = shallowMount(VSquare)
+//     const stub = jest.fn()
+//     wrapper.setMethods({ onClick: stub })
+
+//     wrapper.trigger('click')
+
+//     expect(stub).toHaveBeenCalled()
+//   })
+
+//   it('should emit when onClick called', () => {
+//     const wrapper = shallowMount(VSquare)
+
+//     wrapper.trigger('click')
+
+//     expect(wrapper.emitted().click).toBeTruthy()
+//   })
+
+//   it('should have something value between props', () => {
+//     const value = 'test'
+//     const wrapper = shallowMount(VSquare, {
+//       propsData: {
+//         value
+//       }
+//     })
+
+//     expect(wrapper.text()).toBe(value)
+//   })
+// })

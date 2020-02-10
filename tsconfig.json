@@ -28,12 +28,12 @@
       "@types/jest",
       "@types/lodash.random"
     ],
-    "forceConsistentCasingInFileNames": true  /* Disallow inconsistently-cased references to the same file. */
-
+    "forceConsistentCasingInFileNames": true  /* Disallow inconsistently-cased references to the same file. */,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "noEmitHelpers": true,
   },
-  // "files": [
-  //   "shims-vue.d.ts",
-  // ],
+
   "exclude": [
     "node_modules",
     "functions"

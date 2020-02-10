@@ -1,4 +1,5 @@
 module.exports = {
+  roots: ['<rootDir>/test'],
   setupFilesAfterEnv: ['./test/setup.js'],
   testPathIgnorePatterns: ['/node_modules/', '.firebase'],
   moduleNameMapper: {
@@ -11,7 +12,7 @@ module.exports = {
   transform: {
     '^.+\\.js$': 'babel-jest',
     '.*\\.(vue)$': 'vue-jest',
-    '^.+\\.tsx?$': 'ts-jest',
+    '^.+\\.(ts|tsx)$': 'ts-jest',
     '.+\\.(css|scss|png|jpg|svg)$': 'jest-transform-stub'
   },
   collectCoverage: true,

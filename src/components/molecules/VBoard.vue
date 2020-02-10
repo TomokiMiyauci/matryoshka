@@ -7,12 +7,15 @@
         class="cols"
       >
         <v-square
-          :placeable="isPlaceable(element)"
-          :is-selecting="isSelecting(element)"
           :element="element"
+          :next-strength="nextValue"
+          :holding="holding"
           @click="$emit('click', element)"
         >
-          <v-doll v-bind="dollProps(element)"></v-doll>
+          <v-doll
+            v-show="element.pieces.length"
+            v-bind="dollProps(element)"
+          ></v-doll>
         </v-square>
       </div>
     </div>
@@ -20,51 +23,27 @@
 </template>
 
 <script lang="ts">
-import { createComponent, computed, reactive, ref } from '@vue/composition-api'
+import { createComponent } from '@vue/composition-api'
 import VDoll from '~/components/atoms/VDoll.vue'
 import VSquare from '~/components/molecules/VSquare.vue'
-import { Matrix, Element } from '~/types/piece'
+import { Element } from '~/types/game-record'
 type Props = {
-  matrix: Matrix
+  matrix: Element[][]
   nextValue: number
   holding: Element
 }
 
-const useHolding = (props: Props) => {
-  const isPlaceable = (element: Element): boolean => {
-    const nextValue = props.nextValue
-    if (nextValue === undefined) {
-      return false
-    }
-    return !element.value.length || element.value.slice(-1)[0].value < nextValue
-  }
-
-  const isSelecting = (element: Element): boolean => {
-    if (!props.holding) {
-      return false
-    }
-    return (
-      props.holding.row === element.row && props.holding.col === element.col
-    )
-  }
-
-  return {
-    isPlaceable,
-    isSelecting
-  }
-}
-
 const useDollProps = () => {
   const dollProps = (element: Element) => {
-    const latestValue = element.value.length
-      ? element.value.slice(-1)[0]
+    const latestValue = element.pieces.length
+      ? element.pieces.slice(-1)[0]
       : undefined
     if (latestValue === undefined) return {}
 
-    const color = latestValue.player === 'PLAYER_1' ? 'red' : 'blue'
-    const BASE_SIZE = 33
-    const size = `${BASE_SIZE + latestValue.value * BASE_SIZE}px`
-    return { color, width: size }
+    const color = latestValue.owner === 'PLAYER1' ? 'red' : 'blue'
+    const strength = latestValue.strength + 1
+    const size = `${(strength / 3) * 100}%`
+    return { color, size }
   }
 
   return {
@@ -93,34 +72,34 @@ export default createComponent({
     VDoll
   },
 
-  setup(props: Props) {
-    const { isPlaceable, isSelecting } = useHolding(props)
-
+  setup() {
     const { dollProps } = useDollProps()
 
-    return { dollProps, isPlaceable, isSelecting }
+    return { dollProps }
   }
 })
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .grid {
+  display: flex;
+  flex-direction: column;
+  width: 45vh;
+  height: 45vh;
   margin: 0 auto;
-  width: 70vw;
-  max-width: 50vh;
-  height: 70vw;
-  max-height: 50vh;
+  padding: 0;
 }
+
 .rows {
   display: flex;
+  width: 100%;
+  height: 100%;
+  margin: 0;
 }
+
 .cols {
-  flex: 1 0 auto;
-  position: relative;
-}
-.cols::before {
-  content: '';
-  float: left;
-  padding-top: 100%;
+  width: 100%;
+  height: 100%;
+  padding: 0.5%;
 }
 </style>

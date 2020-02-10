@@ -7,7 +7,7 @@
     </v-col>
 
     <v-col order="1" align-self="center" cols="auto">
-      <span style="padding:10px;">{{ name }}</span>
+      <span style="padding: 10px;">{{ name }}</span>
     </v-col>
   </v-row>
 </template>
@@ -42,5 +42,3 @@ export default {
   }
 }
 </script>
-
-<style scoped></style>

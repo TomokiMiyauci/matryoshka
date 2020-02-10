@@ -1,18 +1,18 @@
 <template>
-  <img :width="width" :src="src" />
+  <img class="default" alt="doll" :width="size" :height="size" :src="src" />
 </template>
 
 <script lang="ts">
 import { createComponent, computed } from '@vue/composition-api'
 type Color = 'red' | 'blue'
 type Props = {
-  width: number | string
+  size: number | string
   color: Color
 }
 
 export default createComponent({
   props: {
-    width: {
+    size: {
       type: [Number, String],
       require: true
     },
@@ -32,9 +32,6 @@ export default createComponent({
         case 'blue': {
           return require('~/assets/img/doll-blue.png')
         }
-        default: {
-          return undefined
-        }
       }
     })
 
@@ -45,4 +42,9 @@ export default createComponent({
 })
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.default {
+  user-select: none;
+  pointer-events: none;
+}
+</style>

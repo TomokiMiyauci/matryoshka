@@ -50,28 +50,28 @@ $default: turquoise;
 
 .time {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   width: 9vh;
-  height: 9vh;
   min-width: 50px;
+  height: 9vh;
   min-height: 50px;
-  border-radius: 50%;
+  color: $default;
+  font-weight: bold;
+  font-size: 4vh;
   border: solid 1vh $default;
+  border-radius: 50%;
   animation-name: beat;
   animation-duration: 1s;
   animation-iteration-count: infinite;
-  color: $default;
-  font-size: 4vh;
-  font-weight: bold;
 }
 
 @keyframes beat {
   50% {
     color: blue;
     border-color: blue;
-    opacity: 0.5;
     transform: scale(0.8);
+    opacity: 0.5;
   }
 }
 

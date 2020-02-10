@@ -4,8 +4,8 @@
       v-for="holdingPiece in holdingPieces"
       :key="holdingPiece.id"
       :class="bindClass(holdingPiece)"
-      @click="$emit('click', holdingPiece)"
       class="box"
+      @click="$emit('click', holdingPiece)"
     >
       <v-doll :color="color" :width="calcWidth(holdingPiece)"></v-doll>
     </div>
@@ -15,8 +15,7 @@
 <script lang="ts">
 import { createComponent, computed } from '@vue/composition-api'
 import VDoll from '~/components/atoms/VDoll.vue'
-// eslint-disable-next-line no-unused-vars
-import { Piece } from '~/types/piece'
+import { Piece } from '~/types/game-record'
 
 type Props = {
   holdingPieces: Piece[]
@@ -52,11 +51,11 @@ export default createComponent({
     }
 
     const isPlayer1 = computed<boolean>(() => {
-      return props.player === 'PLAYER_1'
+      return props.player === 'PLAYER1'
     })
 
     const isPlayer2 = computed<boolean>(() => {
-      return props.player === 'PLAYER_2'
+      return props.player === 'PLAYER2'
     })
 
     const color = computed<string | undefined>(() => {
@@ -70,7 +69,7 @@ export default createComponent({
 
     const calcWidth = (value: Piece): string => {
       const BASE_SIZE = 33
-      return `${BASE_SIZE + value.value * BASE_SIZE}px`
+      return `${BASE_SIZE + value.strength * BASE_SIZE}px`
     }
 
     const bindClass = (value: Piece) => {
@@ -93,30 +92,33 @@ export default createComponent({
 <style scoped>
 .container {
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
 }
+
 .box {
-  margin: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 90px;
   height: 90px;
+  margin: 1px;
   background: rgba(0, 0, 0, 0.3);
-  border-radius: 10px;
   border: 1px solid #fff;
+  border-radius: 10px;
   cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .box-selecting {
   background-color: rgba(255, 255, 255, 0.8);
   border: 1px solid rgba(252, 210, 24, 0.897);
 }
+
 .player1 {
   color: rgba(223, 37, 37, 0.8);
 }
+
 .player2 {
   color: rgba(37, 71, 223, 0.8);
 }

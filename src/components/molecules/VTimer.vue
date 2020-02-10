@@ -62,13 +62,12 @@ export default createComponent({
   },
 
   setup(props: Props, context) {
-    const { time } = useTimer(props, context)
+    const { time, cleanUp } = useTimer(props, context)
 
     return {
-      time
+      time,
+      cleanUp
     }
   }
 })
 </script>
-
-<style scoped></style>

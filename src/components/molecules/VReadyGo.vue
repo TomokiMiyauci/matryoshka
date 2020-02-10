@@ -30,28 +30,32 @@ export default {
   position: absolute;
   top: 40%;
   font-size: 40px;
-  animation: i 1s 1 2s ease;
   transform: translateX(calc(50vw - 50%));
+  animation: i 1s 1 2s ease;
 }
+
 @keyframes i {
   100% {
-    opacity: 0;
     font-size: 50px;
+    opacity: 0;
   }
 }
+
 .second {
-  animation: k 1s 0s ease-in;
   visibility: hidden;
+  animation: k 1s 0s ease-in;
 }
+
 @keyframes k {
   0% {
-    visibility: visible;
     transform: translateX(calc(50vw - 50%));
+    visibility: visible;
   }
+
   100% {
-    opacity: 0;
     font-size: 100px;
     visibility: visible;
+    opacity: 0;
   }
 }
 </style>

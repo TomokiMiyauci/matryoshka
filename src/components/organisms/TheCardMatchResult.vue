@@ -7,7 +7,7 @@
     <v-card-actions>
       <v-btn @click="exit"><v-icon left>mdi-exit-to-app</v-icon>exit</v-btn>
       <v-divider></v-divider>
-      <v-btn @click="playAgain" color="success"
+      <v-btn color="success" @click="$emit('ready')"
         ><v-icon left>mdi-sword-cross</v-icon>Again</v-btn
       >
     </v-card-actions>
@@ -15,39 +15,52 @@
 </template>
 
 <script lang="ts">
-import { createComponent } from '@vue/composition-api'
+import { createComponent, computed } from '@vue/composition-api'
+import { Player } from '~/types/player'
 type Props = {
-  title: string
   text: string
-  playAgain: Function
+  player: Player
+  winner: Player | 'NONE'
 }
 
 export default createComponent({
   props: {
-    title: {
-      type: String,
-      require: true,
-      default: 'default Value'
-    },
-
     text: {
       type: String,
       require: true
     },
 
-    playAgain: {
-      type: Function,
-      require: true
+    player: {
+      type: String,
+      default: ''
+    },
+
+    winner: {
+      type: String,
+      default: 'NONE'
     }
   },
 
   setup(props: Props, { root }) {
+    const title = computed(() => {
+      switch (props.winner) {
+        case 'NONE': {
+          return ''
+        }
+
+        case 'PLAYER1': {
+          return props.player === 'PLAYER1' ? 'Win!' : 'Lose..'
+        }
+
+        case 'PLAYER2': {
+          return props.player === 'PLAYER2' ? 'Win!' : 'Lose..'
+        }
+      }
+    })
     const exit = (): void => {
       root.$router.push('/playrooms')
     }
-    return { exit }
+    return { exit, title }
   }
 })
 </script>
-
-<style scoped></style>
