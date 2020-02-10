@@ -1,10 +1,10 @@
 <template>
   <div>
     <the-playground
+      ref="playground"
       :game="latestGame"
       :doc-ref="docRef"
       :is-your-turn="isYourTurn"
-      ref="playground"
     ></the-playground>
 
     <v-dialog
@@ -16,23 +16,18 @@
       transition="dialog-transition"
     >
       <the-card-match-result
-        @ready="onReady"
         v-bind="message"
+        @ready="onReady"
       ></the-card-match-result>
     </v-dialog>
   </div>
 </template>
 
 <script lang="ts">
-import {
-  createComponent,
-  ref,
-  computed,
-  watch,
-  onBeforeMount
-} from '@vue/composition-api'
-import firebase, { firestore } from '~/plugins/firebase.js'
-import { Player, Game } from '~/types/piece'
+import { createComponent, ref, computed, watch } from '@vue/composition-api'
+import firebase, { firestore } from '~/plugins/firebase'
+import { Player } from '~/types/player'
+import { Game } from '~/types/game'
 import { useDialog } from '~/compositions/dialog'
 
 export default createComponent({
@@ -66,7 +61,6 @@ export default createComponent({
       return games.value[games.value.length - 2]
     })
 
-    const latestGameId = computed(() => latestGame.value.id)
     const player = computed<Player>(() => root.$store.getters['player/name'])
     const playroomId = computed<string>(
       () => root.$store.getters['playroom/id']
@@ -86,13 +80,13 @@ export default createComponent({
 
     const message = computed(() => {
       switch (latestGame.value.winner) {
-        case 'DRAW': {
-          return { title: 'Draw', text: 'It was a good match.' }
-        }
+        // case 'DRAW': {
+        //   return { title: 'Draw', text: 'It was a good match.' }
+        // }
         case player.value: {
           return { title: 'Win!', text: 'Great! You are the winner!' }
         }
-        case player.value === 'PLAYER_1' ? 'PLAYER_2' : 'PLAYER_1': {
+        case player.value === 'PLAYER1' ? 'PLAYER2' : 'PLAYER1': {
           return { title: 'Lose..', text: 'Ah... You are the loser.' }
         }
         default: {
@@ -129,13 +123,14 @@ export default createComponent({
     })
 
     watch(dialogRef, (next, prev) => {
-      if (!prev && next) {
+      console.log(next, prev)
+      if (prev && !next) {
         init()
       }
     })
 
-    watch(lastGame, (next, prev) => {
-      if (next.readyPlayers.length === 2) {
+    watch(lastGame, (next) => {
+      if (next.readyPlayers.length === 2 && !next.winner) {
         hide()
       }
     })
