@@ -12,7 +12,10 @@
           :holding="holding"
           @click="$emit('click', element)"
         >
-          <v-doll v-bind="dollProps(element)"></v-doll>
+          <v-doll
+            v-show="element.pieces.length"
+            v-bind="dollProps(element)"
+          ></v-doll>
         </v-square>
       </div>
     </div>
@@ -20,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { createComponent, computed, reactive, ref } from '@vue/composition-api'
+import { createComponent } from '@vue/composition-api'
 import VDoll from '~/components/atoms/VDoll.vue'
 import VSquare from '~/components/molecules/VSquare.vue'
 import { Element } from '~/types/game-record'
@@ -38,9 +41,9 @@ const useDollProps = () => {
     if (latestValue === undefined) return {}
 
     const color = latestValue.owner === 'PLAYER1' ? 'red' : 'blue'
-    const BASE_SIZE = 33
-    const size = `${BASE_SIZE + latestValue.strength * BASE_SIZE}px`
-    return { color, width: size }
+    const strength = latestValue.strength + 1
+    const size = `${(strength / 3) * 100}%`
+    return { color, size }
   }
 
   return {
@@ -69,7 +72,7 @@ export default createComponent({
     VDoll
   },
 
-  setup(props: Props) {
+  setup() {
     const { dollProps } = useDollProps()
 
     return { dollProps }
@@ -81,8 +84,8 @@ export default createComponent({
 .grid {
   display: flex;
   flex-direction: column;
-  width: 50vh;
-  height: 50vh;
+  width: 45vh;
+  height: 45vh;
   margin: 0 auto;
   padding: 0;
 }
