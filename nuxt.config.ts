@@ -97,6 +97,11 @@ const config: Configuration = {
    ** Build configuration
    */
   build: {
+    terser: {
+      terserOptions: {
+        compress: { drop_console: process.env.NODE_ENV === 'production' }
+      }
+    }
     /*
      ** You can extend webpack config here
      */
