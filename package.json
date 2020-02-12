@@ -19,6 +19,9 @@
     "hygen:vuex": "hygen vuex new"
   },
   "lint-staged": {
+    "*": [
+      "git secrets --scan"
+    ],
     "*.{js,vue,ts}": "eslint"
   },
   "husky": {
