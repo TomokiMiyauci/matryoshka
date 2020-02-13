@@ -7,6 +7,5 @@ export type Game = {
   nextPlayer: Player
   readyPlayers: Player[]
   winner?: Player | 'DRAW'
-  gameRecord?: firebase.firestore.CollectionReference
   createdAt?: firebase.firestore.FieldValue
 }
