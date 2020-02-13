@@ -9,7 +9,7 @@ const { createGame: cg, documentReferenceRef: cr } = useFirestoreGame()
 const { createGameRecord: cgr } = useFirestoreGameRecord()
 
 export const initialize = async () => {
-  await createPlayroom({})
+  await createPlayroom({ player1Wins: 0, player2Wins: 0, round: 1 })
   await createGame()
   await createGameRecord()
 }
