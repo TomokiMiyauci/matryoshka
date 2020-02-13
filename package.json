@@ -9,6 +9,7 @@
     "build": "nuxt-ts build",
     "generate": "nuxt-ts generate",
     "start": "nuxt-ts start",
+    "debug": "node --inspect node_modules/.bin/nuxt-ts",
     "lint": "eslint --ext .ts,.js,.vue --ignore-path .gitignore .",
     "lint:css": "stylelint 'src/**/*.vue'",
     "test": "jest",
@@ -18,6 +19,9 @@
     "hygen:vuex": "hygen vuex new"
   },
   "lint-staged": {
+    "*": [
+      "git secrets --scan"
+    ],
     "*.{js,vue,ts}": "eslint"
   },
   "husky": {

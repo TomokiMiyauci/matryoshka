@@ -5,7 +5,7 @@
       {{ message.text }}
     </v-card-text>
     <v-card-text class="text-center display-1">
-      Win 11 - 10 Lose
+      Win {{ yourWins }} - {{ enemyWins }} Lose
     </v-card-text>
     <v-card-actions>
       <v-btn @click="exit"><v-icon left>mdi-exit-to-app</v-icon>exit</v-btn>
@@ -20,9 +20,13 @@
 <script lang="ts">
 import { createComponent, computed } from '@vue/composition-api'
 import { Player } from '~/types/player'
+import { Playroom } from '~/types/playroom'
+
 type Props = {
   player: Player
   winner: Player | 'NONE' | 'DRAW'
+  yourWins: Playroom['player1Wins']
+  enemyWins: Playroom['player2Wins']
 }
 
 export default createComponent({
@@ -35,6 +39,16 @@ export default createComponent({
     winner: {
       type: String,
       default: 'NONE'
+    },
+
+    yourWins: {
+      type: Number,
+      default: 0
+    },
+
+    enemyWins: {
+      type: Number,
+      default: 0
     }
   },
 

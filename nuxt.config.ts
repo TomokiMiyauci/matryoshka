@@ -101,11 +101,15 @@ const config: Configuration = {
       terserOptions: {
         compress: { drop_console: process.env.NODE_ENV === 'production' }
       }
-    }
+    },
     /*
      ** You can extend webpack config here
      */
-    // extend(config, ctx) {}
+    extend(config) {
+      return Object.assign({}, config, {
+        devtool: 'source-map'
+      })
+    }
   },
 
   typescript: {

@@ -21,11 +21,14 @@
         <the-match-result
           :player="player"
           :winner="winnerRef"
+          :your-wins="yourWinsRef"
+          :enemy-wins="enemyWinsRef"
           @ready="onReady"
         ></the-match-result>
       </v-dialog>
     </template>
     <template v-else>
+      <div class="text-center round">Round {{ roundRef }}</div>
       <v-ready-go :is-ready="!isLoading" @ready="onLoad"></v-ready-go>
     </template>
   </div>
@@ -46,12 +49,13 @@ import { initialize, createGame } from '~/services/firestore'
 import { useGame } from '~/compositions/game'
 import { useFirestorePlayroom } from '~/repositories/playroom'
 import { subscribe } from '~/services/subscriber'
-import { firestore } from '~/plugins/firebase'
+import firebase, { firestore } from '~/plugins/firebase'
 import { generateShallow } from '~/functions/matrix'
 import { generatePieces } from '~/functions/piece'
 import { Document } from '~/types/document'
 import { Playroom } from '~/types/playroom'
 import { Game } from '~/types/game'
+import { usePlayroom } from '~/compositions/playroom'
 export default createComponent({
   layout: 'playroom',
   components: {
@@ -87,7 +91,10 @@ export default createComponent({
       isGameEnd: false
     })
 
-    // const { boardRef, matrixRef } = useBoard(toRefs(gameRecord).data)
+    const { yourWinsRef, enemyWinsRef, roundRef } = usePlayroom(
+      toRefs(playroom).data,
+      'PLAYER1'
+    )
 
     const { playroomCollectionReference } = useFirestorePlayroom()
 
@@ -132,19 +139,46 @@ export default createComponent({
 
     const onTurnEnd = async (payload: {
       type: 'SETTLE' | 'PEND'
-      winner: string
+      winner: Game['winner']
     }) => {
       switch (payload.type) {
         case 'SETTLE': {
           await firestore.doc(game.path).update({
             winner: payload.winner
           })
+          countUp(payload.winner)
           break
         }
         case 'PEND': {
           await firestore.doc(game.path).update({
             nextPlayer:
               nextPlayerRef.value === 'PLAYER1' ? 'PLAYER2' : 'PLAYER1'
+          })
+          break
+        }
+      }
+    }
+
+    const countUp = (winner: Game['winner']) => {
+      switch (winner) {
+        case 'PLAYER1': {
+          firestore.doc(playroom.path).update({
+            round: firebase.firestore.FieldValue.increment(1),
+            player1Wins: firebase.firestore.FieldValue.increment(1)
+          })
+          break
+        }
+        case 'PLAYER2': {
+          firestore.doc(playroom.path).update({
+            round: firebase.firestore.FieldValue.increment(1),
+            player2Wins: firebase.firestore.FieldValue.increment(1)
+          })
+          break
+        }
+        case 'DRAW': {
+          firestore.doc(playroom.path).update({
+            round: firebase.firestore.FieldValue.increment(1),
+            draws: firebase.firestore.FieldValue.increment(1)
           })
           break
         }
@@ -198,8 +232,24 @@ export default createComponent({
       nextPlayerRef,
       winnerRef,
       isYourTurnRef,
-      player: 'PLAYER1'
+      player: 'PLAYER1',
+      yourWinsRef,
+      enemyWinsRef,
+      roundRef
     }
   }
 })
 </script>
+
+<style lang="scss" scoped>
+.round {
+  position: absolute;
+  top: 5%;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  color: grey;
+  font-size: 10vmin;
+}
+</style>
