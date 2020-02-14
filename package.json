@@ -82,6 +82,8 @@
     "ts-jest": "^24.2.0",
     "ts-loader": "^6.2.1",
     "ts-node": "^8.6.2",
+    "vue-docgen-api": "^4.8.1",
+    "vue-docgen-loader": "^1.4.0",
     "vue-jest": "^4.0.0-0",
     "vuex-module-decorators": "^0.11.0"
   }
