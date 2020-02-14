@@ -7,9 +7,11 @@ module.exports = ({ config }) => {
   config.resolve.alias['~'] = rootPath
   config.resolve.extensions.push('.ts')
 
+
+
   config.module.rules.push({
     test: /\.vue$/,
-    loader: 'storybook-addon-vue-info/loader',
+    loader: 'vue-docgen-loader',
     enforce: 'post'
   })
 
