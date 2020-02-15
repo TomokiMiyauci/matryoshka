@@ -5,15 +5,16 @@ import 'vuetify/dist/vuetify.css'
 import Vuetify from 'vuetify'
 
 const vuetifyConfig = new Vuetify({
-	theme: {
-		dark: false
-	}
+  theme: {
+    dark: false
+  }
 })
 
 addDecorator(() => ({
   vuetify: vuetifyConfig,
   template: '<v-app><v-content><story/></v-content></v-app>',
 }))
+
 
 Vue.use(VueCompositionApi)
 Vue.use(Vuetify)

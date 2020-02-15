@@ -7,8 +7,6 @@ module.exports = ({ config }) => {
   config.resolve.alias['~'] = rootPath
   config.resolve.extensions.push('.ts')
 
-
-
   config.module.rules.push({
     test: /\.vue$/,
     loader: 'vue-docgen-loader',
@@ -28,6 +26,13 @@ module.exports = ({ config }) => {
       }
     ]
   })
+
+  config.module.rules.push({
+    test: /\.ts$/,
+    loaders: [require.resolve('@storybook/addon-storysource/loader')],
+    enforce: 'pre',
+  })
+
   config.module.rules.push({
     test: /\.scss$/,
     use: ['style-loader', 'css-loader', 'sass-loader'],
