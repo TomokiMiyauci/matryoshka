@@ -1,12 +1,9 @@
-# matryoshka [IN-PROGRESS]
+<h1 align="center">Matryoshka</h1>
 
-> This project is in progress and only VS Online is available to you.  
-Play against your favorite people!
+![test](https://github.com/TomokiMiyauci/matryoshka/workflows/test/badge.svg)
 
-## How to Use
-
-1. click <https://nested-dolls.firebaseapp.com/playrooms>
-2. press the cross key or *Looking for opponents* If you have an opponent
+> This is board game evolved the Tic Tac Toe.  
+> <a href="https://nested-dolls.firebaseapp.com/">Play against your favorite people!</a>
 
 ## Build Setup
 
