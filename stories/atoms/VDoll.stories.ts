@@ -1,8 +1,8 @@
 import { withInfo } from 'storybook-addon-vue-info'
 import { storiesOf } from '@storybook/vue'
 import { withKnobs, number, radios } from '@storybook/addon-knobs'
+import { withA11y } from '@storybook/addon-a11y'
 import VDoll from '~/components/atoms/VDoll.vue'
-
 // export default {
 //   title: `atoms|VDoll`,
 //   decorators: [withInfo]
@@ -20,6 +20,7 @@ const options = {
 storiesOf('Atoms|VDoll', module)
   .addDecorator(withInfo)
   .addDecorator(withKnobs)
+  .addDecorator(withA11y)
   .add(
     'default',
     () => ({
