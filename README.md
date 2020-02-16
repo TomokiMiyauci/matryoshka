@@ -5,6 +5,10 @@
 > This is board game evolved the Tic Tac Toe.  
 > <a href="https://nested-dolls.firebaseapp.com/">Play against your favorite people!</a>
 
+## Component Catalog
+
+<a href="https://tomokimiyauci.github.io/matryoshka/?path=/story/welcome--to-storybook">You can see the components used in this project.</a>
+
 ## Build Setup
 
 ``` bash
