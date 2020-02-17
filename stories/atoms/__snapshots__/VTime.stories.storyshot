@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Atoms|VTime default 1`] = `
+<div
+  class="v-application v-application--is-ltr theme--light"
+  data-app="true"
+  id="app"
+>
+  <div
+    class="v-application--wrap"
+  >
+    <main
+      class="v-content"
+      style="padding: 0px 0px 0px 0px;"
+    >
+      <div
+        class="v-content__wrap"
+      >
+        <div
+          class="time"
+        >
+          
+  30
+
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+`;

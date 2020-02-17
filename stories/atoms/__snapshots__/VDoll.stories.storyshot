@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Atoms|VDoll default 1`] = `
+<div
+  class="v-application v-application--is-ltr theme--light"
+  data-app="true"
+  id="app"
+>
+  <div
+    class="v-application--wrap"
+  >
+    <main
+      class="v-content"
+      style="padding: 0px 0px 0px 0px;"
+    >
+      <div
+        class="v-content__wrap"
+      >
+        <img
+          alt="doll"
+          class="default"
+          height="30"
+          src=""
+          width="30"
+        />
+      </div>
+    </main>
+  </div>
+</div>
+`;
