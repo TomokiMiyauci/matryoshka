@@ -1,5 +1,6 @@
 import * as path from 'path'
 import { Configuration } from '@nuxt/types'
+import i18n from './nuxt-i18n.config'
 
 const colors = require('vuetify/es5/util/colors').default
 
@@ -54,8 +55,7 @@ const config: Configuration = {
   /*
    ** Nuxt.js modules
    */
-  modules: ['@nuxtjs/pwa'],
-  // modules: [],
+  modules: ['@nuxtjs/pwa', ['nuxt-i18n', i18n]],
 
   manifest: {
     name: 'Tic Tac Toe',
