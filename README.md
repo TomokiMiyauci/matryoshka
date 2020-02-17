@@ -1,6 +1,7 @@
 <h1 align="center">Matryoshka</h1>
 
 ![test](https://github.com/TomokiMiyauci/matryoshka/workflows/test/badge.svg)
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 
 > This is board game evolved the Tic Tac Toe.  
 > <a href="https://nested-dolls.firebaseapp.com/">Play against your favorite people!</a>
