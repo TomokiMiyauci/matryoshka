@@ -53,10 +53,10 @@ Vue.use(Vuetify)
 
 // automatically import all files ending in *.stories.js
 const req = require.context('../stories', true, /\.stories\.ts$/)
-// function loadStories() {
-//   req.keys().forEach((filename) => req(filename))
-// }
+function loadStories() {
+  req.keys().forEach((filename) => req(filename))
+}
 
 // configure(loadStories, module)
 // automatically import all files ending in *.stories.js
-configure(req, module)
+configure(loadStories, module)
