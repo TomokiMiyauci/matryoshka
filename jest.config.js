@@ -1,11 +1,15 @@
 module.exports = {
   roots: ['<rootDir>/test'],
-  setupFilesAfterEnv: ['./test/setup.js'],
+  setupFiles: [
+    '<rootDir>/test/setup-vuetify.js',
+    '<rootDir>/test/setup-context.js'
+  ],
   testPathIgnorePatterns: ['/node_modules/', '.firebase'],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
     '^~/(.*)$': '<rootDir>/src/$1',
-    '^vue$': 'vue/dist/vue.common.js'
+    '^vue$': 'vue/dist/vue.common.js',
+    '^.+\\.(css|less)$': '<rootDir>/node_modules/jest-transform-stub'
   },
   modulePathIgnorePatterns: ['<rootDir>/.firebase'],
   moduleFileExtensions: ['js', 'vue', 'ts', 'json'],
