@@ -28,6 +28,7 @@
       "@types/jest",
       "@types/lodash.random"
     ],
+    "rootDirs": ["src", "stories"],
     "forceConsistentCasingInFileNames": true  /* Disallow inconsistently-cased references to the same file. */,
     "experimentalDecorators": true,
     "importHelpers": true,
