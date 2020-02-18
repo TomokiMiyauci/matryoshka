@@ -1,6 +1,7 @@
 <h1 align="center">Matryoshka</h1>
 
 ![test](https://github.com/TomokiMiyauci/matryoshka/workflows/test/badge.svg)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat)](https://github.com/prettier/prettier)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 
 > This is board game evolved the Tic Tac Toe.  
