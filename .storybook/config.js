@@ -4,6 +4,7 @@ import { configure, addDecorator,addParameters } from '@storybook/vue'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import { create } from '@storybook/theming';
+import { withKnobs } from '@storybook/addon-knobs'
 
 const vuetifyConfig = new Vuetify({
   theme: {
@@ -13,7 +14,6 @@ const vuetifyConfig = new Vuetify({
 
 const theme = create({
   base: 'dark',
-
   colorPrimary: 'red',
   colorSecondary: '#58487b',
   brandTitle: 'matryoshka',
@@ -21,13 +21,6 @@ const theme = create({
   appBg: '#6d608a',
   barBg: '#3b3152',
   barSelectedColor: 'white',
-  background: { content: 'red' },
-
-  addonActionsTheme: {
-    // ...chromeLight,
-    // BASE_FONT_FAMILY: typography.fonts.mono,
-    BASE_BACKGROUND_COLOR: 'black',
-  },
 });
 
 addParameters({
@@ -36,6 +29,8 @@ addParameters({
   },
   backgrounds: [{ name: 'default', value: '#e7e2f3', default: true }],
 });
+
+addDecorator(withKnobs)
 
 addDecorator(() => ({
   vuetify: vuetifyConfig,
@@ -53,10 +48,10 @@ Vue.use(Vuetify)
 
 // automatically import all files ending in *.stories.js
 const req = require.context('../stories', true, /\.stories\.ts$/)
-function loadStories() {
-  req.keys().forEach((filename) => req(filename))
-}
+// function loadStories() {
+//   req.keys().forEach((filename) => req(filename))
+// }
 
 // configure(loadStories, module)
 // automatically import all files ending in *.stories.js
-configure(loadStories, module)
+configure(req, module)

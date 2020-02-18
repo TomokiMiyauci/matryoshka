@@ -15,7 +15,7 @@ module.exports = {
   moduleFileExtensions: ['js', 'vue', 'ts', 'json'],
   transform: {
     '^.+\\.js$': 'babel-jest',
-    '.*\\.(vue)$': 'vue-jest',
+    '.*\\.(vue)$': '<rootDir>/node_modules/jest-vue-preprocessor',
     '^.+\\.(ts|tsx)$': 'ts-jest',
     '.+\\.(css|scss|png|jpg|svg)$': 'jest-transform-stub'
   },
