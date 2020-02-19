@@ -5,8 +5,11 @@ to: src/components/<%= category %>/<%= componentName || 'unnamed'%>.vue
   <div></div>
 </template>
 
-<script>
-export default {}
+<script lang="ts">
+import { createComponent } from '@vue/composition-api'
+export default createComponent({
+  setup() {}
+})
 </script>
 
-<style scoped></style>
+// <style lang="scss" scoped></style>
