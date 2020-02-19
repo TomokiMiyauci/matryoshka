@@ -1,9 +1,21 @@
 <template>
-  <v-card>
+  <v-card max-width="500px">
     <v-card-title>{{ message.title }}</v-card-title>
     <v-card-text>
       {{ message.text }}
     </v-card-text>
+
+    <v-card-text v-if="!!message.title">
+      <div
+        :class="message.animation"
+        style="display:flex;justify-content:center"
+      >
+        <v-icon size="250px" :color="message.iconColor"
+          >{{ message.icon }}
+        </v-icon>
+      </div>
+    </v-card-text>
+
     <v-card-text class="text-center display-1">
       Win {{ yourWins }} - {{ enemyWins }} Lose
     </v-card-text>
@@ -33,22 +45,26 @@ export default createComponent({
   props: {
     player: {
       type: String,
-      default: ''
+      default: '',
+      required: true
     },
 
     winner: {
       type: String,
-      default: 'NONE'
+      default: 'NONE',
+      required: true
     },
 
     yourWins: {
       type: Number,
-      default: 0
+      default: 0,
+      required: true
     },
 
     enemyWins: {
       type: Number,
-      default: 0
+      default: 0,
+      required: true
     }
   },
 
@@ -56,17 +72,35 @@ export default createComponent({
     const message = computed(() => {
       switch (props.winner) {
         case 'NONE': {
-          return { title: '', text: '' }
+          return { title: '', text: '', icon: '' }
         }
 
         case 'DRAW': {
-          break
+          return {
+            title: 'DRAW',
+            text: 'The ability was equal.',
+            icon: 'mdi-cloud',
+            iconColor: 'grey',
+            animation: 'hover'
+          }
         }
 
         default: {
           return props.player === props.winner
-            ? { title: 'Win!', text: 'Great! You are the winner!' }
-            : { title: 'Lose..', text: 'Ah... You are the loser.' }
+            ? {
+                title: 'Win!',
+                text: 'Great! You are the winner!',
+                icon: 'mdi-white-balance-sunny Google @Google',
+                iconColor: 'orange',
+                animation: 'spin'
+              }
+            : {
+                title: 'Lose..',
+                text: 'Ah... You are the loser.',
+                icon: 'mdi-umbrella',
+                iconColor: 'blue',
+                animation: 'flutter'
+              }
         }
       }
     })
@@ -78,3 +112,36 @@ export default createComponent({
   }
 })
 </script>
+
+<style lang="scss" scoped>
+.spin {
+  animation: spin 5s infinite;
+}
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.flutter {
+  animation: flutter 5s infinite alternate;
+}
+
+@keyframes flutter {
+  50% {
+    transform: rotate(30deg);
+  }
+  100% {
+    transform: rotate(-30deg);
+  }
+}
+
+.hover {
+  animation: hover ease-in 3s infinite;
+}
+@keyframes hover {
+  50% {
+    transform: translateY(15px);
+  }
+}
+</style>
