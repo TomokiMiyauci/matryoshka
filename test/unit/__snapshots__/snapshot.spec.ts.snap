@@ -1,0 +1,401 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Molecules|VGameManager Default 1`] = `
+<div
+  class="v-application v-application--is-ltr theme--light"
+  data-app="true"
+  id="app"
+>
+  <div
+    class="v-application--wrap"
+  >
+    <main
+      class="v-content"
+      style="padding: 0px 0px 0px 0px;"
+    >
+      <div
+        class="v-content__wrap"
+      >
+        <div
+          class="container"
+        >
+          <div
+            class="turn"
+          >
+            Enemy Turn
+          </div>
+           
+          <v-turn-sign
+            next-player="PLAYER2"
+            player="PLAYER1"
+          />
+           
+          <!---->
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Molecules|VSquare Default 1`] = `
+<div
+  class="v-application v-application--is-ltr theme--light"
+  data-app="true"
+  id="app"
+>
+  <div
+    class="v-application--wrap"
+  >
+    <main
+      class="v-content"
+      style="padding: 0px 0px 0px 0px;"
+    >
+      <div
+        class="v-content__wrap"
+      >
+        <div
+          class="square glow"
+        />
+      </div>
+    </main>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Molecules|VSquare Placeable 1`] = `
+<div
+  class="v-application v-application--is-ltr theme--light"
+  data-app="true"
+  id="app"
+>
+  <div
+    class="v-application--wrap"
+  >
+    <main
+      class="v-content"
+      style="padding: 0px 0px 0px 0px;"
+    >
+      <div
+        class="v-content__wrap"
+      >
+        <div
+          class="square own-player1"
+        />
+      </div>
+    </main>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Welcome To Storybook 1`] = `
+<div
+  class="v-application v-application--is-ltr theme--light"
+  data-app="true"
+  id="app"
+>
+  <div
+    class="v-application--wrap"
+  >
+    <main
+      class="v-content"
+      style="padding: 0px 0px 0px 0px;"
+    >
+      <div
+        class="v-content__wrap"
+      >
+        <div
+          style="line-height: 1.4; font-family: \\"Helvetica Neue\\", Helvetica, \\"Segoe UI\\", Arial, freesans, sans-serif; background-color: rgb(255, 255, 255);"
+        >
+          <h1>
+            Welcome to STORYBOOK
+          </h1>
+           
+          <p>
+            
+        This is a UI component dev environment for your app.
+      
+          </p>
+           
+          <p>
+            
+        We've added some basic stories inside the
+        
+            <br />
+             
+            <code
+              style="font-size: 15; font-weight: 600; padding: 2px 5px; border: 1px solid #eae9e9; border-radius: 4; background-color: rgb(243, 242, 242); color: rgb(58, 58, 58);"
+            >
+              src/stories
+            </code>
+             
+            <br />
+            
+        directory.
+        
+            <br />
+            
+        A story is a single state of one or more UI components. You can have as many stories as
+        you want.
+        
+            <br />
+            
+        (Basically a story is like a visual test case.)
+      
+          </p>
+           
+          <p>
+            
+        See these sample
+        
+            <br />
+             
+            <a
+              role="button"
+              style="color: rgb(20, 116, 243); text-decoration: none; border-bottom: 1px solid #1474f3;"
+              tabindex="0"
+            >
+              stories
+            </a>
+             
+            <br />
+            
+        for a component called
+        
+            <br />
+             
+            <code
+              style="font-size: 15; font-weight: 600; padding: 2px 5px; border: 1px solid #eae9e9; border-radius: 4; background-color: rgb(243, 242, 242); color: rgb(58, 58, 58);"
+            >
+              Button
+            </code>
+            
+        .
+      
+          </p>
+           
+          <p>
+            
+        Just like that, you can add your own components as stories.
+        
+            <br />
+            
+        You can also edit those components and see changes right away.
+        
+            <br />
+            
+        (Try editing the 
+            <code
+              style="font-size: 15; font-weight: 600; padding: 2px 5px; border: 1px solid #eae9e9; border-radius: 4; background-color: rgb(243, 242, 242); color: rgb(58, 58, 58);"
+            >
+              Button
+            </code>
+             component
+        located at 
+            <code
+              style="font-size: 15; font-weight: 600; padding: 2px 5px; border: 1px solid #eae9e9; border-radius: 4; background-color: rgb(243, 242, 242); color: rgb(58, 58, 58);"
+            >
+              src/stories/Button.ts
+            </code>
+            .)
+      
+          </p>
+           
+          <p>
+            
+        This is just one thing you can do with Storybook.
+        
+            <br />
+            
+        Have a look at the
+        
+            <br />
+             
+            <a
+              href="https://github.com/storybookjs/storybook"
+              rel="noopener noreferrer"
+              style="color: rgb(20, 116, 243); text-decoration: none; border-bottom: 1px solid #1474f3;"
+              target="_blank"
+            >
+              
+          Storybook
+        
+            </a>
+             
+            <br />
+            
+        repo for more information.
+      
+          </p>
+           
+          <p
+            style="opacity: 0.5;"
+          >
+            <b>
+              NOTE:
+            </b>
+             
+            <br />
+            
+        Have a look at the
+        
+            <br />
+             
+            <code
+              style="font-size: 15; font-weight: 600; padding: 2px 5px; border: 1px solid #eae9e9; border-radius: 4; background-color: rgb(243, 242, 242); color: rgb(58, 58, 58);"
+            >
+              .storybook/webpack.config.ts
+            </code>
+             
+            <br />
+            
+        to add webpack
+        loaders and plugins you are using in this project.
+      
+          </p>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+`;
+
+exports[`Storyshots molecules|VTimer Def 1`] = `
+<div
+  class="v-application v-application--is-ltr theme--light"
+  data-app="true"
+  id="app"
+>
+  <div
+    class="v-application--wrap"
+  >
+    <main
+      class="v-content"
+      style="padding: 0px 0px 0px 0px;"
+    >
+      <div
+        class="v-content__wrap"
+      >
+        <v-time
+          value="30"
+        />
+      </div>
+    </main>
+  </div>
+</div>
+`;
+
+exports[`Storyshots molecules|VTimer Props Count 1`] = `
+<div
+  class="v-application v-application--is-ltr theme--light"
+  data-app="true"
+  id="app"
+>
+  <div
+    class="v-application--wrap"
+  >
+    <main
+      class="v-content"
+      style="padding: 0px 0px 0px 0px;"
+    >
+      <div
+        class="v-content__wrap"
+      >
+        <v-time
+          value="10"
+        />
+      </div>
+    </main>
+  </div>
+</div>
+`;
+
+exports[`Storyshots organisms|TheMatchResult Default 1`] = `
+<div
+  class="v-application v-application--is-ltr theme--light"
+  data-app="true"
+  id="app"
+>
+  <div
+    class="v-application--wrap"
+  >
+    <main
+      class="v-content"
+      style="padding: 0px 0px 0px 0px;"
+    >
+      <div
+        class="v-content__wrap"
+      >
+        <div
+          class="v-card v-sheet theme--light"
+          style="max-width: 500px;"
+        >
+          <div
+            class="v-card__title"
+          >
+            
+          </div>
+           
+          <div
+            class="v-card__text"
+          >
+            
+    
+  
+          </div>
+           
+          <!---->
+           
+          <div
+            class="v-card__text text-center display-1"
+          >
+            
+    Win 0 - 0 Lose
+  
+          </div>
+           
+          <div
+            class="v-card__actions"
+          >
+            <button
+              class="v-btn v-btn--contained theme--light v-size--default"
+              type="button"
+            >
+              <span
+                class="v-btn__content"
+              >
+                <i
+                  aria-hidden="true"
+                  class="v-icon notranslate v-icon--left mdi mdi-exit-to-app theme--light"
+                />
+                exit
+              </span>
+            </button>
+             
+            <hr
+              aria-orientation="horizontal"
+              class="v-divider theme--light"
+              role="separator"
+            />
+             
+            <button
+              class="v-btn v-btn--contained theme--light v-size--default info"
+              type="button"
+            >
+              <span
+                class="v-btn__content"
+              >
+                <i
+                  aria-hidden="true"
+                  class="v-icon notranslate v-icon--left mdi mdi-sword-cross theme--light"
+                />
+                Again
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+`;
