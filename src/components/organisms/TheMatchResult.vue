@@ -44,13 +44,13 @@ type Props = {
 export default createComponent({
   props: {
     player: {
-      type: String,
+      type: String as () => Player,
       default: '',
       required: true
     },
 
     winner: {
-      type: String,
+      type: String as () => Player | 'DRAW' | 'NONE',
       default: 'NONE',
       required: true
     },

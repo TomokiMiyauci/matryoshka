@@ -44,5 +44,19 @@ export const Default = () => ({
   },
   methods: {
     onReady: action('onReady')
+  },
+
+  description: {
+    TheMatchResult: {
+      props: {
+        player: 'It accepts PLAYER1 or PLAYER2.',
+        winner: 'It accepts which player did win.',
+        yourWins: 'Number of yours wins.',
+        enemyWins: "Number of enemy' wins."
+      },
+      events: {
+        ready: 'Event for ready notice.'
+      }
+    }
   }
 })
