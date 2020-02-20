@@ -260,6 +260,64 @@ exports[`Storyshots Welcome To Storybook 1`] = `
 </div>
 `;
 
+exports[`Storyshots atoms|VIconConnect Default 1`] = `
+<div
+  class="v-application v-application--is-ltr theme--light"
+  data-app="true"
+  id="app"
+>
+  <div
+    class="v-application--wrap"
+  >
+    <main
+      class="v-content"
+      style="padding: 0px 0px 0px 0px;"
+    >
+      <div
+        class="v-content__wrap"
+      >
+        <i
+          aria-hidden="true"
+          class="v-icon notranslate spin mdi mdi-cog-clockwise theme--light"
+          style="font-size: 60px;"
+        />
+      </div>
+    </main>
+  </div>
+</div>
+`;
+
+exports[`Storyshots atoms|VIconConnect Example 1`] = `
+<div
+  class="v-application v-application--is-ltr theme--light"
+  data-app="true"
+  id="app"
+>
+  <div
+    class="v-application--wrap"
+  >
+    <main
+      class="v-content"
+      style="padding: 0px 0px 0px 0px;"
+    >
+      <div
+        class="v-content__wrap"
+      >
+        <div
+          style="height: 100%; display: flex; justify-content: center; align-items: center;"
+        >
+          <i
+            aria-hidden="true"
+            class="v-icon notranslate spin mdi mdi-cog-clockwise theme--light"
+            style="font-size: 300px;"
+          />
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+`;
+
 exports[`Storyshots molecules|VTimer Def 1`] = `
 <div
   class="v-application v-application--is-ltr theme--light"
