@@ -1611,7 +1611,7 @@
     signal-exit "^3.0.2"
     ua-parser-js "^0.7.20"
 
-"@nuxt/vue-app@2.11.0":
+"@nuxt/vue-app@2.11.0", "@nuxt/vue-app@^2.11.0":
   version "2.11.0"
   resolved "https://registry.yarnpkg.com/@nuxt/vue-app/-/vue-app-2.11.0.tgz#05aa5fd7cc69bcf6a763b89c51df3bd27b58869e"
   integrity sha512-Eb1XB6LyqgjA0sbr2Ix5VCbq6+yJhEYetNe2TZ7wSeu3eWRSbE0bT5UpB6uvBGT6y95tQBNEJVGyLKvNAWAlkg==
@@ -1746,7 +1746,7 @@
     consola "^2.11.3"
     stylelint-webpack-plugin "^1.2.3"
 
-"@nuxtjs/vuetify@^1.0.0":
+"@nuxtjs/vuetify@^1.11.0":
   version "1.11.0"
   resolved "https://registry.yarnpkg.com/@nuxtjs/vuetify/-/vuetify-1.11.0.tgz#de8bc9e737479e6c167c2ff45122811362fee7b1"
   integrity sha512-5yHaQ8sc9rrae6fAhJeqBbfbZWvhvD+rL3ROUQnTpvognvN2qTvDseM1fezyfQSYh28JRu4qGlTe2Lbgsq3msw==
@@ -1888,6 +1888,22 @@
     react "^16.8.3"
     react-inspector "^4.0.0"
     uuid "^3.3.2"
+
+"@storybook/addon-backgrounds@^5.3.13":
+  version "5.3.13"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-backgrounds/-/addon-backgrounds-5.3.13.tgz#51710fbd058544dbaee0b3243b093f30b5627187"
+  integrity sha512-W9yNFkwDhBH4KrHEBit20tCAe8zbhK7i01S7NjQMtYVR+3CObpHYYPlP2OEGGXSdFC2fyiPkOkm1UbYRcRRJXQ==
+  dependencies:
+    "@storybook/addons" "5.3.13"
+    "@storybook/api" "5.3.13"
+    "@storybook/client-logger" "5.3.13"
+    "@storybook/components" "5.3.13"
+    "@storybook/core-events" "5.3.13"
+    "@storybook/theming" "5.3.13"
+    core-js "^3.0.1"
+    memoizerific "^1.11.3"
+    react "^16.8.3"
+    util-deprecate "^1.0.2"
 
 "@storybook/addon-knobs@^5.3.13":
   version "5.3.13"

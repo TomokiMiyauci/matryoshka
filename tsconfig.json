@@ -25,7 +25,9 @@
     "types": [
       "@types/node",
       "@nuxt/types",
+      "@nuxt/vue-app",
       "@types/jest",
+      "@nuxtjs/vuetify",
       "@types/lodash.random"
     ],
     "rootDirs": ["src", "stories"],
