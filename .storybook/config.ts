@@ -5,12 +5,9 @@ import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import { create } from '@storybook/theming';
 import { withKnobs } from '@storybook/addon-knobs'
+import vuetifyConfig from '../vuetify.options'
 
-const vuetifyConfig = new Vuetify({
-  theme: {
-    dark: false
-  }
-})
+const vuetify = new Vuetify(vuetifyConfig)
 
 const theme = create({
   base: 'dark',
@@ -37,7 +34,7 @@ addParameters({
 addDecorator(withKnobs)
 
 addDecorator(() => ({
-  vuetify: vuetifyConfig,
+  vuetify,
   template: '<v-app><v-content><story /></v-content></v-app>',
 }))
 
