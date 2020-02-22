@@ -6,7 +6,10 @@
 
 <script lang="ts">
 import { createComponent, computed } from '@vue/composition-api'
-type Props = { value: string | number }
+type Props = {
+  value: string | number
+  beat: boolean
+}
 
 const useTime = (props: Props) => {
   const before10Sec = computed(() => props.value < 10)
@@ -23,6 +26,12 @@ export default createComponent({
     value: {
       type: [String, Number],
       required: true
+    },
+
+    beat: {
+      type: Boolean,
+      default: false,
+      required: true
     }
   },
 
@@ -32,7 +41,8 @@ export default createComponent({
     const classStyle = computed(() => {
       return {
         'before-ten-sec': before10Sec.value,
-        'before-three-sec': before3Sec.value
+        'before-three-sec': before3Sec.value,
+        beat: props.beat
       }
     })
 
@@ -61,6 +71,9 @@ $default: turquoise;
   font-size: 4vh;
   border: solid 1vh $default;
   border-radius: 50%;
+}
+
+.beat {
   animation-name: beat;
   animation-duration: 1s;
   animation-iteration-count: infinite;

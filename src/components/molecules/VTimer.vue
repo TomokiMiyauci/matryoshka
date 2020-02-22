@@ -1,5 +1,5 @@
 <template>
-  <v-time :value="time"></v-time>
+  <v-time :value="time" :beat="!!intervalId"></v-time>
 </template>
 
 <script lang="ts">
@@ -8,17 +8,20 @@ import {
   reactive,
   toRefs,
   SetupContext,
-  onUnmounted
+  onUnmounted,
+  watch,
+  computed
 } from '@vue/composition-api'
 import VTime from '~/components/atoms/VTime.vue'
 export type Props = {
   count: string | number
+  isWorking: boolean
 }
 
-export const useTimer = (props: Props, context: SetupContext) => {
+export const useTimer = (props: Props, emit: SetupContext['emit']) => {
   const state = reactive({
     time: Number(props.count),
-    intervalId: undefined as number | undefined
+    intervalId: undefined as NodeJS.Timeout | undefined
   })
 
   const countdown = () => {
@@ -26,27 +29,29 @@ export const useTimer = (props: Props, context: SetupContext) => {
   }
 
   const alarm = () => {
-    context.emit('timeup')
+    emit('timeup')
   }
 
   const cleanUp = () => {
-    clearInterval(state.intervalId)
+    if (state.intervalId) {
+      clearInterval(state.intervalId)
+      state.intervalId = undefined
+    }
   }
 
-  onUnmounted(() => {
-    cleanUp()
-  })
+  const setAlerm = () => {
+    if (state.intervalId) return
+    state.intervalId = setInterval(() => {
+      if (state.time > 0) {
+        countdown()
+      } else {
+        cleanUp()
+        alarm()
+      }
+    }, 1000)
+  }
 
-  state.intervalId = window.setInterval(() => {
-    if (state.time > 0) {
-      countdown()
-    } else {
-      cleanUp()
-      alarm()
-    }
-  }, 1000)
-
-  return { ...toRefs(state), cleanUp }
+  return { ...toRefs(state), cleanUp, setAlerm }
 }
 
 export default createComponent({
@@ -54,6 +59,10 @@ export default createComponent({
     count: {
       type: [String, Number],
       default: 30
+    },
+
+    isWorking: {
+      type: Boolean
     }
   },
 
@@ -61,12 +70,27 @@ export default createComponent({
     VTime
   },
 
-  setup(props: Props, context) {
-    const { time, cleanUp } = useTimer(props, context)
+  setup(props: Props, { emit }) {
+    const { time, intervalId, setAlerm, cleanUp } = useTimer(props, emit)
+    setAlerm()
+    watch(
+      computed(() => props.isWorking),
+      (isWorking) => {
+        if (isWorking) {
+          setAlerm()
+        } else {
+          cleanUp()
+        }
+      }
+    )
+
+    onUnmounted(() => {
+      cleanUp()
+    })
 
     return {
       time,
-      cleanUp
+      intervalId
     }
   }
 })
