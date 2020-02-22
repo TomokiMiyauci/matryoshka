@@ -10,7 +10,7 @@
       <transition name="fade-transition" mode="out-in">
         <v-timer
           v-if="isYourTurn"
-          ref="timer"
+          :is-working="isWorkingTimer"
           count="30"
           @timeup="$emit('timeup')"
         >
@@ -30,6 +30,7 @@ import VTurnSign from '~/components/molecules/VTurnSign.vue'
 type Props = {
   isYourTurn: Boolean
   enableTimer: Boolean
+  isWorkingTimer: Boolean
   player: string
   nextPlayer: string
 }
@@ -44,6 +45,11 @@ export default createComponent({
     enableTimer: {
       type: Boolean,
       default: false
+    },
+
+    isWorkingTimer: {
+      type: Boolean,
+      default: true
     },
 
     player: {

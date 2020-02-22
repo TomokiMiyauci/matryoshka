@@ -21,7 +21,8 @@ import {
   computed,
   watch,
   reactive,
-  toRefs
+  toRefs,
+  ref
 } from '@vue/composition-api'
 
 import VBoard from '~/components/molecules/VBoard.vue'
@@ -112,6 +113,8 @@ export default createComponent({
       }
     )
 
+    const isWorkingTimer = ref(true)
+
     const player: Player = 'PLAYER1'
 
     const {
@@ -161,6 +164,8 @@ export default createComponent({
               emit('action', { type: 'PEND', nextPlayer: 'PLAYER1' })
             }
           }, 3000)
+        } else {
+          isWorkingTimer.value = true
         }
         console.log(now, prev)
       }
@@ -196,7 +201,8 @@ export default createComponent({
       return {
         isYourTurn: props.isYourTurn,
         player,
-        nextPlayer: props.nextPlayer
+        nextPlayer: props.nextPlayer,
+        isWorkingTimer: isWorkingTimer.value
       }
     })
 
@@ -273,6 +279,7 @@ export default createComponent({
       })
 
       const win = isWin(player1T)
+      isWorkingTimer.value = false
 
       if (win) {
         emit('action', { type: 'SETTLE', winner: 'PLAYER1' })
