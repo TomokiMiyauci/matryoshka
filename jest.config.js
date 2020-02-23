@@ -14,6 +14,7 @@ module.exports = {
   modulePathIgnorePatterns: ['<rootDir>/.firebase'],
   moduleFileExtensions: ['js', 'vue', 'ts', 'json'],
   transform: {
+    '^.+\\.stories\\.(js|ts)$': '@storybook/addon-storyshots/injectFileName',
     '^.+\\.js$': 'babel-jest',
     '.*\\.(vue)$': '<rootDir>/node_modules/jest-vue-preprocessor',
     '^.+\\.(ts|tsx)$': 'ts-jest',

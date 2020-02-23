@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots organisms|TheMatchResult Default 1`] = `
+<div
+  class="v-application v-application--is-ltr theme--light"
+  data-app="true"
+  id="app"
+>
+  <div
+    class="v-application--wrap"
+  >
+    <main
+      class="v-content"
+      style="padding: 0px 0px 0px 0px;"
+    >
+      <div
+        class="v-content__wrap"
+      >
+        <div
+          class="v-card v-sheet theme--light"
+          style="max-width: 500px;"
+        >
+          <div
+            class="v-card__title"
+          >
+            
+          </div>
+           
+          <div
+            class="v-card__text"
+          >
+            
+    
+  
+          </div>
+           
+          <!---->
+           
+          <div
+            class="v-card__text text-center display-1"
+          >
+            
+    Win 0 - 0 Lose
+  
+          </div>
+           
+          <div
+            class="v-card__actions"
+          >
+            <button
+              class="v-btn v-btn--contained theme--light v-size--default"
+              type="button"
+            >
+              <span
+                class="v-btn__content"
+              >
+                <i
+                  aria-hidden="true"
+                  class="v-icon notranslate v-icon--left mdi mdi-exit-to-app theme--light"
+                />
+                exit
+              </span>
+            </button>
+             
+            <hr
+              aria-orientation="horizontal"
+              class="v-divider theme--light"
+              role="separator"
+            />
+             
+            <button
+              class="v-btn v-btn--contained theme--light v-size--default info"
+              type="button"
+            >
+              <span
+                class="v-btn__content"
+              >
+                <i
+                  aria-hidden="true"
+                  class="v-icon notranslate v-icon--left mdi mdi-sword-cross theme--light"
+                />
+                Again
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+`;

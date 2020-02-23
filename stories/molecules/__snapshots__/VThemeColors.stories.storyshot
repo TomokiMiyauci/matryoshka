@@ -1,0 +1,145 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots theme|Color Dark 1`] = `
+<div
+  class="v-application v-application--is-ltr theme--light"
+  data-app="true"
+  id="app"
+>
+  <div
+    class="v-application--wrap"
+  >
+    <main
+      class="v-content"
+      style="padding: 0px 0px 0px 0px;"
+    >
+      <div
+        class="v-content__wrap"
+      >
+        <div
+          class="container"
+        >
+          <div
+            class="layout row"
+          >
+            <v-color-picker
+              class="ma-3"
+              color="#1976D2"
+              hex="#1976D2"
+              title="#primary"
+            />
+            <v-color-picker
+              class="ma-3"
+              color="#424242"
+              hex="#424242"
+              title="#secondary"
+            />
+            <v-color-picker
+              class="ma-3"
+              color="#82B1FF"
+              hex="#82B1FF"
+              title="#accent"
+            />
+            <v-color-picker
+              class="ma-3"
+              color="#FF5252"
+              hex="#FF5252"
+              title="#error"
+            />
+            <v-color-picker
+              class="ma-3"
+              color="#2196F3"
+              hex="#2196F3"
+              title="#info"
+            />
+            <v-color-picker
+              class="ma-3"
+              color="#4CAF50"
+              hex="#4CAF50"
+              title="#success"
+            />
+            <v-color-picker
+              class="ma-3"
+              color="#FFC107"
+              hex="#FFC107"
+              title="#warning"
+            />
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+`;
+
+exports[`Storyshots theme|Color Light 1`] = `
+<div
+  class="v-application v-application--is-ltr theme--light"
+  data-app="true"
+  id="app"
+>
+  <div
+    class="v-application--wrap"
+  >
+    <main
+      class="v-content"
+      style="padding: 0px 0px 0px 0px;"
+    >
+      <div
+        class="v-content__wrap"
+      >
+        <div
+          class="container"
+        >
+          <div
+            class="layout row"
+          >
+            <v-color-picker
+              class="ma-3"
+              color="#EF5350"
+              hex="#EF5350"
+              title="#primary"
+            />
+            <v-color-picker
+              class="ma-3"
+              color="#66BB6A"
+              hex="#66BB6A"
+              title="#secondary"
+            />
+            <v-color-picker
+              class="ma-3"
+              color="#84FFFF"
+              hex="#84FFFF"
+              title="#accent"
+            />
+            <v-color-picker
+              class="ma-3"
+              color="#AB47BC"
+              hex="#AB47BC"
+              title="#error"
+            />
+            <v-color-picker
+              class="ma-3"
+              color="#2196F3"
+              hex="#2196F3"
+              title="#info"
+            />
+            <v-color-picker
+              class="ma-3"
+              color="#4CAF50"
+              hex="#4CAF50"
+              title="#success"
+            />
+            <v-color-picker
+              class="ma-3"
+              color="#FFC107"
+              hex="#FFC107"
+              title="#warning"
+            />
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+`;
