@@ -1,8 +1,10 @@
 module.exports = {
   roots: ['<rootDir>/test'],
-  setupFiles: [
-    '<rootDir>/test/setup-vuetify.js',
-    '<rootDir>/test/setup-context.js'
+  setupFilesAfterEnv: [
+    '<rootDir>/test/setup/vue.ts',
+    '<rootDir>/test/setup/composition-api.ts',
+    '<rootDir>/test/setup/vuetify.ts',
+    '<rootDir>/test/setup/context.ts'
   ],
   testPathIgnorePatterns: ['/node_modules/', '.firebase'],
   moduleNameMapper: {
