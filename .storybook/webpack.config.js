@@ -29,14 +29,14 @@ module.exports = ({ config }) => {
 
   config.module.rules.push({
     test: /\.ts$/,
-    loaders: [require.resolve('@storybook/addon-storysource/loader')],
+    loaders: [require.resolve('@storybook/source-loader')],
     enforce: 'pre',
   })
 
   config.module.rules.push({
     test: /\.scss$/,
     use: ['style-loader', 'css-loader', 'sass-loader'],
-    include: path.resolve(__dirname, '../'),
+    include: rootPath,
   });
 
   config.plugins.push(new ForkTsCheckerWebpackPlugin())

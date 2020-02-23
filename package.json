@@ -44,6 +44,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.7.2",
+    "@deboxsoft/cpx": "^1.5.0",
     "@nuxt/typescript-build": "^0.5.4",
     "@nuxt/vue-app": "^2.11.0",
     "@nuxtjs/eslint-config-typescript": "^1.0.0",
@@ -59,6 +60,7 @@
     "@storybook/addon-storysource": "^5.3.13",
     "@storybook/addon-viewport": "^5.3.13",
     "@storybook/addons": "^5.2.5",
+    "@storybook/source-loader": "^5.3.13",
     "@storybook/storybook-deployer": "^2.8.1",
     "@storybook/vue": "^5.2.5",
     "@types/jest": "^24.0.25",
@@ -86,6 +88,7 @@
     "nuxt-i18n": "^6.5.0",
     "prettier": "^1.16.4",
     "storybook-addon-vue-info": "^1.4.1",
+    "storybook-chromatic": "^3.5.2",
     "style-loader": "^1.1.2",
     "stylelint": "^13.0.0",
     "stylelint-config-prettier": "^8.0.1",
