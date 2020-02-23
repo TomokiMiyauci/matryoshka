@@ -27,7 +27,11 @@ describe('VTimer.vue', () => {
 
   it('should emit if count is 0', () => {
     const wrapper = shallowMount(VTimer, {
-      localVue
+      localVue,
+      propsData: {
+        count: 10,
+        isWorking: true
+      }
     })
     jest.runAllTimers()
 
