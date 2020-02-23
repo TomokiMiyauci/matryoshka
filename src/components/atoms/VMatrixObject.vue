@@ -15,7 +15,8 @@
 
 <script lang="ts">
 import { createComponent, ref, onUnmounted } from '@vue/composition-api'
-import { random, shuffle } from 'lodash'
+import random from 'lodash/random'
+import shuffle from 'lodash/shuffle'
 
 type ShallowArray = {
   id: number

@@ -18,7 +18,7 @@
     <v-row class="b" align="center" justify="center">
       <v-matrix-object></v-matrix-object>
     </v-row>
-    <v-btn absolute top right icon large to="/login">
+    <v-btn disabled absolute top right icon large to="/login">
       <v-icon>mdi-login-variant</v-icon>
     </v-btn>
 
