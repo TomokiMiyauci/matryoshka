@@ -1,6 +1,6 @@
 <template>
   <div style="height: 100%;">
-    <template v-if="isReady">
+    <template v-if="!isReady && !isLoading">
       <the-playground
         ref="playroom"
         :enable-timer="true"
@@ -12,9 +12,7 @@
 
       <v-dialog
         :value="isGameEnd"
-        scrollable
         persistent
-        :overlay="false"
         max-width="500px"
         transition="dialog-transition"
       >
@@ -27,9 +25,16 @@
         ></the-match-result>
       </v-dialog>
     </template>
-    <template v-else>
+    <template v-else-if="isLoading">
+      <div
+        style="display:flex;align-items:center;justify-content: center;height:100%;"
+      >
+        <v-icon-connect :size="300" />
+      </div>
+    </template>
+    <template v-else-if="isReady">
       <div class="text-center round">Round {{ roundRef }}</div>
-      <v-ready-go :is-ready="!isLoading" @ready="onLoad"></v-ready-go>
+      <v-ready-go :is-ready="flag" @ready="onLoad"></v-ready-go>
     </template>
   </div>
 </template>
@@ -42,6 +47,7 @@ import {
   onBeforeMount,
   watch
 } from '@vue/composition-api'
+import VIconConnect from '~/components/atoms/VIconConnect.vue'
 import VReadyGo from '~/components/atoms/VReadyFight.vue'
 import { useFirestoreGameRecord } from '~/repositories/game-record'
 import ThePlayground from '~/components/organisms/ThePlayground.vue'
@@ -61,6 +67,7 @@ export default createComponent({
   components: {
     ThePlayground,
     VReadyGo,
+    VIconConnect,
     TheMatchResult: () => import('~/components/organisms/TheMatchResult.vue')
   },
   setup() {
@@ -88,6 +95,7 @@ export default createComponent({
     const progress = reactive({
       isLoading: true,
       isReady: false,
+      flag: false,
       isGameEnd: false
     })
 
@@ -135,6 +143,11 @@ export default createComponent({
     onBeforeMount(async () => {
       await initialize()
       bind()
+      progress.isLoading = false
+      progress.isReady = true
+      setTimeout(() => {
+        progress.flag = true
+      }, 2000)
     })
 
     const onTurnEnd = async (payload: {
@@ -186,6 +199,10 @@ export default createComponent({
     }
 
     const onReady = async () => {
+      progress.isGameEnd = false
+      progress.flag = false
+      progress.isReady = false
+      progress.isLoading = true
       await createGame()
 
       console.log(JSON.stringify(game))
@@ -201,16 +218,15 @@ export default createComponent({
         player2Hands
       })
 
-      progress.isLoading = true
-      progress.isReady = false
-      progress.isGameEnd = false
+      progress.isLoading = false
+      progress.isReady = true
       setTimeout(() => {
-        progress.isLoading = false
+        progress.flag = true
       }, 2000)
     }
 
     const onLoad = () => {
-      progress.isReady = true
+      progress.isReady = false
     }
     const bind = () => {
       subscribe(
@@ -218,9 +234,9 @@ export default createComponent({
         playroomCollectionReference.value.limit(1).orderBy('createdAt', 'desc')
       )
     }
-    setTimeout(() => {
-      progress.isLoading = false
-    }, 2000)
+    // setTimeout(() => {
+    //   progress.isLoading = false
+    // }, 2000)
 
     return {
       ...toRefs(progress),
