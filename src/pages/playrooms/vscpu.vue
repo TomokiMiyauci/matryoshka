@@ -124,6 +124,12 @@ export default createComponent({
       switch (now) {
         case 'PLAYER1': {
           progress.isGameEnd = true
+          break
+        }
+
+        case 'PLAYER2': {
+          progress.isGameEnd = true
+          break
         }
       }
     })

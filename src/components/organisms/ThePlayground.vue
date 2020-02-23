@@ -149,8 +149,8 @@ export default createComponent({
       }),
       (now, prev) => {
         if (now === 'PLAYER2' && prev === 'PLAYER1') {
-          setTimeout(() => {
-            nextGame()
+          setTimeout(async () => {
+            await nextGame()
             const player2 = getTerritory({
               matrix: matrixRef.value,
               player: 'PLAYER2'

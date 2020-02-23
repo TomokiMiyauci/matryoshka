@@ -106,7 +106,7 @@ export default createComponent({
     })
 
     const exit = (): void => {
-      root.$router.push('/playrooms')
+      root.$router.push('/')
     }
     return { exit, message }
   }

@@ -50,12 +50,13 @@
       </v-col>
       <v-col cols="auto"
         ><v-btn
+          disabled
           color="warning"
           max-width="500px"
           min-width="200px"
           width="50vw"
           rounded
-          >How to play</v-btn
+          >{{ $t('HOW_TO_PLAY') }}</v-btn
         ></v-col
       >
     </v-row>
