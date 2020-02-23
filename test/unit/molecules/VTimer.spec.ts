@@ -1,22 +1,17 @@
-import VueCompositionApi from '@vue/composition-api'
-import { shallowMount, createLocalVue } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import VTimer from '~/components/molecules/VTimer.vue'
-
-const localVue = createLocalVue()
-localVue.use(VueCompositionApi)
 
 jest.useFakeTimers()
 
 describe('VTimer.vue', () => {
   it('should be default props value is 30', () => {
-    const wrapper = shallowMount(VTimer, { localVue })
+    const wrapper = shallowMount(VTimer)
 
     expect(wrapper.attributes().value).toBe('30')
   })
 
   it('should overwrite default props if it gives props', () => {
     const wrapper = shallowMount(VTimer, {
-      localVue,
       propsData: {
         count: 10
       }
@@ -27,7 +22,6 @@ describe('VTimer.vue', () => {
 
   it('should emit if count is 0', () => {
     const wrapper = shallowMount(VTimer, {
-      localVue,
       propsData: {
         count: 10,
         isWorking: true
@@ -39,9 +33,7 @@ describe('VTimer.vue', () => {
   })
 
   it('should not emit if component is destroyed before count is 0', () => {
-    const wrapper = shallowMount(VTimer, {
-      localVue
-    })
+    const wrapper = shallowMount(VTimer)
     wrapper.destroy()
     jest.runAllTimers()
 

@@ -1,11 +1,7 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
-import VueCompositionApi from '@vue/composition-api'
+import { shallowMount } from '@vue/test-utils'
 import VThemeColors from '~/components/molecules/VThemeColors.vue'
 import vuetifyOptions from '~/../vuetify.options'
 const { light } = vuetifyOptions.theme.themes
-
-const localVue = createLocalVue()
-localVue.use(VueCompositionApi)
 
 describe('VThemeColors', () => {
   it('should have props of theme', () => {
@@ -14,7 +10,6 @@ describe('VThemeColors', () => {
       title: key
     }))
     const wrapper = shallowMount(VThemeColors, {
-      localVue,
       propsData: {
         theme
       }

@@ -1,20 +1,15 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
-import VueCompositionApi from '@vue/composition-api'
+import { shallowMount } from '@vue/test-utils'
 import VDoll from '~/components/atoms/VDoll.vue'
-
-const localVue = createLocalVue()
-localVue.use(VueCompositionApi)
 
 describe('VDoll.vue', () => {
   it('should be img element ', () => {
-    const wrapper = shallowMount(VDoll, { localVue })
+    const wrapper = shallowMount(VDoll)
 
     expect(wrapper.contains('img')).toBeTruthy()
   })
 
   it('should have props interface named width', () => {
     const wrapper = shallowMount(VDoll, {
-      localVue,
       propsData: {
         size: '30px'
       }
@@ -24,7 +19,6 @@ describe('VDoll.vue', () => {
 
   it('should have attribute of width and height through props', () => {
     const wrapper = shallowMount(VDoll, {
-      localVue,
       propsData: {
         size: '30'
       }
@@ -36,7 +30,6 @@ describe('VDoll.vue', () => {
 
   it('should have props interface of color', () => {
     const wrapper = shallowMount(VDoll, {
-      localVue,
       propsData: {
         color: 'red'
       }
@@ -46,11 +39,9 @@ describe('VDoll.vue', () => {
 
   it('should have image src if give props of color is red', () => {
     const wrapper = shallowMount(VDoll, {
-      localVue
-    })
-
-    wrapper.setProps({
-      color: 'red'
+      propsData: {
+        color: 'red'
+      }
     })
 
     expect(wrapper.isVueInstance()).toBeTruthy()
@@ -58,11 +49,9 @@ describe('VDoll.vue', () => {
 
   it('should display image if give props of color is red or blue', () => {
     const wrapper = shallowMount(VDoll, {
-      localVue
-    })
-
-    wrapper.setProps({
-      color: 'blue'
+      propsData: {
+        color: 'blue'
+      }
     })
 
     expect(wrapper.attributes()).toBeTruthy()

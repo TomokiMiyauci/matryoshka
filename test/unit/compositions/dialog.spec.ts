@@ -1,8 +1,5 @@
-import VueCompositionApi, { isRef } from '@vue/composition-api'
-import Vue from 'vue'
+import { isRef } from '@vue/composition-api'
 import { useDialog } from '~/compositions/dialog'
-
-Vue.use(VueCompositionApi)
 
 describe('dialog.ts', () => {
   it('should have state what is boolean and Ref', () => {

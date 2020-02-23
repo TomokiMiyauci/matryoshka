@@ -1,9 +1,5 @@
-import VueCompositionApi from '@vue/composition-api'
-import { shallowMount, createLocalVue } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import VSquare from '~/components/molecules/VSquare.vue'
-
-const localVue = createLocalVue()
-localVue.use(VueCompositionApi)
 
 const element = { row: 0, col: 0, pieces: [] }
 
@@ -11,7 +7,6 @@ describe('VSquare.vue', () => {
   it('should have props of element', () => {
     const element = { row: 0, col: 0, pieces: [] }
     const wrapper = shallowMount(VSquare, {
-      localVue,
       propsData: {
         element
       }
@@ -23,7 +18,6 @@ describe('VSquare.vue', () => {
   it('should receive object type through props of element', () => {
     const element = { row: 0, col: 0, pieces: [] }
     const wrapper = shallowMount(VSquare, {
-      localVue,
       propsData: {
         element
       }
@@ -34,7 +28,6 @@ describe('VSquare.vue', () => {
 
   it('should have slot at inner child', () => {
     const wrapper = shallowMount(VSquare, {
-      localVue,
       slots: {
         default: '<span>test</span>'
       },
@@ -50,7 +43,6 @@ describe('VSquare.vue', () => {
 
   it('should trigger emit when clicked', () => {
     const wrapper = shallowMount(VSquare, {
-      localVue,
       propsData: {
         element
       }
@@ -63,7 +55,6 @@ describe('VSquare.vue', () => {
   it('should return value when emitted', () => {
     const element = { row: 0, col: 0, pieces: [] }
     const wrapper = shallowMount(VSquare, {
-      localVue,
       propsData: {
         element
       }
@@ -75,7 +66,6 @@ describe('VSquare.vue', () => {
 
   it('should renders the correct markup', () => {
     const wrapper = shallowMount(VSquare, {
-      localVue,
       propsData: {
         element
       }

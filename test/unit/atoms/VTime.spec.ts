@@ -1,16 +1,12 @@
-import VueCompositionApi from '@vue/composition-api'
-import { shallowMount, createLocalVue, mount } from '@vue/test-utils'
+import { shallowMount, mount } from '@vue/test-utils'
 import VTime from '~/components/atoms/VTime.vue'
-
-const localVue = createLocalVue()
-localVue.use(VueCompositionApi)
 
 describe('VTime.vue', () => {
   it('should have props of value', () => {
     const wrapper = shallowMount(VTime, {
-      localVue,
       propsData: {
-        value: 10
+        value: 10,
+        beat: false
       }
     })
 
@@ -19,9 +15,9 @@ describe('VTime.vue', () => {
 
   it('should have props value at child if it gives props of value', () => {
     const wrapper = mount(VTime, {
-      localVue,
       propsData: {
-        value: 10
+        value: 10,
+        beat: false
       }
     })
 
@@ -30,9 +26,9 @@ describe('VTime.vue', () => {
 
   it('should return empty class if it gives props of value what is higher than 10', () => {
     const wrapper = shallowMount(VTime, {
-      localVue,
       propsData: {
-        value: 30
+        value: 30,
+        beat: false
       }
     })
 
@@ -42,9 +38,9 @@ describe('VTime.vue', () => {
 
   it('should return before-ten-sec class if it gives props of value what is between 4 and 9', () => {
     const wrapper = shallowMount(VTime, {
-      localVue,
       propsData: {
-        value: 4
+        value: 4,
+        beat: false
       }
     })
 
@@ -54,9 +50,9 @@ describe('VTime.vue', () => {
 
   it('should return before-ten-sec and before-three-sec class if it gives props of value what is less then 3', () => {
     const wrapper = shallowMount(VTime, {
-      localVue,
       propsData: {
-        value: 3
+        value: 3,
+        beat: false
       }
     })
 

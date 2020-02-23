@@ -1,16 +1,12 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
-import VueCompositionApi from '@vue/composition-api'
+import { shallowMount } from '@vue/test-utils'
 import VTurnSign from '~/components/molecules/VTurnSign.vue'
 
 const PLAYER_1 = 'PLAYER_1'
 const PLAYER_2 = 'PLAYER_2'
-const localVue = createLocalVue()
-localVue.use(VueCompositionApi)
 
 describe('molecules/VTurnSign', () => {
   it('should have props of PLAYER_1', () => {
     const wrapper = shallowMount(VTurnSign, {
-      localVue,
       propsData: {
         player: PLAYER_1
       }
@@ -20,7 +16,6 @@ describe('molecules/VTurnSign', () => {
 
   it('should have props of nextPlayer', () => {
     const wrapper = shallowMount(VTurnSign, {
-      localVue,
       propsData: {
         nextPlayer: PLAYER_1
       }
@@ -30,7 +25,6 @@ describe('molecules/VTurnSign', () => {
 
   it('should have mdi-sword-cross icon if giving props of player and nextPlayer are equal', () => {
     const wrapper = shallowMount(VTurnSign, {
-      localVue,
       propsData: {
         nextPlayer: PLAYER_1,
         player: PLAYER_1
@@ -42,7 +36,6 @@ describe('molecules/VTurnSign', () => {
 
   it('should have mdi-shield-sun icon if giving props of player and nextPlayer are deference', () => {
     const wrapper = shallowMount(VTurnSign, {
-      localVue,
       propsData: {
         nextPlayer: PLAYER_2,
         player: PLAYER_1
@@ -54,7 +47,6 @@ describe('molecules/VTurnSign', () => {
 
   it('should have specific text if giving props of player and nextPlayer are equal2', () => {
     const wrapper = shallowMount(VTurnSign, {
-      localVue,
       propsData: {
         nextPlayer: PLAYER_1,
         player: PLAYER_2
