@@ -24,12 +24,18 @@ module.exports = ({ config }) => {
           transpileOnly: true
         }
       }
-    ]
+    ],
+    exclude: [/vendor/, /\.nuxt/]
   })
 
   config.module.rules.push({
-    test: /\.ts$/,
-    loaders: [require.resolve('@storybook/source-loader')],
+    test: /\.stories\.ts?$/,
+    loaders: [
+      {
+        loader: require.resolve('@storybook/source-loader'),
+        options: { parser: 'typescript' },
+      }
+    ],
     enforce: 'pre',
   })
 
