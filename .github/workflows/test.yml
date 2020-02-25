@@ -119,7 +119,7 @@ jobs:
       - name: test unit
         run: yarn test --ci
 
-      - name: upload coverage
-        uses: codecov/codecov-action@master
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+      # - name: upload coverage
+      #   uses: codecov/codecov-action@master
+      #   with:
+      #     token: ${{ secrets.CODECOV_TOKEN }}
