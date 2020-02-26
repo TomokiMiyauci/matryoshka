@@ -34,11 +34,7 @@ const config: Configuration = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [
-    '~/plugins/firebase',
-    '~/plugins/composition-api',
-    '~/plugins/vuefire'
-  ],
+  plugins: ['~/plugins/firebase', '~/plugins/composition-api'],
   /*
    ** Nuxt.js dev-modules
    */
