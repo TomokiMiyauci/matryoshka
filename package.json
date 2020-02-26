@@ -41,7 +41,8 @@
     "firebaseui": "^4.3.0",
     "nuxt": "^2.0.0",
     "vuefire": "^2.2.0",
-    "vuexfire": "^3.2.0"
+    "vuexfire": "^3.2.0",
+    "nuxt-i18n": "^6.5.0"
   },
   "devDependencies": {
     "@babel/core": "^7.7.2",
@@ -86,7 +87,6 @@
     "jest-vue-preprocessor": "^1.7.1",
     "lint-staged": "^8.2.1",
     "lodash": "^4.17.15",
-    "nuxt-i18n": "^6.5.0",
     "prettier": "^1.16.4",
     "storybook-addon-vue-info": "^1.4.1",
     "storybook-chromatic": "^3.5.2",
