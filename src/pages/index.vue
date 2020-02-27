@@ -9,7 +9,7 @@
         large
         href="https://github.com/TomokiMiyauci/matryoshka"
       >
-        <v-icon>mdi-github-circle</v-icon>
+        <v-icon>{{ icon.github }}</v-icon>
       </v-btn>
       <h1 class="text-center titler white--text">
         Matryoshka
@@ -19,7 +19,7 @@
       <v-matrix-object></v-matrix-object>
     </v-row>
     <v-btn disabled absolute top right icon large to="/login">
-      <v-icon>mdi-login-variant</v-icon>
+      <v-icon>{{ icon.login }}</v-icon>
     </v-btn>
 
     <v-row class="c" justify="center" align-content="center" align="center">
@@ -66,14 +66,19 @@
   </v-container>
 </template>
 
-<script>
+<script lang="ts">
 import { createComponent } from '@vue/composition-api'
-import VMatrixObject from '~/components/atoms/VMatrixObject.vue'
+import { mdiLoginVariant, mdiGithubCircle } from '@mdi/js'
+
 export default createComponent({
   layout: 'landing',
 
   components: {
-    VMatrixObject
+    VMatrixObject: () => import('~/components/atoms/VMatrixObject.vue')
+  },
+
+  setup() {
+    return { icon: { login: mdiLoginVariant, github: mdiGithubCircle } }
   }
 })
 </script>

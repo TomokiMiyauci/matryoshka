@@ -4,8 +4,10 @@ import VColorPicker from '~/components/molecules/VColorPicker.vue'
 describe('VColorPicker.vue', () => {
   it('should have props of title', () => {
     const title = '#Primary'
+    const color = 'rgba(255,255,255,1)'
+
     const wrapper = shallowMount(VColorPicker, {
-      propsData: { title }
+      propsData: { title, color }
     })
 
     expect(wrapper.props().title).toBe(title)
@@ -21,7 +23,7 @@ describe('VColorPicker.vue', () => {
   it('should have props of hex', () => {
     const hex = 'rgba(255,255,255,1)'
     const wrapper = shallowMount(VColorPicker, {
-      propsData: { hex }
+      propsData: { color: hex, hex }
     })
 
     expect(wrapper.props().hex).toBe(hex)

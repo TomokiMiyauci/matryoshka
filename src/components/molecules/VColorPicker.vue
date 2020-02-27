@@ -9,7 +9,7 @@
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <v-btn class="ml-2" icon>
-              <v-icon v-on="on">mdi-content-copy</v-icon>
+              <v-icon v-on="on">{{ icon }}</v-icon>
             </v-btn>
           </template>
           <span>Copy</span>
@@ -21,6 +21,7 @@
 
 <script lang="ts">
 import { createComponent } from '@vue/composition-api'
+import { mdiContentCopy } from '@mdi/js'
 
 export default createComponent({
   props: {
@@ -39,6 +40,10 @@ export default createComponent({
       type: String,
       default: 'rgba(255,255,255,1)'
     }
+  },
+
+  setup() {
+    return { icon: mdiContentCopy }
   }
 })
 </script>

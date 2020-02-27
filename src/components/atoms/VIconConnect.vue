@@ -1,9 +1,11 @@
 <template>
-  <v-icon class="spin" :size="size">mdi-cog-clockwise</v-icon>
+  <v-icon class="spin" :size="size">{{ icon }}</v-icon>
 </template>
 
 <script lang="ts">
 import { createComponent } from '@vue/composition-api'
+import { mdiCogClockwise } from '@mdi/js'
+
 export default createComponent({
   props: {
     size: {
@@ -11,6 +13,10 @@ export default createComponent({
       default: 60,
       required: true
     }
+  },
+
+  setup() {
+    return { icon: mdiCogClockwise }
   }
 })
 </script>

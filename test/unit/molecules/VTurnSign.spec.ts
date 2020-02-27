@@ -1,4 +1,5 @@
 import { shallowMount } from '@vue/test-utils'
+import { mdiSwordCross, mdiShieldSun } from '@mdi/js'
 import VTurnSign from '~/components/molecules/VTurnSign.vue'
 
 const PLAYER_1 = 'PLAYER_1'
@@ -31,7 +32,7 @@ describe('molecules/VTurnSign', () => {
       }
     })
 
-    expect(wrapper.find('v-icon-stub').text()).toBe('mdi-sword-cross')
+    expect(wrapper.find('v-icon-stub').text()).toBe(mdiSwordCross)
   })
 
   it('should have mdi-shield-sun icon if giving props of player and nextPlayer are deference', () => {
@@ -42,7 +43,7 @@ describe('molecules/VTurnSign', () => {
       }
     })
 
-    expect(wrapper.find('v-icon-stub').text()).toBe('mdi-shield-sun')
+    expect(wrapper.find('v-icon-stub').text()).toBe(mdiShieldSun)
   })
 
   it('should have specific text if giving props of player and nextPlayer are equal2', () => {

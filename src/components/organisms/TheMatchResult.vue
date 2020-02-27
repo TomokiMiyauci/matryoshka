@@ -20,10 +20,14 @@
       Win {{ yourWins }} - {{ enemyWins }} Lose
     </v-card-text>
     <v-card-actions>
-      <v-btn @click="exit"><v-icon left>mdi-exit-to-app</v-icon>exit</v-btn>
+      <v-btn @click="exit"
+        ><v-icon left>{{ exitIcon }}</v-icon
+        >exit</v-btn
+      >
       <v-divider></v-divider>
       <v-btn color="info" @click="$emit('ready')"
-        ><v-icon left>mdi-sword-cross</v-icon>Again</v-btn
+        ><v-icon left>{{ buttleIcon }}</v-icon
+        >Again</v-btn
       >
     </v-card-actions>
   </v-card>
@@ -31,6 +35,14 @@
 
 <script lang="ts">
 import { createComponent, computed } from '@vue/composition-api'
+import {
+  mdiCloud,
+  mdiWhiteBalanceSunny,
+  mdiUmbrella,
+  mdiExitToApp,
+  mdiSwordCross
+} from '@mdi/js'
+
 import { Player } from '~/types/player'
 import { Playroom } from '~/types/playroom'
 
@@ -79,7 +91,7 @@ export default createComponent({
           return {
             title: 'DRAW',
             text: 'The ability was equal.',
-            icon: 'mdi-cloud',
+            icon: mdiCloud,
             iconColor: 'grey',
             animation: 'hover'
           }
@@ -90,14 +102,14 @@ export default createComponent({
             ? {
                 title: 'Win!',
                 text: 'Great! You are the winner!',
-                icon: 'mdi-white-balance-sunny Google @Google',
+                icon: mdiWhiteBalanceSunny,
                 iconColor: 'orange',
                 animation: 'spin'
               }
             : {
                 title: 'Lose..',
                 text: 'Ah... You are the loser.',
-                icon: 'mdi-umbrella',
+                icon: mdiUmbrella,
                 iconColor: 'blue',
                 animation: 'flutter'
               }
@@ -108,7 +120,7 @@ export default createComponent({
     const exit = (): void => {
       root.$router.push('/')
     }
-    return { exit, message }
+    return { exit, message, exitIcon: mdiExitToApp, buttleIcon: mdiSwordCross }
   }
 })
 </script>

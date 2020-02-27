@@ -13,6 +13,7 @@
 
 <script lang="ts">
 import { createComponent, computed, ref } from '@vue/composition-api'
+import { mdiSwordCross, mdiShieldSun } from '@mdi/js'
 import VAutohide from '~/components/molecules/VAutohide.vue'
 
 type Props = {
@@ -48,7 +49,7 @@ export default createComponent({
     }
 
     const turnIcon = computed(() => {
-      return isYourTurn.value ? 'mdi-sword-cross' : 'mdi-shield-sun'
+      return isYourTurn.value ? mdiSwordCross : mdiShieldSun
     })
 
     const turnText = computed(() => {
