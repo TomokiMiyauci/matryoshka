@@ -33,6 +33,7 @@
     }
   },
   "dependencies": {
+    "@mdi/js": "^4.9.95",
     "@nuxt/typescript-runtime": "^0.3.5",
     "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/pwa": "^3.0.0-0",
