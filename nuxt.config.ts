@@ -71,6 +71,9 @@ const config: Configuration = {
    ** https://github.com/nuxt-community/vuetify-module
    */
   vuetify: {
+    defaultAssets: {
+      icons: false
+    },
     optionsPath: './vuetify.options.ts'
   },
   /*

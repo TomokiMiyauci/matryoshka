@@ -1,5 +1,9 @@
 // import colors from 'vuetify/lib/util/colors'
 export default {
+  icons: {
+    iconfont: 'mdiSvg' // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
+  },
+
   theme: {
     themes: {
       light: {
