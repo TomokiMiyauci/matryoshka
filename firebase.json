@@ -1,15 +1,15 @@
 {
   "database": {
-    "rules": "database.rules.json"
+    "rules": "firebase/database.rules.json"
   },
   "firestore": {
-    "rules": "firestore.rules",
-    "indexes": "firestore.indexes.json"
+    "rules": "firebase/firestore.rules",
+    "indexes": "firebase/firestore.indexes.json"
   },
   "hosting": {
     "public": "public",
     "ignore": [
-      "firebase.json",
+      "firebase/firebase.json",
       "**/.*",
       "**/node_modules/**"
     ],
@@ -21,7 +21,7 @@
     ]
   },
   "storage": {
-    "rules": "storage.rules"
+    "rules": "firebase/storage.rules"
   },
   "functions": {
     "predeploy": [
