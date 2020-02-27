@@ -40,9 +40,9 @@
     "firebase": "^7.3.0",
     "firebaseui": "^4.3.0",
     "nuxt": "^2.0.0",
+    "nuxt-i18n": "^6.5.0",
     "vuefire": "^2.2.0",
-    "vuexfire": "^3.2.0",
-    "nuxt-i18n": "^6.5.0"
+    "vuexfire": "^3.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.7.2",
