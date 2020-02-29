@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Atoms|icons/VClose Default 1`] = `
+<div
+  class="v-application v-application--is-ltr theme--light"
+  data-app="true"
+  id="app"
+>
+  <div
+    class="v-application--wrap"
+  >
+    <main
+      class="v-content"
+      style="padding: 0px 0px 0px 0px;"
+    >
+      <div
+        class="v-content__wrap"
+      >
+        <button
+          class="v-btn v-btn--depressed v-btn--flat v-btn--icon v-btn--outlined v-btn--round theme--light v-size--default"
+          type="button"
+        >
+          <span
+            class="v-btn__content"
+          >
+            <span
+              aria-hidden="true"
+              class="v-icon notranslate v-icon--svg theme--light"
+            >
+              <svg
+                aria-hidden="true"
+                height="24"
+                role="img"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"
+                />
+              </svg>
+            </span>
+          </span>
+        </button>
+      </div>
+    </main>
+  </div>
+</div>
+`;
