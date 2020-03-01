@@ -20,11 +20,16 @@
       Win {{ yourWins }} - {{ enemyWins }} Lose
     </v-card-text>
     <v-card-actions>
-      <v-btn @click="exit"
-        ><v-icon left>{{ exitIcon }}</v-icon
-        >exit</v-btn
-      >
+      <v-btn @click="exit">
+        <v-icon left>{{ exitIcon }}</v-icon>
+        exit
+      </v-btn>
       <v-divider></v-divider>
+      <v-btn color="success" @click="$emit('setting')">
+        <v-icon left>{{ mdiSettingsTransfer }}</v-icon
+        >rules</v-btn
+      >
+
       <v-btn color="info" @click="$emit('ready')"
         ><v-icon left>{{ buttleIcon }}</v-icon
         >Again</v-btn
@@ -40,7 +45,8 @@ import {
   mdiWhiteBalanceSunny,
   mdiUmbrella,
   mdiExitToApp,
-  mdiSwordCross
+  mdiSwordCross,
+  mdiSettingsTransfer
 } from '@mdi/js'
 
 import { Player } from '~/types/player'
@@ -120,7 +126,13 @@ export default createComponent({
     const exit = (): void => {
       root.$router.push('/')
     }
-    return { exit, message, exitIcon: mdiExitToApp, buttleIcon: mdiSwordCross }
+    return {
+      exit,
+      message,
+      exitIcon: mdiExitToApp,
+      buttleIcon: mdiSwordCross,
+      mdiSettingsTransfer
+    }
   }
 })
 </script>
