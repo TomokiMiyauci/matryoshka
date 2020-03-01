@@ -27,9 +27,15 @@ export const usePlayroom = (
     return playroom.value.round
   })
 
+  const orderRef = computed((): Playroom['order'] => {
+    if (!playroom.value) return 'RANDOM'
+    return playroom.value.order
+  })
+
   return {
     yourWinsRef,
     enemyWinsRef,
-    roundRef
+    roundRef,
+    orderRef
   }
 }
