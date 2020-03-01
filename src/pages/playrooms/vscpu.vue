@@ -1,40 +1,54 @@
 <template>
   <div style="height: 100%;">
-    <template v-if="!isReady && !isLoading">
-      <the-playground
-        ref="playroom"
-        :enable-timer="true"
-        :next-player="nextPlayerRef"
-        :is-your-turn="isYourTurnRef"
-        :game-path="game.path"
-        @action="onTurnEnd"
-      ></the-playground>
-
+    <template v-if="dia">
       <v-dialog
-        :value="isGameEnd"
-        persistent
-        max-width="500px"
-        transition="dialog-transition"
+        :value="dia"
+        fullscreen
+        hide-overlay
+        transition="dialog-bottom-transition"
       >
-        <the-match-result
-          :player="player"
-          :winner="winnerRef"
-          :your-wins="yourWinsRef"
-          :enemy-wins="enemyWinsRef"
-          @ready="onReady"
-        ></the-match-result>
+        <the-game-settings :is-first="!playroom.id" @click="ccc" />
       </v-dialog>
     </template>
-    <template v-else-if="isLoading">
-      <div
-        style="display:flex;align-items:center;justify-content: center;height:100%;"
-      >
-        <v-icon-connect :size="300" />
-      </div>
-    </template>
-    <template v-else-if="isReady">
-      <div class="text-center round">Round {{ roundRef }}</div>
-      <v-ready-go :is-ready="flag" @ready="onLoad"></v-ready-go>
+
+    <template v-else>
+      <template v-if="!isReady && !isLoading">
+        <the-playground
+          ref="playroom"
+          :enable-timer="true"
+          :next-player="nextPlayerRef"
+          :is-your-turn="isYourTurnRef"
+          :game-path="game.path"
+          @action="onTurnEnd"
+        ></the-playground>
+
+        <v-dialog
+          :value="isGameEnd"
+          persistent
+          max-width="500px"
+          transition="dialog-transition"
+        >
+          <the-match-result
+            :player="player"
+            :winner="winnerRef"
+            :your-wins="yourWinsRef"
+            :enemy-wins="enemyWinsRef"
+            @ready="onReady"
+            @setting="onSetting"
+          ></the-match-result>
+        </v-dialog>
+      </template>
+      <template v-else-if="isLoading">
+        <div
+          style="display:flex;align-items:center;justify-content: center;height:100%;"
+        >
+          <v-icon-connect :size="300" />
+        </div>
+      </template>
+      <template v-else-if="isReady">
+        <div class="text-center round">Round {{ roundRef }}</div>
+        <v-ready-go :is-ready="flag" @ready="onLoad"></v-ready-go>
+      </template>
     </template>
   </div>
 </template>
@@ -44,8 +58,8 @@ import {
   createComponent,
   reactive,
   toRefs,
-  onBeforeMount,
-  watch
+  watch,
+  ref
 } from '@vue/composition-api'
 import VIconConnect from '~/components/atoms/VIconConnect.vue'
 import VReadyGo from '~/components/atoms/VReadyFight.vue'
@@ -62,15 +76,46 @@ import { Document } from '~/types/document'
 import { Playroom } from '~/types/playroom'
 import { Game } from '~/types/game'
 import { usePlayroom } from '~/compositions/playroom'
+import TheGameSettings from '~/components/organisms/TheGameSettings.vue'
 export default createComponent({
   layout: 'playroom',
   components: {
     ThePlayground,
     VReadyGo,
     VIconConnect,
+    TheGameSettings,
     TheMatchResult: () => import('~/components/organisms/TheMatchResult.vue')
   },
   setup() {
+    const dia = ref(true)
+    const ccc = async (order: 'RANDOM' | 'FIRST' | 'SECOND') => {
+      const yourOrder = (order: 'RANDOM' | 'FIRST' | 'SECOND') => {
+        switch (order) {
+          case 'RANDOM': {
+            return 'RANDOM'
+          }
+          case 'FIRST': {
+            return 'PLAYER1'
+          }
+          case 'SECOND': {
+            return 'PLAYER2'
+          }
+        }
+      }
+      dia.value = false
+
+      if (playroom.id) {
+        await firestore.doc(playroom.path).update({
+          order: yourOrder(order)
+        })
+      } else {
+        await init(yourOrder(order))
+      }
+    }
+
+    const onSetting = () => {
+      dia.value = true
+    }
     const playroom = reactive<Document<Playroom>>({
       id: '',
       data: undefined,
@@ -111,15 +156,6 @@ export default createComponent({
       'PLAYER1'
     )
 
-    // watch(
-    //   () => playroom.path,
-    //   (now) => {
-    //     if (!now) return
-
-    //     subscribe(game, firestore.doc(playroom.path).collection('game'))
-    //   }
-    // )
-
     watch(winnerRef, (now) => {
       switch (now) {
         case 'PLAYER1': {
@@ -134,27 +170,15 @@ export default createComponent({
       }
     })
 
-    // watch(
-    //   () => game.path,
-    //   (now) => {
-    //     if (!now) return
-
-    //     subscribe(gameRecord, firestore.doc(game.path).collection('gameRecord'))
-    //     console.log(1)
-
-    //     progress.isLoading = false
-    //   }
-    // )
-
-    onBeforeMount(async () => {
-      await initialize()
+    const init = async (order: Playroom['order']) => {
+      await initialize(order)
       bind()
       progress.isLoading = false
       progress.isReady = true
       setTimeout(() => {
         progress.flag = true
       }, 2000)
-    })
+    }
 
     const onTurnEnd = async (payload: {
       type: 'SETTLE' | 'PEND'
@@ -209,7 +233,7 @@ export default createComponent({
       progress.flag = false
       progress.isReady = false
       progress.isLoading = true
-      await createGame()
+      await createGame('PLAYER1')
 
       console.log(JSON.stringify(game))
 
@@ -240,9 +264,6 @@ export default createComponent({
         playroomCollectionReference.value.limit(1).orderBy('createdAt', 'desc')
       )
     }
-    // setTimeout(() => {
-    //   progress.isLoading = false
-    // }, 2000)
 
     return {
       ...toRefs(progress),
@@ -257,7 +278,10 @@ export default createComponent({
       player: 'PLAYER1',
       yourWinsRef,
       enemyWinsRef,
-      roundRef
+      roundRef,
+      dia,
+      ccc,
+      onSetting
     }
   }
 })
