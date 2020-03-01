@@ -6,8 +6,8 @@
       hide-overlay
       transition="dialog-bottom-transition"
     >
-      <the-game-settings
-        :is-first="!playroom.id"
+      <the-game-rules
+        :enable-close="!playroom.id"
         @close="prev()"
         @click="ccc"
       />
@@ -72,7 +72,7 @@ import { Document } from '~/types/document'
 import { Playroom } from '~/types/playroom'
 import { Game } from '~/types/game'
 import { usePlayroom } from '~/compositions/playroom'
-import TheGameSettings from '~/components/organisms/TheGameSettings.vue'
+import TheGameRules from '~/components/organisms/TheGameRules.vue'
 import progres from '~/compositions/progress'
 export default createComponent({
   layout: 'playroom',
@@ -80,7 +80,7 @@ export default createComponent({
     ThePlayground,
     VReadyGo,
     VIconConnect,
-    TheGameSettings,
+    TheGameRules,
     TheMatchResult: () => import('~/components/organisms/TheMatchResult.vue')
   },
   setup() {
@@ -141,7 +141,7 @@ export default createComponent({
       }
     )
 
-    const { yourWinsRef, enemyWinsRef, roundRef } = usePlayroom(
+    const { yourWinsRef, enemyWinsRef, roundRef, orderRef } = usePlayroom(
       toRefs(playroom).data,
       'PLAYER1'
     )
@@ -222,7 +222,7 @@ export default createComponent({
 
     const onReady = async () => {
       goToStage(1)
-      await createGame('PLAYER1')
+      await createGame(orderRef.value === 'RANDOM' ? 'PLAYER1' : orderRef.value)
 
       console.log(JSON.stringify(game))
 
