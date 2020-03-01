@@ -1,15 +1,19 @@
 <template>
   <div style="height: 100%;">
     <v-dialog
-      :value="stage === 0 || stage === 6"
+      :value="isStage('=', 0, 6)"
       fullscreen
       hide-overlay
       transition="dialog-bottom-transition"
     >
-      <the-game-settings :is-first="!playroom.id" @click="ccc" />
+      <the-game-settings
+        :is-first="!playroom.id"
+        @close="prev()"
+        @click="ccc"
+      />
     </v-dialog>
 
-    <template v-if="stage === 1">
+    <template v-if="isStage('=', 1)">
       <div
         style="display:flex;align-items:center;justify-content: center;height:100%;"
       >
@@ -17,12 +21,12 @@
       </div>
     </template>
 
-    <template v-else-if="stage === 2 || stage === 3">
+    <template v-else-if="isStage('=', 2, 3)">
       <div class="text-center round">Round {{ roundRef }}</div>
-      <v-ready-go :is-ready="stage === 3" @ready="next()"></v-ready-go>
+      <v-ready-go :is-ready="isStage('=', 3)" @ready="next()"></v-ready-go>
     </template>
 
-    <template v-else-if="stage >= 4">
+    <template v-else-if="isStage('>=', 4)">
       <the-playground
         ref="playroom"
         :enable-timer="true"
@@ -33,7 +37,7 @@
       ></the-playground>
 
       <v-dialog
-        :value="stage === 5"
+        :value="isStage('=', 5, 6)"
         persistent
         max-width="500px"
         transition="dialog-transition"
@@ -107,8 +111,7 @@ export default createComponent({
       next()
     }
 
-    const { stage, goToStage, next, prev } = progres(6)
-
+    const { stage, isStage, goToStage, next, prev } = progres(6)
     const playroom = reactive<Document<Playroom>>({
       id: '',
       data: undefined,
@@ -246,6 +249,8 @@ export default createComponent({
 
     return {
       next,
+      prev,
+      isStage,
       onReady,
       playroom,
       onTurnEnd,
@@ -257,8 +262,7 @@ export default createComponent({
       yourWinsRef,
       enemyWinsRef,
       roundRef,
-      ccc,
-      stage
+      ccc
     }
   }
 })
