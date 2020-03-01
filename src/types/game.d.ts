@@ -6,6 +6,7 @@ export type Game = {
   cols: number
   nextPlayer: Player
   readyPlayers: Player[]
+  playFirst: Player
   winner?: Player | 'DRAW'
   createdAt?: firebase.firestore.FieldValue
 }
