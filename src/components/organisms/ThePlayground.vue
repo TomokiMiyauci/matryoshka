@@ -148,7 +148,7 @@ export default createComponent({
         return props.nextPlayer
       }),
       (now, prev) => {
-        if (now === 'PLAYER2' && prev === 'PLAYER1') {
+        if (now === 'PLAYER2') {
           setTimeout(async () => {
             await nextGame()
             const player2 = getTerritory({
