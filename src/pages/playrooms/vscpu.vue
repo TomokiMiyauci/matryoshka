@@ -1,66 +1,58 @@
 <template>
   <div style="height: 100%;">
-    <template v-if="dia">
-      <v-dialog
-        :value="dia"
-        fullscreen
-        hide-overlay
-        transition="dialog-bottom-transition"
+    <v-dialog
+      :value="stage === 0 || stage === 6"
+      fullscreen
+      hide-overlay
+      transition="dialog-bottom-transition"
+    >
+      <the-game-settings :is-first="!playroom.id" @click="ccc" />
+    </v-dialog>
+
+    <template v-if="stage === 1">
+      <div
+        style="display:flex;align-items:center;justify-content: center;height:100%;"
       >
-        <the-game-settings :is-first="!playroom.id" @click="ccc" />
-      </v-dialog>
+        <v-icon-connect :size="300" />
+      </div>
     </template>
 
-    <template v-else>
-      <template v-if="!isReady && !isLoading">
-        <the-playground
-          ref="playroom"
-          :enable-timer="true"
-          :next-player="nextPlayerRef"
-          :is-your-turn="isYourTurnRef"
-          :game-path="game.path"
-          @action="onTurnEnd"
-        ></the-playground>
+    <template v-else-if="stage === 2 || stage === 3">
+      <div class="text-center round">Round {{ roundRef }}</div>
+      <v-ready-go :is-ready="stage === 3" @ready="next()"></v-ready-go>
+    </template>
 
-        <v-dialog
-          :value="isGameEnd"
-          persistent
-          max-width="500px"
-          transition="dialog-transition"
-        >
-          <the-match-result
-            :player="player"
-            :winner="winnerRef"
-            :your-wins="yourWinsRef"
-            :enemy-wins="enemyWinsRef"
-            @ready="onReady"
-            @setting="onSetting"
-          ></the-match-result>
-        </v-dialog>
-      </template>
-      <template v-else-if="isLoading">
-        <div
-          style="display:flex;align-items:center;justify-content: center;height:100%;"
-        >
-          <v-icon-connect :size="300" />
-        </div>
-      </template>
-      <template v-else-if="isReady">
-        <div class="text-center round">Round {{ roundRef }}</div>
-        <v-ready-go :is-ready="flag" @ready="onLoad"></v-ready-go>
-      </template>
+    <template v-else-if="stage >= 4">
+      <the-playground
+        ref="playroom"
+        :enable-timer="true"
+        :next-player="nextPlayerRef"
+        :is-your-turn="isYourTurnRef"
+        :game-path="game.path"
+        @action="onTurnEnd"
+      ></the-playground>
+
+      <v-dialog
+        :value="stage === 5"
+        persistent
+        max-width="500px"
+        transition="dialog-transition"
+      >
+        <the-match-result
+          :player="player"
+          :winner="winnerRef"
+          :your-wins="yourWinsRef"
+          :enemy-wins="enemyWinsRef"
+          @ready="onReady"
+          @setting="next()"
+        ></the-match-result>
+      </v-dialog>
     </template>
   </div>
 </template>
 
 <script lang="ts">
-import {
-  createComponent,
-  reactive,
-  toRefs,
-  watch,
-  ref
-} from '@vue/composition-api'
+import { createComponent, reactive, toRefs, watch } from '@vue/composition-api'
 import VIconConnect from '~/components/atoms/VIconConnect.vue'
 import VReadyGo from '~/components/atoms/VReadyFight.vue'
 import { useFirestoreGameRecord } from '~/repositories/game-record'
@@ -77,6 +69,7 @@ import { Playroom } from '~/types/playroom'
 import { Game } from '~/types/game'
 import { usePlayroom } from '~/compositions/playroom'
 import TheGameSettings from '~/components/organisms/TheGameSettings.vue'
+import progres from '~/compositions/progress'
 export default createComponent({
   layout: 'playroom',
   components: {
@@ -87,7 +80,6 @@ export default createComponent({
     TheMatchResult: () => import('~/components/organisms/TheMatchResult.vue')
   },
   setup() {
-    const dia = ref(true)
     const ccc = async (order: 'RANDOM' | 'FIRST' | 'SECOND') => {
       const yourOrder = (order: 'RANDOM' | 'FIRST' | 'SECOND') => {
         switch (order) {
@@ -102,20 +94,21 @@ export default createComponent({
           }
         }
       }
-      dia.value = false
-
       if (playroom.id) {
+        prev()
         await firestore.doc(playroom.path).update({
           order: yourOrder(order)
         })
-      } else {
-        await init(yourOrder(order))
+        return
       }
+      next()
+
+      await init(yourOrder(order))
+      next()
     }
 
-    const onSetting = () => {
-      dia.value = true
-    }
+    const { stage, goToStage, next, prev } = progres(6)
+
     const playroom = reactive<Document<Playroom>>({
       id: '',
       data: undefined,
@@ -128,6 +121,14 @@ export default createComponent({
       path: ''
     })
 
+    watch(stage, (now) => {
+      if (now === 2) {
+        setTimeout(() => {
+          next()
+        }, 2000)
+      }
+    })
+
     watch(
       () => playroom.path,
       (now) => {
@@ -136,13 +137,6 @@ export default createComponent({
         subscribe(game, firestore.doc(playroom.path).collection('game'))
       }
     )
-
-    const progress = reactive({
-      isLoading: true,
-      isReady: false,
-      flag: false,
-      isGameEnd: false
-    })
 
     const { yourWinsRef, enemyWinsRef, roundRef } = usePlayroom(
       toRefs(playroom).data,
@@ -159,12 +153,12 @@ export default createComponent({
     watch(winnerRef, (now) => {
       switch (now) {
         case 'PLAYER1': {
-          progress.isGameEnd = true
+          next()
           break
         }
 
         case 'PLAYER2': {
-          progress.isGameEnd = true
+          next()
           break
         }
       }
@@ -173,11 +167,6 @@ export default createComponent({
     const init = async (order: Playroom['order']) => {
       await initialize(order)
       bind()
-      progress.isLoading = false
-      progress.isReady = true
-      setTimeout(() => {
-        progress.flag = true
-      }, 2000)
     }
 
     const onTurnEnd = async (payload: {
@@ -229,10 +218,7 @@ export default createComponent({
     }
 
     const onReady = async () => {
-      progress.isGameEnd = false
-      progress.flag = false
-      progress.isReady = false
-      progress.isLoading = true
+      goToStage(1)
       await createGame('PLAYER1')
 
       console.log(JSON.stringify(game))
@@ -248,16 +234,9 @@ export default createComponent({
         player2Hands
       })
 
-      progress.isLoading = false
-      progress.isReady = true
-      setTimeout(() => {
-        progress.flag = true
-      }, 2000)
+      next()
     }
 
-    const onLoad = () => {
-      progress.isReady = false
-    }
     const bind = () => {
       subscribe(
         playroom,
@@ -266,8 +245,7 @@ export default createComponent({
     }
 
     return {
-      ...toRefs(progress),
-      onLoad,
+      next,
       onReady,
       playroom,
       onTurnEnd,
@@ -279,9 +257,8 @@ export default createComponent({
       yourWinsRef,
       enemyWinsRef,
       roundRef,
-      dia,
       ccc,
-      onSetting
+      stage
     }
   }
 })
