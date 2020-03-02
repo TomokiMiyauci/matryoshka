@@ -11,7 +11,7 @@ exports[`Storyshots molecules|VTimer Def 1`] = `
   >
     <main
       class="v-content"
-      style="padding: 0px 0px 0px 0px;"
+      style="padding: 64px 0px 0px 0px;"
     >
       <div
         class="v-content__wrap"
@@ -36,7 +36,7 @@ exports[`Storyshots molecules|VTimer Props Count 1`] = `
   >
     <main
       class="v-content"
-      style="padding: 0px 0px 0px 0px;"
+      style="padding: 64px 0px 0px 0px;"
     >
       <div
         class="v-content__wrap"
