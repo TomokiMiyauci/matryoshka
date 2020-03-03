@@ -152,3 +152,27 @@ jobs:
 
       - name: test snapshot
         run: yarn test:snapshot --ci
+
+  deploy-chromatic:
+    needs: test-snapshot
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [12]
+
+    steps:
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+          fetch-depth: 0
+
+      - name: checkout
+        uses: actions/checkout@master
+
+      - uses: chromaui/action@master
+        with:
+          appCode: ${{ secrets.CHROMATIC_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          allowConsoleErrors: true
