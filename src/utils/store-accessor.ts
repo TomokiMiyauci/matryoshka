@@ -1,12 +1,15 @@
-// import { Store } from 'vuex'
-// import { getModule } from 'vuex-module-decorators'
-// import Firestore from '~/store/firestore'
+/* eslint-disable import/no-mutable-exports */
+import { Store } from 'vuex'
+import { getModule } from 'vuex-module-decorators'
+import PlayerStore from '~/store/player'
+import PlayStore from '~/store/playstore'
 
-// // eslint-disable-next-line import/no-mutable-exports
-// let firestore: Firestore
+let playerStore: PlayerStore
+let playStore: PlayStore
 
-// function initializeStores(store: Store<any>): void {
-//   firestore = getModule(Firestore, store)
-// }
+function initializeStores(store: Store<any>): void {
+  playerStore = getModule(PlayerStore, store)
+  playStore = getModule(PlayStore, store)
+}
 
-// export { initializeStores, firestore }
+export { initializeStores, playerStore, playStore }
