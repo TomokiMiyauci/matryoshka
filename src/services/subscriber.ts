@@ -16,8 +16,7 @@ export const subscribe = (
     data: undefined
   })
 
-  const unsubscribe = firestore
-  collectionRef.onSnapshot((snapshot) => {
+  const unsubscribe = collectionRef.onSnapshot((snapshot) => {
     if (snapshot.empty) {
       reactiveState.data = undefined
       reactiveState.id = ''
