@@ -98,7 +98,7 @@ exports[`Storyshots organisms|TheGameRules Default 1`] = `
                     style="height: auto;"
                   >
                     <div
-                      aria-labelledby="input-151"
+                      aria-labelledby="input-161"
                       class="v-input--radio-group__input"
                       role="radiogroup"
                     >
@@ -127,8 +127,8 @@ exports[`Storyshots organisms|TheGameRules Default 1`] = `
                           </span>
                           <input
                             aria-checked="true"
-                            id="input-152"
-                            name="radio-151"
+                            id="input-162"
+                            name="radio-161"
                             role="radio"
                             type="radio"
                             value="RANDOM"
@@ -139,7 +139,7 @@ exports[`Storyshots organisms|TheGameRules Default 1`] = `
                         </div>
                         <label
                           class="v-label theme--light"
-                          for="input-152"
+                          for="input-162"
                           style="left: 0px; position: relative;"
                         >
                           Random
@@ -171,8 +171,8 @@ exports[`Storyshots organisms|TheGameRules Default 1`] = `
                           </span>
                           <input
                             aria-checked="false"
-                            id="input-154"
-                            name="radio-151"
+                            id="input-164"
+                            name="radio-161"
                             role="radio"
                             type="radio"
                             value="FIRST"
@@ -183,7 +183,7 @@ exports[`Storyshots organisms|TheGameRules Default 1`] = `
                         </div>
                         <label
                           class="v-label theme--light"
-                          for="input-154"
+                          for="input-164"
                           style="left: 0px; position: relative;"
                         >
                           First
@@ -215,8 +215,8 @@ exports[`Storyshots organisms|TheGameRules Default 1`] = `
                           </span>
                           <input
                             aria-checked="false"
-                            id="input-156"
-                            name="radio-151"
+                            id="input-166"
+                            name="radio-161"
                             role="radio"
                             type="radio"
                             value="SECOND"
@@ -227,7 +227,7 @@ exports[`Storyshots organisms|TheGameRules Default 1`] = `
                         </div>
                         <label
                           class="v-label theme--light"
-                          for="input-156"
+                          for="input-166"
                           style="left: 0px; position: relative;"
                         >
                           Second
