@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots molecules|VGameAppBar Default 1`] = `
+<div
+  class="v-application v-application--is-ltr theme--light"
+  data-app="true"
+  id="app"
+>
+  <div
+    class="v-application--wrap"
+  >
+    <main
+      class="v-content"
+      style="padding: 0px 0px 0px 0px;"
+    >
+      <div
+        class="v-content__wrap"
+      >
+        <header
+          class="v-sheet v-sheet--tile theme--light v-toolbar v-app-bar v-app-bar--fixed"
+          style="height: 64px; margin-top: 0px; transform: translateY(0px); left: 0px; right: 0px;"
+        >
+          <div
+            class="v-toolbar__content"
+            style="height: 64px;"
+          >
+            <div
+              class="v-toolbar__title"
+              style="margin: 0px 0px 0px 60px;"
+            >
+              Online Playroom
+  
+            </div>
+             
+            <v-gamepad-variant
+              style="position: absolute; bottom: -28px;"
+            />
+             
+            <div
+              class="spacer"
+            />
+          </div>
+        </header>
+      </div>
+    </main>
+  </div>
+</div>
+`;
