@@ -1,17 +1,18 @@
 <template>
   <v-app>
-    <!-- <v-navigation-drawer app fixed right> </v-navigation-drawer> -->
-    <!-- <v-app-bar app>
-      <v-btn to="/playrooms" icon>
-        <v-icon>mdi-arrow-left</v-icon>
-      </v-btn>
-    </v-app-bar> -->
+    <v-game-app-bar @click="$nuxt.$emit('emit')" />
     <v-content>
       <nuxt />
     </v-content>
   </v-app>
 </template>
 
-<script>
-export default {}
+<script lang="ts">
+import VGameAppBar from '~/components/molecules/VGameAppBar.vue'
+
+export default {
+  components: {
+    VGameAppBar
+  }
+}
 </script>
