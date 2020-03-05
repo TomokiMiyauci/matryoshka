@@ -1,7 +1,6 @@
 export default {
   detectBrowserLanguage: {
-    useCookie: true,
-    cookieKey: 'i18n_redirected'
+    useCookie: false
   },
 
   locales: [
