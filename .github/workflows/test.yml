@@ -163,22 +163,40 @@ jobs:
         node: [12]
 
     steps:
-      - uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node }}
-          fetch-depth: 0
+    - uses: actions/checkout@v1
+    - run: |
+        yarn && yarn build
+    - uses: chromaui/action@v1
+      with:
+        appCode: ${{ secrets.CHROMATIC_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }}
+        allowConsoleErrors: true
+  # deploy-chromatic:
+  #   needs: test-snapshot
+  #   runs-on: ${{ matrix.os }}
 
-      - name: checkout
-        uses: actions/checkout@master
+  #   strategy:
+  #     matrix:
+  #       os: [ubuntu-latest]
+  #       node: [12]
 
-      - name: restore workspace cache
-        uses: actions/cache@v1
-        with:
-          path: ${{ github.workspace }}
-          key: ${{ matrix.os }}-node-v${{ matrix.node }}-nuxt-${{ github.sha }}
+  #   steps:
+  #     - uses: actions/setup-node@v1
+  #       with:
+  #         node-version: ${{ matrix.node }}
+  #         fetch-depth: 0
 
-      - uses: chromaui/action@master
-        with:
-          appCode: ${{ secrets.CHROMATIC_TOKEN }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          allowConsoleErrors: true
+  #     - name: checkout
+  #       uses: actions/checkout@master
+
+  #     - name: restore workspace cache
+  #       uses: actions/cache@v1
+  #       with:
+  #         path: ${{ github.workspace }}
+  #         key: ${{ matrix.os }}-node-v${{ matrix.node }}-nuxt-${{ github.sha }}
+
+  #     - uses: chromaui/action@master
+  #       with:
+  #         appCode: ${{ secrets.CHROMATIC_TOKEN }}
+  #         token: ${{ secrets.GITHUB_TOKEN }}
+  #         allowConsoleErrors: true
