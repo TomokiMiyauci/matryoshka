@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots atoms|icons/MdiCircleSlice1 Default 1`] = `
+<div
+  class="v-application v-application--is-ltr theme--light"
+  data-app="true"
+  id="app"
+>
+  <div
+    class="v-application--wrap"
+  >
+    <main
+      class="v-content"
+      style="padding: 0px 0px 0px 0px;"
+    >
+      <div
+        class="v-content__wrap"
+      >
+        <svg
+          height="48px"
+          role="img"
+          style="transition: all 1s; fill: currentColor;"
+          viewBox="0 0 24 24"
+          width="48px"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M16.9,7.1L12,12V5C13.9,5 15.7,5.8 16.9,7.1Z"
+          />
+        </svg>
+      </div>
+    </main>
+  </div>
+</div>
+`;
