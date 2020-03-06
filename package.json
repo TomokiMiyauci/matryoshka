@@ -43,6 +43,7 @@
     "nuxt": "^2.0.0",
     "nuxt-i18n": "^6.5.0",
     "vuefire": "^2.2.0",
+    "vuex-module-decorators": "^0.16.1",
     "vuexfire": "^3.2.0"
   },
   "devDependencies": {
@@ -103,7 +104,6 @@
     "ts-node": "^8.6.2",
     "vue-docgen-api": "^4.8.1",
     "vue-docgen-loader": "^1.4.0",
-    "vue-jest": "^4.0.0-0",
-    "vuex-module-decorators": "^0.11.0"
+    "vue-jest": "^4.0.0-0"
   }
 }

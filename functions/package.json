@@ -29,6 +29,7 @@
     "nuxt": "^2.11.0",
     "nuxt-i18n": "^6.5.0",
     "vuefire": "^2.2.1",
+    "vuex-module-decorators": "^0.16.1",
     "vuexfire": "^3.2.1"
   },
   "devDependencies": {
