@@ -38,7 +38,6 @@
       >
       <v-col cols="auto">
         <v-btn
-          disabled
           to="/playrooms"
           max-width="500px"
           min-width="200px"

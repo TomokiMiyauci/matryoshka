@@ -75,7 +75,7 @@ import { usePlayroom } from '~/compositions/playroom'
 import TheGameRules from '~/components/organisms/TheGameRules.vue'
 import progres from '~/compositions/progress'
 export default createComponent({
-  layout: 'playroom',
+  layout: 'plain',
   components: {
     ThePlayground,
     VReadyGo,
