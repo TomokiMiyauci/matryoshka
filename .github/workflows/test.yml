@@ -153,7 +153,7 @@ jobs:
       - name: test snapshot
         run: yarn test:snapshot --ci
 
-  deploy-chromatic:
+  test-visual-regression:
     needs: test-snapshot
     runs-on: ${{ matrix.os }}
 
@@ -164,9 +164,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - run: |
-        yarn && yarn build
-    - uses: chromaui/action@v1
+    - run: yarn
+    - uses: chromaui/action@master
       with:
         appCode: ${{ secrets.CHROMATIC_TOKEN }}
         token: ${{ secrets.GITHUB_TOKEN }}
