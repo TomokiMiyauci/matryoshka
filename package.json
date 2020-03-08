@@ -19,7 +19,7 @@
     "deploy-storybook": "storybook-to-ghpages",
     "hygen": "hygen components new",
     "hygen:vuex": "hygen vuex new",
-    "audit": "improved-yarn-audit --min-severity moderate"
+    "audit": "improved-yarn-audit --min-severity moderate --exclude 1488 "
   },
   "lint-staged": {
     "*": [
