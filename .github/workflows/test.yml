@@ -91,7 +91,7 @@ jobs:
           key: ${{ matrix.os }}-node-v${{ matrix.node }}-nuxt-${{ github.sha }}
 
       - name: audit
-        run: yarn audit
+        run: yarn run audit
 
   test-unit:
     needs: setup
@@ -165,7 +165,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - run: yarn
-    - uses: chromaui/action@master
+    - uses: chromaui/action@v1
       with:
         appCode: ${{ secrets.CHROMATIC_TOKEN }}
         token: ${{ secrets.GITHUB_TOKEN }}
