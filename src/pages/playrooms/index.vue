@@ -1,9 +1,21 @@
 <template>
   <v-container>
+    {{ stage }}
+    <v-dialog
+      :value="isStage('=', 1)"
+      fullscreen
+      persistent
+      overlay
+      max-width="500px"
+      transition="dialog-bottom-transition"
+    >
+      <the-game-rules :enable-close="false" @click="click" @close="prev()" />
+    </v-dialog>
+
     <v-row>
       <v-col cols="12" sm="6">
         <v-subheader>Looking for opponents</v-subheader>
-        <v-alert v-show="!canPlay" type="info">
+        <v-alert v-show="true" type="info">
           There are currently no rooms available for competition. You can create
           a new room at the push
           <v-icon>mdi-gamepad-round-up</v-icon>.
@@ -15,15 +27,16 @@
           justify-xl="start"
           justify-sm="start"
         >
-          <v-col
-            v-for="playroom in waitingPlayrooms"
-            :key="playroom.id"
-            cols="auto"
-          >
-            <v-card-playroom
-              :playroom="playroom"
-              @click="goto(playroom)"
-            ></v-card-playroom>
+          <v-col>
+            <v-list-item>
+              <v-list-item-content>
+                <v-list-item-title @click="link"
+                  >Single-line item</v-list-item-title
+                >
+              </v-list-item-content>
+            </v-list-item>
+            <v-btn color="success" @click="update">update</v-btn>
+            <v-btn color="success" @click="update">text</v-btn>
           </v-col>
         </v-row>
       </v-col>
@@ -33,12 +46,8 @@
           The following rooms are currently in play. You can watch it.
         </v-alert>
         <v-row justify="start" align-content="start">
-          <v-col
-            v-for="playroom in competingPlayrooms"
-            :key="playroom.id"
-            cols="auto"
-          >
-            <v-card width="140px" height="140px" @click="goto(playroom)">
+          <v-col>
+            <v-card width="140px" height="140px">
               <v-avatar-with-name name="aaa"></v-avatar-with-name>
               <v-avatar-with-name
                 name="aaa"
@@ -46,7 +55,7 @@
                 reverse
               ></v-avatar-with-name>
 
-              <v-playroom-tag :text="playroom.id | hashing"> </v-playroom-tag>
+              <v-playroom-tag> </v-playroom-tag>
             </v-card>
           </v-col>
         </v-row>
@@ -55,56 +64,105 @@
   </v-container>
 </template>
 
-<script>
-import { mapGetters, mapActions } from 'vuex'
-// import {
-//   PLAYER_2,
-//   ASSIGN,
-//   ENTER_ROOM,
-//   CREATE_ROOM
-// } from '~/store/player/mutation-types'
-import VAvatarWithName from '~/components/molecules/VAvatarWithName'
-
-export default {
+<script lang="ts">
+import { createComponent } from '@vue/composition-api'
+import { Playroom } from '../../types/playroom'
+import VAvatarWithName from '~/components/molecules/VAvatarWithName.vue'
+import firebase, { firestore } from '~/plugins/firebase'
+import progress from '~/compositions/progress'
+import { playerStore, playStore } from '~/store'
+export default createComponent({
   components: {
     VAvatarWithName,
-    VCardPlayroom: () => import('~/components/molecules/VCardPlayroom'),
-    VPlayroomTag: () => import('~/components/atoms/VPlayroomTag')
+    VPlayroomTag: () => import('~/components/atoms/VPlayroomTag.vue'),
+    TheGameRules: () => import('~/components/organisms/TheGameRules.vue')
   },
 
-  filters: {
-    hashing(val) {
-      return `#${val.substr(0, 3)}`
+  layout: 'playroom',
+
+  setup(_, { root }) {
+    const { stage, isStage, next, prev } = progress(3)
+
+    root.$nuxt.$on('emit', () => {
+      if (isStage('=', 0)) next()
+    })
+
+    const click = async (payload: any) => {
+      next()
+      await createRoom(payload)
+      next()
     }
-  },
 
-  computed: {
-    ...mapGetters('playroom', [
-      'waitingPlayrooms',
-      'numberOfWaitingPlayrooms',
-      'competingPlayrooms'
-    ]),
+    const createRoom = async (payload: any) => {
+      playerStore.setPlayer('PLAYER1')
+      const { id, path } = await createPlayroom({
+        order: payload,
+        people: playerStore.player
+      })
 
-    canPlay() {
-      return this.numberOfWaitingPlayrooms > 0
+      playStore.setPlayroomId(id)
+      playStore.setPlayroomPath(path)
+
+      root.$router.push('/playrooms/online')
     }
-  },
 
-  created() {
-    this.SUBSCRIBE()
-  },
+    const update = async () => {
+      const data = await firestore
+        .collection('test')
+        .orderBy('createdAt', 'desc')
+        .limit(1)
+        .get()
 
-  methods: {
-    // ...mapActions('player', [ASSIGN, ENTER_ROOM, CREATE_ROOM]),
-    ...mapActions('playroom', ['SUBSCRIBE']),
-    ...mapActions('game', ['bindGameRef']),
+      console.log(data)
 
-    async goto(payload) {
-      await this.ENTER_ROOM(payload.id)
-      // await this.ASSIGN(PLAYER_2)
-      await this.$store.dispatch('game/bindGameRef')
-      await this.$router.push(`/playrooms/${payload.id}`)
+      data.forEach(async (result) => {
+        console.log(result.data(), result.ref.path)
+        await firestore.doc(result.ref.path).update({
+          people: firebase.firestore.FieldValue.arrayUnion('greater_virginia')
+        })
+      })
     }
+
+    const createPlayroom = ({
+      order,
+      people
+    }: {
+      order: Playroom['order']
+      people: string
+    }) => {
+      const playroom: Playroom = {
+        player1Wins: 0,
+        player2Wins: 0,
+        round: 1,
+        order,
+        people: [people],
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      }
+      return firestore.collection('test').add(playroom)
+    }
+
+    const link = async () => {
+      console.log(1)
+      playerStore.setPlayer('PLAYER2')
+      const data = await firestore
+        .collection('test')
+        .orderBy('createdAt', 'desc')
+        .limit(1)
+        .get()
+
+      data.forEach(async (result) => {
+        console.log(result.data(), result.ref.path)
+        await firestore.doc(result.ref.path).update({
+          people: firebase.firestore.FieldValue.arrayUnion('greater_virginia')
+        })
+        playStore.setPlayroomId(result.id)
+        playStore.setPlayroomPath(result.ref.path)
+      })
+
+      root.$router.push('/playrooms/online')
+    }
+
+    return { update, createRoom, click, isStage, prev, stage, link }
   }
-}
+})
 </script>
