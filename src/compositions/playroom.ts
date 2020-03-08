@@ -32,10 +32,16 @@ export const usePlayroom = (
     return playroom.value.order
   })
 
+  const peopleRef = computed((): Playroom['people'] => {
+    if (!playroom.value) return undefined
+    return playroom.value.people
+  })
+
   return {
     yourWinsRef,
     enemyWinsRef,
     roundRef,
-    orderRef
+    orderRef,
+    peopleRef
   }
 }

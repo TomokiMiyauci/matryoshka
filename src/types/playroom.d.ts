@@ -7,5 +7,6 @@ export type Playroom = {
   player2Wins: number
   order: Player | 'RANDOM'
   round: number
+  people?: string[]
   createdAt?: firebase.firestore.FieldValue
 }
