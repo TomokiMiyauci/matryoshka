@@ -19,8 +19,7 @@ if (config.dev) {
   new Builder(nuxt)
     .build()
     .then(listen)
-    .catch((error: any) => {
-      console.error(error)
+    .catch(() => {
       process.exit(1)
     })
 }
