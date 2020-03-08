@@ -7,7 +7,7 @@ import { Player } from '~/types/player'
   namespaced: true
 })
 export default class PlayerStore extends VuexModule {
-  private _player = ''
+  private _player: Player | '' = ''
 
   @Mutation
   setPlayer(player: Player) {
@@ -19,7 +19,7 @@ export default class PlayerStore extends VuexModule {
     this._player = ''
   }
 
-  get player() {
+  get player(): Player | '' {
     return this._player
   }
 }
