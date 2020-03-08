@@ -153,7 +153,7 @@ jobs:
       - name: test snapshot
         run: yarn test:snapshot --ci
 
-  test-visual-regression:
+  test-visual-regressionc:
     needs: test-snapshot
     runs-on: ${{ matrix.os }}
 
@@ -163,14 +163,28 @@ jobs:
         node: [12]
 
     steps:
-    - uses: actions/checkout@v1
-    - run: yarn
-    - uses: chromaui/action@v1
-      with:
-        appCode: ${{ secrets.CHROMATIC_TOKEN }}
-        token: ${{ secrets.GITHUB_TOKEN }}
-        allowConsoleErrors: true
-  # deploy-chromatic:
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: checkout
+        uses: actions/checkout@master
+        with:
+          fetch-depth: 0
+
+      - name: restore workspace cache
+        uses: actions/cache@v1
+        with:
+          path: ${{ github.workspace }}
+          key: ${{ matrix.os }}-node-v${{ matrix.node }}-nuxt-${{ github.sha }}
+
+      - uses: chromaui/action@v1
+        with:
+          appCode: ${{ secrets.CHROMATIC_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          allowConsoleErrors: true
+
+  # test-visual-regression:
   #   needs: test-snapshot
   #   runs-on: ${{ matrix.os }}
 
@@ -180,22 +194,10 @@ jobs:
   #       node: [12]
 
   #   steps:
-  #     - uses: actions/setup-node@v1
-  #       with:
-  #         node-version: ${{ matrix.node }}
-  #         fetch-depth: 0
-
-  #     - name: checkout
-  #       uses: actions/checkout@master
-
-  #     - name: restore workspace cache
-  #       uses: actions/cache@v1
-  #       with:
-  #         path: ${{ github.workspace }}
-  #         key: ${{ matrix.os }}-node-v${{ matrix.node }}-nuxt-${{ github.sha }}
-
-  #     - uses: chromaui/action@master
-  #       with:
-  #         appCode: ${{ secrets.CHROMATIC_TOKEN }}
-  #         token: ${{ secrets.GITHUB_TOKEN }}
-  #         allowConsoleErrors: true
+  #   - uses: actions/checkout@v1
+  #   - run: yarn
+  #   - uses: chromaui/action@v1
+  #     with:
+  #       appCode: ${{ secrets.CHROMATIC_TOKEN }}
+  #       token: ${{ secrets.GITHUB_TOKEN }}
+  #       allowConsoleErrors: true
